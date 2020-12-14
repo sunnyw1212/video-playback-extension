@@ -1,0 +1,24 @@
+{
+  "name": "Video Playback Extension",
+  "options_page": "options.html",
+  "background": {
+    "scripts": [
+      "background.bundle.js"
+    ],
+    "persistent": false
+  },
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon-34.png"
+  },
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "content_scripts": [{
+    "matches": ["http://*/*", "https://*/*", "<all_urls>"],
+    "js": ["contentScript.bundle.js"],
+    "css": ["content.styles.css"]
+  }],
+  "manifest_version": 2,
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+}
