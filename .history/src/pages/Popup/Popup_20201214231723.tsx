@@ -7,22 +7,6 @@ const Popup: React.FC = () => {
   const [playbackRate, setPlaybackRate] = useState<number | string>(1);
   const [customPlaybackRate, setCustomPlaybackRate] = useState(1);
 
-  const playbackRateOptions = [
-    0.25,
-    0.5,
-    0.75,
-    1,
-    1.25,
-    1.5,
-    1.75,
-    2,
-    2.25,
-    2.5,
-    2.75,
-    3,
-    'custom',
-  ];
-
   const sendPlaybackRate = useCallback(() => {
     const isUsingCustom = playbackRate === 'custom';
     const targetRate = isUsingCustom ? customPlaybackRate : playbackRate;
@@ -60,15 +44,7 @@ const Popup: React.FC = () => {
         setApplyTo(res['applyTo']);
       }
       if (res['playbackRate']) {
-        const isCustomPlaybackRate = !playbackRateOptions.includes(
-          parseInt(res['playbackRate'], 10)
-        );
-
-        setPlaybackRate(isCustomPlaybackRate ? 'custom' : res['playbackRate']);
-
-        if (isCustomPlaybackRate) {
-          setCustomPlaybackRate(res['playbackRate']);
-        }
+        setPlaybackRate(res['playbackRate']);
       }
     });
   }, []);
@@ -92,6 +68,22 @@ const Popup: React.FC = () => {
     sendPlaybackRate();
   };
 
+  const playbackRateOptions = [
+    0.25,
+    0.5,
+    0.75,
+    1,
+    1.25,
+    1.5,
+    1.75,
+    2,
+    2.25,
+    2.5,
+    2.75,
+    3,
+    'custom',
+  ];
+
   return (
     <div className="App">
       <header className="App-header">
@@ -100,9 +92,9 @@ const Popup: React.FC = () => {
           <h1 className="App-title">Video Playback</h1>
         </div>
         <div className="container">
-          <div className="u-flex u-space-between">
+          <div className="u-flex">
             <label className="u-padding-5" htmlFor="applyTo">
-              Apply To Videos In
+              Apply To
             </label>
             <select
               className="u-padding-5"
@@ -114,7 +106,7 @@ const Popup: React.FC = () => {
               <option value="current">Current Tab</option>
             </select>
           </div>
-          <div className="u-flex u-space-between">
+          <div className="u-flex">
             <label className="u-padding-5" htmlFor="playbackRate">
               Playback Speed
             </label>
@@ -136,7 +128,7 @@ const Popup: React.FC = () => {
           </div>
           {playbackRate === 'custom' && (
             <>
-              <div className="u-flex u-space-between">
+              <div className="u-flex">
                 <label className="u-padding-5" htmlFor="customPlaybackRate">
                   Custom Playback Speed
                 </label>
@@ -155,7 +147,7 @@ const Popup: React.FC = () => {
           )}
         </div>
         <button
-          className="u-padding-5 u-margin-top-15"
+          className="u-padding-5"
           type="button"
           onClick={handleApplyToVideoButtonClick}
         >

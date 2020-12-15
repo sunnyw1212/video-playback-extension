@@ -47,6 +47,11 @@
   padding: 5px;
 }
 
+.u-padding-vertical-10 {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
 .u-margin-top-15 {
   margin-top: 15px;
 }

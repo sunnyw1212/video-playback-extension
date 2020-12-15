@@ -63,9 +63,7 @@ const Popup: React.FC = () => {
         const isCustomPlaybackRate = !playbackRateOptions.includes(
           parseInt(res['playbackRate'], 10)
         );
-
         setPlaybackRate(isCustomPlaybackRate ? 'custom' : res['playbackRate']);
-
         if (isCustomPlaybackRate) {
           setCustomPlaybackRate(res['playbackRate']);
         }
