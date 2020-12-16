@@ -14,7 +14,7 @@ const Popup: React.FC = () => {
   const [playbackRate, setPlaybackRate] = useState<number | string>(1);
   const [customPlaybackRate, setCustomPlaybackRate] = useState(1);
 
-  const applyToSelectRef = useRef<HTMLSelectElement>(null);
+  const applyToSelectRef = useRef();
 
   const playbackRateOptions = [
     0.25,

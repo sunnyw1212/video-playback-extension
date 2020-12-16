@@ -1,20 +1,12 @@
-import React, {
-  SyntheticEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { SyntheticEvent, useCallback, useEffect, useState } from 'react';
 import { SET_PLAYBACK_RATE } from '../../constants';
 import logo from '../../assets/img/logo.svg';
 import './Popup.css';
 
 const Popup: React.FC = () => {
-  const [applyTo, setApplyTo] = useState('current');
+  const [applyTo, setApplyTo] = useState('all');
   const [playbackRate, setPlaybackRate] = useState<number | string>(1);
   const [customPlaybackRate, setCustomPlaybackRate] = useState(1);
-
-  const applyToSelectRef = useRef<HTMLSelectElement>(null);
 
   const playbackRateOptions = [
     0.25,
@@ -58,18 +50,11 @@ const Popup: React.FC = () => {
       } else {
         // send to current tab
         if (tabs[0].id) {
-          chrome.tabs.sendMessage(tabs[0].id, {
-            type: SET_PLAYBACK_RATE,
-            payload: { targetRate },
-          });
+          chrome.tabs.sendMessage(tabs[0].id, targetRate);
         }
       }
     });
   }, [applyTo, playbackRate, customPlaybackRate]);
-
-  useEffect(() => {
-    applyToSelectRef?.current?.focus();
-  });
 
   useEffect(() => {
     // get playbackRate from local storage on load
@@ -127,10 +112,9 @@ const Popup: React.FC = () => {
               id="applyTo"
               value={applyTo}
               onChange={handleApplyToChange}
-              ref={applyToSelectRef}
             >
-              <option value="current">Current Tab</option>
               <option value="all">All Tabs</option>
+              <option value="current">Current Tab</option>
             </select>
           </div>
           <div className="u-flex u-space-between">

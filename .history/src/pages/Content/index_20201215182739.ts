@@ -1,6 +1,5 @@
 import { setVideoPlaybackRate } from './modules/setVideoPlaybackRate';
-import { MessageType } from '../../types';
-import { SET_PLAYBACK_RATE } from '../../constants';
+import { MessageType } from '../../custom';
 
 console.log('Video Playback Extension content script loaded');
 
