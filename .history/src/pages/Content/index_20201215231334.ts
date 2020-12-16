@@ -4,10 +4,16 @@ import { SET_PLAYBACK_RATE } from '../../constants';
 
 console.log('Video Playback Extension content script loaded');
 
+// let inDOM = document.body.contains(document.querySelector('video'));
 const observer = new MutationObserver((mutations) => {
-  if (document.body.contains(document.querySelector('video'))) {
-    setVideoPlaybackRate();
-  }
+  console.log('mutations', mutations);
+  // if (document.body.contains(document.querySelector('video'))) {
+  //   if (!inDOM) {
+  //     // video element has been inserted
+  //     setVideoPlaybackRate();
+  //   }
+  //   inDOM = true;
+  // }
   // mutations?.forEach((mutation) => {
   //   mutation?.addedNodes?.forEach((addedNode) => {
   //     if (addedNode.nodeName === 'VIDEO') {

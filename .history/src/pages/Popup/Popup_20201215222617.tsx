@@ -36,12 +36,8 @@ const Popup: React.FC = () => {
     const isUsingCustom = playbackRate === 'custom';
     const targetRate = isUsingCustom ? customPlaybackRate : playbackRate;
 
-    /**
-     * set in synced storage
-     * `When using storage.sync, the stored data will automatically
-     * be synced to any Chrome browser that the user is logged into,
-     * provided the user has sync enabled.`
-     **/
+    // set in synced storage
+    // `When using storage.sync, the stored data will automatically be synced to any Chrome browser that the user is logged into, provided the user has sync enabled.`
     chrome.storage.sync.set({ applyTo, playbackRate: targetRate });
 
     const isApplyingToAllTabs = applyTo === 'all';
@@ -78,8 +74,8 @@ const Popup: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // get playbackRate from synced storage on load
-    chrome.storage.sync.get(['applyTo', 'playbackRate'], (res) => {
+    // get playbackRate from local storage on load
+    chrome.storage.local.get(['applyTo', 'playbackRate'], (res) => {
       if (res['applyTo']) {
         setApplyTo(res['applyTo']);
       }

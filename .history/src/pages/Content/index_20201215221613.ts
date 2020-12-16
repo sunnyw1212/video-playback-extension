@@ -4,33 +4,20 @@ import { SET_PLAYBACK_RATE } from '../../constants';
 
 console.log('Video Playback Extension content script loaded');
 
+let inDOM = document.body.contains(document.querySelector('video'));
 const observer = new MutationObserver((mutations) => {
   if (document.body.contains(document.querySelector('video'))) {
-    setVideoPlaybackRate();
+    if (!inDOM) {
+      // video element has been inserted
+      setVideoPlaybackRate();
+    }
+    inDOM = true;
   }
-  // mutations?.forEach((mutation) => {
-  //   mutation?.addedNodes?.forEach((addedNode) => {
-  //     if (addedNode.nodeName === 'VIDEO') {
-  //       console.log('is a video');
-  //       setVideoPlaybackRate();
-  //     }
-  //     // handle nested videos
-  //     // it might be text node or comment node which don't have querySelectorAll
-  //     const hasNestedVideos =
-  //       (<HTMLElement>addedNode).querySelectorAll &&
-  //       (<HTMLElement>addedNode).querySelectorAll('video').length;
-
-  //     if (hasNestedVideos) {
-  //       console.log('has nested videos');
-  //       setVideoPlaybackRate();
-  //     }
-  //   });
-  // });
 });
 
 observer.observe(document.body, { childList: true, subtree: true });
 
-chrome.storage.sync.get(['playbackRate'], (res) => {
+chrome.storage.local.get(['playbackRate'], (res) => {
   if (res['playbackRate']) {
     setVideoPlaybackRate(res['playbackRate']);
   }

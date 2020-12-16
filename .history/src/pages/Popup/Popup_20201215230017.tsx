@@ -79,7 +79,7 @@ const Popup: React.FC = () => {
 
   useEffect(() => {
     // get playbackRate from synced storage on load
-    chrome.storage.sync.get(['applyTo', 'playbackRate'], (res) => {
+    chrome.storage.local.get(['applyTo', 'playbackRate'], (res) => {
       if (res['applyTo']) {
         setApplyTo(res['applyTo']);
       }

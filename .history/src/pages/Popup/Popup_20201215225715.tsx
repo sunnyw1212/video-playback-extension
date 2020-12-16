@@ -42,7 +42,7 @@ const Popup: React.FC = () => {
      * be synced to any Chrome browser that the user is logged into,
      * provided the user has sync enabled.`
      **/
-    chrome.storage.sync.set({ applyTo, playbackRate: targetRate });
+    chrome.storage.local.set({ applyTo, playbackRate: targetRate });
 
     const isApplyingToAllTabs = applyTo === 'all';
     const targetTab = isApplyingToAllTabs
@@ -79,7 +79,7 @@ const Popup: React.FC = () => {
 
   useEffect(() => {
     // get playbackRate from synced storage on load
-    chrome.storage.sync.get(['applyTo', 'playbackRate'], (res) => {
+    chrome.storage.local.get(['applyTo', 'playbackRate'], (res) => {
       if (res['applyTo']) {
         setApplyTo(res['applyTo']);
       }

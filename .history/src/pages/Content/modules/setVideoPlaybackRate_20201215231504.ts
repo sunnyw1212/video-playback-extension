@@ -9,17 +9,16 @@ export const setVideoPlaybackRate = (playbackRate?: number) => {
       }
     });
   } else {
+    console.log('SETTING RATE', playbackRate);
     const videos = document.querySelectorAll('video');
     const iframes = document.querySelectorAll('iframe');
 
     videos?.forEach((video) => {
-      if (video.playbackRate !== playbackRate) {
-        video.playbackRate = playbackRate as number;
-
-        video.addEventListener('play', () => {
-          setVideoPlaybackRate(playbackRate);
-        });
-      }
+      video.playbackRate = playbackRate as number;
+      console.log('rate', video.playbackRate);
+      video.addEventListener('play', () => {
+        setVideoPlaybackRate(playbackRate);
+      });
     });
 
     // try to account for videos nested within iframes
@@ -30,13 +29,10 @@ export const setVideoPlaybackRate = (playbackRate?: number) => {
         );
 
         iframeVideos?.forEach((video) => {
-          if (video.playbackRate !== playbackRate) {
-            video.playbackRate = playbackRate as number;
-
-            video.addEventListener('play', () => {
-              setVideoPlaybackRate(playbackRate);
-            });
-          }
+          video.playbackRate = playbackRate as number;
+          video.addEventListener('play', () => {
+            setVideoPlaybackRate(playbackRate);
+          });
         });
       } catch (error) {
         console.error('Error trying to access iframe videos: ', error);

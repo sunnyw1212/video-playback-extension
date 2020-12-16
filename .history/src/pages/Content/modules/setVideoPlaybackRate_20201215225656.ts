@@ -3,23 +3,19 @@ export const setVideoPlaybackRate = (playbackRate?: number) => {
   // we need to grab playbackRate from sync storage
   // and recursively call `setVideoPlaybackRate`
   if (!playbackRate) {
-    chrome.storage.sync.get(['playbackRate'], (res) => {
+    chrome.storage.local.get(['playbackRate'], (res) => {
       if (res['playbackRate']) {
         return setVideoPlaybackRate(res['playbackRate']);
       }
     });
   } else {
+    console.log('SETTING RATE', playbackRate);
     const videos = document.querySelectorAll('video');
     const iframes = document.querySelectorAll('iframe');
-
+    console.log('videos bitch', videos);
     videos?.forEach((video) => {
-      if (video.playbackRate !== playbackRate) {
-        video.playbackRate = playbackRate as number;
-
-        video.addEventListener('play', () => {
-          setVideoPlaybackRate(playbackRate);
-        });
-      }
+      video.playbackRate = playbackRate as number;
+      console.log('rate', video.playbackRate);
     });
 
     // try to account for videos nested within iframes
@@ -30,13 +26,7 @@ export const setVideoPlaybackRate = (playbackRate?: number) => {
         );
 
         iframeVideos?.forEach((video) => {
-          if (video.playbackRate !== playbackRate) {
-            video.playbackRate = playbackRate as number;
-
-            video.addEventListener('play', () => {
-              setVideoPlaybackRate(playbackRate);
-            });
-          }
+          video.playbackRate = playbackRate as number;
         });
       } catch (error) {
         console.error('Error trying to access iframe videos: ', error);
