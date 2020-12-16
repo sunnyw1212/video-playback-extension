@@ -4,9 +4,17 @@ import { SET_PLAYBACK_RATE } from '../../constants';
 
 console.log('Video Playback Extension content script loaded');
 
-chrome.storage.local.get(['playbackRate'], (res) => {
-  if (res['playbackRate']) {
-    setVideoPlaybackRate(res['playbackRate']);
+// chrome.runtime.sendMessage({ type: "REQ_SNOW_STATUS" });
+
+document.addEventListener('DOMContentLoaded', (event) => {
+  const videos = document.querySelectorAll('video');
+  if (videos && videos.length) {
+    console.log('videos', videos);
+    videos.forEach((video) => {
+      video.addEventListener('play', (e) => {
+        console.log('FUCK YOU PLAY', e);
+      });
+    });
   }
 });
 

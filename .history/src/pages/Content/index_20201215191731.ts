@@ -3,7 +3,7 @@ import { MessageType } from '../../types';
 import { SET_PLAYBACK_RATE } from '../../constants';
 
 console.log('Video Playback Extension content script loaded');
-
+//     // video.addEventListener('play', (e) => {
 chrome.storage.local.get(['playbackRate'], (res) => {
   if (res['playbackRate']) {
     setVideoPlaybackRate(res['playbackRate']);

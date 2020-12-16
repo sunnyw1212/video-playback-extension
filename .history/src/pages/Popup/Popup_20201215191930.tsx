@@ -69,7 +69,7 @@ const Popup: React.FC = () => {
 
   useEffect(() => {
     applyToSelectRef?.current?.focus();
-  }, []);
+  });
 
   useEffect(() => {
     // get playbackRate from local storage on load

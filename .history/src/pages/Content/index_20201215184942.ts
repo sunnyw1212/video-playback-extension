@@ -4,10 +4,10 @@ import { SET_PLAYBACK_RATE } from '../../constants';
 
 console.log('Video Playback Extension content script loaded');
 
-chrome.storage.local.get(['playbackRate'], (res) => {
-  if (res['playbackRate']) {
-    setVideoPlaybackRate(res['playbackRate']);
-  }
+// chrome.runtime.sendMessage({ type: "REQ_SNOW_STATUS" });
+
+document.addEventListener('play', (e) => {
+  console.log('FUCK YOU', e);
 });
 
 chrome.runtime.onMessage.addListener(

@@ -69,7 +69,7 @@ const Popup: React.FC = () => {
 
   useEffect(() => {
     applyToSelectRef?.current?.focus();
-  }, []);
+  });
 
   useEffect(() => {
     // get playbackRate from local storage on load
@@ -79,7 +79,7 @@ const Popup: React.FC = () => {
       }
       if (res['playbackRate']) {
         const isCustomPlaybackRate = !playbackRateOptions.includes(
-          parseFloat(res['playbackRate'])
+          parseFloat(res['playbackRate'], 10)
         );
 
         setPlaybackRate(isCustomPlaybackRate ? 'custom' : res['playbackRate']);
