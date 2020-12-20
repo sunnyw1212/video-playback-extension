@@ -43,7 +43,6 @@ const _setVideoPlaybackRate = (
   playbackRate: number,
   video: HTMLVideoElement
 ) => {
-  console.log('vdieoplaybackrate', video.playbackRate, playbackRate);
   if (video.playbackRate !== playbackRate) {
     video.playbackRate = playbackRate as number;
   }

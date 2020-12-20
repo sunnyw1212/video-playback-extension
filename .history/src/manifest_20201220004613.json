@@ -20,7 +20,7 @@
   "commands": {
     "decrease-playback-rate": {
       "suggested_key": {
-        "default": "Ctrl+Shift+1"
+        "default": "Ctrl+Shift+3"
       },
       "description": "Decrease Playback Rate By .25"
     },
@@ -29,12 +29,6 @@
         "default": "Ctrl+Shift+2"
       },
       "description": "Increase Playback Rate By .25"
-    },
-    "reset-playback-rate": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+0"
-      },
-      "description": "Reset Playback Rate To 1x"
     },
     "_execute_page_action": {
       "suggested_key": {

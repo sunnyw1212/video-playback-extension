@@ -16,7 +16,7 @@ const observer = new MutationObserver((mutations) => {
   //     // }
   //     // inDOM = true;
   //   }
-  // });
+  });
 
   mutations?.forEach((mutation) => {
     mutation?.addedNodes?.forEach((addedNode) => {

@@ -1,18 +1,17 @@
 export const setVideoPlaybackRate = (
   playbackRate?: number,
-  targetVideo?: HTMLVideoElement
+  video?: HTMLVideoElement
 ) => {
   // for videos that are loading in asynchronously
   // we need to grab playbackRate from sync storage
   // and recursively call `setVideoPlaybackRate`
   if (!playbackRate) {
     chrome.storage.sync.get(['playbackRate'], (res) => {
-      return setVideoPlaybackRate(res['playbackRate'] || 1, targetVideo);
+      return setVideoPlaybackRate(res['playbackRate'] || 1, video);
     });
   } else {
-    if (targetVideo) {
-      console.log('targetVideo', targetVideo);
-      return _setVideoPlaybackRate(playbackRate, targetVideo);
+    if (video) {
+      return _setVideoPlaybackRate(playbackRate, video);
     }
 
     const videos = document.querySelectorAll('video');
@@ -43,7 +42,6 @@ const _setVideoPlaybackRate = (
   playbackRate: number,
   video: HTMLVideoElement
 ) => {
-  console.log('vdieoplaybackrate', video.playbackRate, playbackRate);
   if (video.playbackRate !== playbackRate) {
     video.playbackRate = playbackRate as number;
   }

@@ -1,25 +1,25 @@
-export const setVideoPlaybackRate = (
-  playbackRate?: number,
-  targetVideo?: HTMLVideoElement
-) => {
+export const setVideoPlaybackRate = (playbackRate?: number) => {
   // for videos that are loading in asynchronously
   // we need to grab playbackRate from sync storage
   // and recursively call `setVideoPlaybackRate`
   if (!playbackRate) {
     chrome.storage.sync.get(['playbackRate'], (res) => {
-      return setVideoPlaybackRate(res['playbackRate'] || 1, targetVideo);
+      if (res['playbackRate']) {
+        return setVideoPlaybackRate(res['playbackRate']);
+      }
     });
   } else {
-    if (targetVideo) {
-      console.log('targetVideo', targetVideo);
-      return _setVideoPlaybackRate(playbackRate, targetVideo);
-    }
-
     const videos = document.querySelectorAll('video');
     const iframes = document.querySelectorAll('iframe');
 
     videos?.forEach((video) => {
-      _setVideoPlaybackRate(playbackRate, video);
+      if (video.playbackRate !== playbackRate) {
+        video.playbackRate = playbackRate as number;
+
+        // video.addEventListener('play', () => {
+        //   setVideoPlaybackRate(playbackRate);
+        // });
+      }
     });
 
     // try to account for videos nested within iframes
@@ -30,21 +30,17 @@ export const setVideoPlaybackRate = (
         );
 
         iframeVideos?.forEach((video) => {
-          _setVideoPlaybackRate(playbackRate, video);
+          if (video.playbackRate !== playbackRate) {
+            video.playbackRate = playbackRate as number;
+
+            // video.addEventListener('play', () => {
+            //   setVideoPlaybackRate(playbackRate);
+            // });
+          }
         });
       } catch (error) {
         console.error('Error trying to access iframe videos: ', error);
       }
     });
-  }
-};
-
-const _setVideoPlaybackRate = (
-  playbackRate: number,
-  video: HTMLVideoElement
-) => {
-  console.log('vdieoplaybackrate', video.playbackRate, playbackRate);
-  if (video.playbackRate !== playbackRate) {
-    video.playbackRate = playbackRate as number;
   }
 };

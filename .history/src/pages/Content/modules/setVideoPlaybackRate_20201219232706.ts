@@ -11,7 +11,6 @@ export const setVideoPlaybackRate = (
     });
   } else {
     if (targetVideo) {
-      console.log('targetVideo', targetVideo);
       return _setVideoPlaybackRate(playbackRate, targetVideo);
     }
 
@@ -43,7 +42,6 @@ const _setVideoPlaybackRate = (
   playbackRate: number,
   video: HTMLVideoElement
 ) => {
-  console.log('vdieoplaybackrate', video.playbackRate, playbackRate);
   if (video.playbackRate !== playbackRate) {
     video.playbackRate = playbackRate as number;
   }

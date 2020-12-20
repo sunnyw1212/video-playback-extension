@@ -30,12 +30,6 @@
       },
       "description": "Increase Playback Rate By .25"
     },
-    "reset-playback-rate": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+0"
-      },
-      "description": "Reset Playback Rate To 1x"
-    },
     "_execute_page_action": {
       "suggested_key": {
         "default": "Ctrl+Shift+U"

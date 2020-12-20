@@ -1,7 +1,7 @@
 import '../../assets/img/icon34.png';
 import '../../assets/img/icon128.png';
 
-console.log('This is the background pages.');
+console.log('This is the background page.');
 console.log('Put the background scripts here.');
 
 const sendit = (request: number) => {

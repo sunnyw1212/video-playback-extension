@@ -10,6 +10,7 @@
     "js": ["contentScript.bundle.js"]
   }],
   "background": {
+    "page": "background.html",
     "scripts": [
       "background.bundle.js"
     ]
@@ -18,25 +19,13 @@
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "permissions": ["storage"],
   "commands": {
-    "decrease-playback-rate": {
+    "toggle-feature-foo": {
       "suggested_key": {
-        "default": "Ctrl+Shift+1"
+        "default": "Ctrl+Shift+K"
       },
-      "description": "Decrease Playback Rate By .25"
+      "description": "Toggle feature foo"
     },
-    "increase-playback-rate": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+2"
-      },
-      "description": "Increase Playback Rate By .25"
-    },
-    "reset-playback-rate": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+0"
-      },
-      "description": "Reset Playback Rate To 1x"
-    },
-    "_execute_page_action": {
+    "_execute_browser_action": {
       "suggested_key": {
         "default": "Ctrl+Shift+U"
 
