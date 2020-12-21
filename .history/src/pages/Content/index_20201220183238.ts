@@ -39,10 +39,9 @@ const observer = new MutationObserver((mutations) => {
 
 observer.observe(document.body, { childList: true, subtree: true });
 
-let playbackRateMessageBanner = document.createElement('div');
-playbackRateMessageBanner.setAttribute('id', 'js-playbackRateMessageBanner');
-playbackRateMessageBanner.className = 'PlaybackRateMessageBanner';
-document.body.prepend(playbackRateMessageBanner);
+let playbackRateBanner = document.createElement('div');
+playbackRateBanner.setAttribute('id', 'js-playbackRateBanner');
+document.body.prepend(playbackRateBanner);
 
 chrome.storage.sync.get(['playbackRate'], (res) => {
   if (res['playbackRate']) {

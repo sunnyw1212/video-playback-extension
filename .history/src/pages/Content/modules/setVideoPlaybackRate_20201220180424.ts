@@ -12,8 +12,6 @@ export const setVideoPlaybackRate = (
   } else {
     if (targetVideo) {
       console.log('targetVideo', targetVideo);
-      targetVideo.addEventListener('ratechange', handleRateChange);
-
       return _setVideoPlaybackRate(playbackRate, targetVideo);
     }
 
@@ -22,7 +20,6 @@ export const setVideoPlaybackRate = (
 
     for (let i = 0; i < videos.length; i++) {
       const video = videos[i];
-      video.addEventListener('ratechange', handleRateChange);
       _setVideoPlaybackRate(playbackRate, video);
     }
 
@@ -41,7 +38,6 @@ export const setVideoPlaybackRate = (
 
         for (let j = 0; j < iframeVideos.length; j++) {
           const video = iframeVideos[j];
-          video.addEventListener('ratechange', handleRateChange);
           _setVideoPlaybackRate(playbackRate, video);
         }
       } catch (error) {
@@ -51,36 +47,18 @@ export const setVideoPlaybackRate = (
   }
 };
 
-let playbackRateMessageBannerTimerID: number | null = null;
-
-const handleRateChange = (e: Event) => {
-  console.log(
-    'ratechange event happened',
-    (e.target as HTMLMediaElement).playbackRate
-  );
-  if (playbackRateMessageBannerTimerID) {
-    clearTimeout(playbackRateMessageBannerTimerID);
-  }
-  const playbackRateMessageBanner = document.getElementById(
-    'js-playbackRateMessageBanner'
-  );
-
-  playbackRateMessageBanner!.innerText = `Video playback rate changed to ${
-    (e.target as HTMLMediaElement).playbackRate
-  }`;
-
-  playbackRateMessageBannerTimerID = window.setTimeout(() => {
-    playbackRateMessageBanner!.innerText = '';
-  }, 3000);
+const rateChangeHandler = (e) => {
+  console.log('ratechange event happened', e);
 };
 
 const _setVideoPlaybackRate = (
   playbackRate: number,
   video: HTMLVideoElement
 ) => {
-  console.log('_setVideoPlaybackRate', video.playbackRate, playbackRate);
-
+  console.log('vdieoplaybackrate', video.playbackRate, playbackRate);
   if (video.playbackRate !== playbackRate) {
     video.playbackRate = playbackRate as number;
   }
+  video.removeEventListener('ratechange', rateChangeHandler);
+  video.addEventListener('ratechange', rateChangeHandler);
 };

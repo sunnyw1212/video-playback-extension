@@ -51,25 +51,15 @@ export const setVideoPlaybackRate = (
   }
 };
 
-let playbackRateMessageBannerTimerID: number | null = null;
-
 const handleRateChange = (e: Event) => {
-  console.log(
-    'ratechange event happened',
-    (e.target as HTMLMediaElement).playbackRate
-  );
-  if (playbackRateMessageBannerTimerID) {
-    clearTimeout(playbackRateMessageBannerTimerID);
-  }
+  console.log('ratechange event happened', (e.target as EventTarget).playbackRate);
   const playbackRateMessageBanner = document.getElementById(
     'js-playbackRateMessageBanner'
   );
 
-  playbackRateMessageBanner!.innerText = `Video playback rate changed to ${
-    (e.target as HTMLMediaElement).playbackRate
-  }`;
+  playbackRateMessageBanner!.innerText = `Video playback rate changed to ${(e.target as EventTarget).playbackRate}`;
 
-  playbackRateMessageBannerTimerID = window.setTimeout(() => {
+  setTimeout(() => {
     playbackRateMessageBanner!.innerText = '';
   }, 3000);
 };

@@ -41,8 +41,9 @@ observer.observe(document.body, { childList: true, subtree: true });
 
 let playbackRateMessageBanner = document.createElement('div');
 playbackRateMessageBanner.setAttribute('id', 'js-playbackRateMessageBanner');
-playbackRateMessageBanner.className = 'PlaybackRateMessageBanner';
 document.body.prepend(playbackRateMessageBanner);
+playbackRateMessageBanner.style.cssText =
+  'z-index:99999;position: absolute;top: 0;left: 0;width: 100%;height: 350px;';
 
 chrome.storage.sync.get(['playbackRate'], (res) => {
   if (res['playbackRate']) {

@@ -69,7 +69,7 @@ const handleRateChange = (e: Event) => {
     (e.target as HTMLMediaElement).playbackRate
   }`;
 
-  playbackRateMessageBannerTimerID = window.setTimeout(() => {
+  playbackRateMessageBannerTimerID = setTimeout(() => {
     playbackRateMessageBanner!.innerText = '';
   }, 3000);
 };

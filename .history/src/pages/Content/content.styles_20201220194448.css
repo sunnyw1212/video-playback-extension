@@ -1,8 +1,8 @@
-.PlaybackRateMessageBanner {
+#js-playbackRateMessageBanner {
   z-index: 99999;
   position: absolute;
   top: 0;
-  right: 0;
+  left: 0;
   background-color: #080808;
   opacity: 0.75;
   color: #f0f0f0;

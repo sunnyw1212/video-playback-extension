@@ -5,6 +5,7 @@ import { SET_PLAYBACK_RATE } from '../../constants';
 console.log('Video Playback Extension content script loaded');
 
 const observer = new MutationObserver((mutations) => {
+  console.log('mutations', mutations);
   for (let i = 0; i < mutations.length; i++) {
     const mutation = mutations[i];
     for (let j = 0; j < mutation?.addedNodes?.length; j++) {
@@ -39,10 +40,9 @@ const observer = new MutationObserver((mutations) => {
 
 observer.observe(document.body, { childList: true, subtree: true });
 
-let playbackRateMessageBanner = document.createElement('div');
-playbackRateMessageBanner.setAttribute('id', 'js-playbackRateMessageBanner');
-playbackRateMessageBanner.className = 'PlaybackRateMessageBanner';
-document.body.prepend(playbackRateMessageBanner);
+document.addEventListener('ratechange', (e) => {
+  console.log('ratechange event happened', e);
+});
 
 chrome.storage.sync.get(['playbackRate'], (res) => {
   if (res['playbackRate']) {

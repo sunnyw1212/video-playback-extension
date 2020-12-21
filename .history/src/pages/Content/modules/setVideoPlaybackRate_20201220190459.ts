@@ -12,7 +12,9 @@ export const setVideoPlaybackRate = (
   } else {
     if (targetVideo) {
       console.log('targetVideo', targetVideo);
-      targetVideo.addEventListener('ratechange', handleRateChange);
+      targetVideo.addEventListener('ratechange', () =>
+        handleRateChange(playbackRate)
+      );
 
       return _setVideoPlaybackRate(playbackRate, targetVideo);
     }
@@ -22,7 +24,9 @@ export const setVideoPlaybackRate = (
 
     for (let i = 0; i < videos.length; i++) {
       const video = videos[i];
-      video.addEventListener('ratechange', handleRateChange);
+      video.addEventListener('ratechange', () =>
+        handleRateChange(playbackRate)
+      );
       _setVideoPlaybackRate(playbackRate, video);
     }
 
@@ -41,7 +45,9 @@ export const setVideoPlaybackRate = (
 
         for (let j = 0; j < iframeVideos.length; j++) {
           const video = iframeVideos[j];
-          video.addEventListener('ratechange', handleRateChange);
+          video.addEventListener('ratechange', () =>
+            handleRateChange(playbackRate)
+          );
           _setVideoPlaybackRate(playbackRate, video);
         }
       } catch (error) {
@@ -51,25 +57,15 @@ export const setVideoPlaybackRate = (
   }
 };
 
-let playbackRateMessageBannerTimerID: number | null = null;
-
-const handleRateChange = (e: Event) => {
-  console.log(
-    'ratechange event happened',
-    (e.target as HTMLMediaElement).playbackRate
-  );
-  if (playbackRateMessageBannerTimerID) {
-    clearTimeout(playbackRateMessageBannerTimerID);
-  }
+const handleRateChange = (playbackRate: number) => {
+  console.log('ratechange event happened');
   const playbackRateMessageBanner = document.getElementById(
     'js-playbackRateMessageBanner'
   );
 
-  playbackRateMessageBanner!.innerText = `Video playback rate changed to ${
-    (e.target as HTMLMediaElement).playbackRate
-  }`;
+  playbackRateMessageBanner!.innerText = `Video playback rate changed to ${playbackRate}`;
 
-  playbackRateMessageBannerTimerID = window.setTimeout(() => {
+  setTimeout(() => {
     playbackRateMessageBanner!.innerText = '';
   }, 3000);
 };

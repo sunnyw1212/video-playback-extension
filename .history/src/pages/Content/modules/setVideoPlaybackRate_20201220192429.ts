@@ -51,7 +51,7 @@ export const setVideoPlaybackRate = (
   }
 };
 
-let playbackRateMessageBannerTimerID: number | null = null;
+let playbackRateMessageBannerTimerID: NodeJS.Timeout | null = null;
 
 const handleRateChange = (e: Event) => {
   console.log(
@@ -69,7 +69,7 @@ const handleRateChange = (e: Event) => {
     (e.target as HTMLMediaElement).playbackRate
   }`;
 
-  playbackRateMessageBannerTimerID = window.setTimeout(() => {
+  playbackRateMessageBannerTimerID = setTimeout(() => {
     playbackRateMessageBanner!.innerText = '';
   }, 3000);
 };
