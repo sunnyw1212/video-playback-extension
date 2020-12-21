@@ -4,18 +4,26 @@ import { SET_PLAYBACK_RATE } from '../../constants';
 
 console.log('Video Playback Extension content script loaded');
 
+// let inDOM = document.body.contains(document.querySelector('video'));
 const observer = new MutationObserver((mutations) => {
   console.log('mutations', mutations);
-  for (let i = 0; i < mutations.length; i++) {
-    const mutation = mutations[i];
-    for (let j = 0; j < mutation?.addedNodes?.length; j++) {
-      const addedNode = mutation?.addedNodes[j];
+  // const videos = document.querySelectorAll('video');
+  // videos.forEach((video) => {
+  //   if (document.body.contains(video)) {
+  //     // if (!inDOM) {
+  //     // video element has been inserted
+  //     setVideoPlaybackRate(undefined, video);
+  //     // }
+  //     // inDOM = true;
+  //   }
+  // });
 
+  mutations?.forEach((mutation) => {
+    mutation?.addedNodes?.forEach((addedNode) => {
       if (addedNode.nodeName === 'VIDEO') {
         console.log('is a video');
         setVideoPlaybackRate(undefined, addedNode as HTMLVideoElement);
       }
-
       // handle nested videos
       // it might be text node or comment node which don't have getElementsByTagName
       const hasNestedVideos =
@@ -27,15 +35,14 @@ const observer = new MutationObserver((mutations) => {
         const nestedVideos = (<HTMLElement>addedNode).getElementsByTagName(
           'video'
         );
-        for (let k = 0; k < nestedVideos.length; k++) {
-          const video = nestedVideos[k];
+        nestedVideos.forEach((video) => {
           if (document.body.contains(video)) {
             setVideoPlaybackRate(undefined, video);
           }
-        }
+        });
       }
-    }
-  }
+    });
+  });
 });
 
 observer.observe(document.body, { childList: true, subtree: true });

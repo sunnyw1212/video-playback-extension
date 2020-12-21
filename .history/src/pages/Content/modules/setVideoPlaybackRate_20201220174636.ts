@@ -32,14 +32,9 @@ export const setVideoPlaybackRate = (
           'video'
         );
 
-        if (!iframeVideos) {
-          return false;
-        }
-
-        for (let j = 0; j < iframeVideos.length; j++) {
-          const video = iframeVideos[j];
+        iframeVideos?.forEach((video) => {
           _setVideoPlaybackRate(playbackRate, video);
-        }
+        });
       } catch (error) {
         console.error('Error trying to access iframe videos: ', error);
       }
