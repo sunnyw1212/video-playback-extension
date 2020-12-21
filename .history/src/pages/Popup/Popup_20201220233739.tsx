@@ -50,7 +50,7 @@ const Popup: React.FC = () => {
     const targetTab = isApplyingToAllTabs
       ? {}
       : { active: true, currentWindow: true };
-    const tabs: any = await getTabsPromise(applyTo as any);
+    const tabs: any = await getTabsPromise(applyTo);
 
     // send message to content script in active tab
 
