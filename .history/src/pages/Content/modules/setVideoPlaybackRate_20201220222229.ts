@@ -1,19 +1,14 @@
-import { getDataFromSyncStoragePromise } from '../../../helpers';
-
 export const setVideoPlaybackRate = async (
   playbackRate?: number,
   targetVideo?: HTMLVideoElement
-): Promise<any> => {
+) => {
   // for videos that are loading in asynchronously
   // we need to grab playbackRate from sync storage
   // and recursively call `setVideoPlaybackRate`
   if (!playbackRate) {
-    // chrome.storage.sync.get(['playbackRate'], (res) => {
-    //   return setVideoPlaybackRate(res['playbackRate'] || 1, targetVideo);
-    // });
-    const data: any = await getDataFromSyncStoragePromise();
-
-    return setVideoPlaybackRate(data.playbackRate || 1, targetVideo);
+    chrome.storage.sync.get(['playbackRate'], (res) => {
+      return setVideoPlaybackRate(res['playbackRate'] || 1, targetVideo);
+    });
   } else {
     if (targetVideo) {
       console.log('targetVideo', targetVideo);

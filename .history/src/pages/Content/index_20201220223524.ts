@@ -38,20 +38,18 @@ const observer = new MutationObserver((mutations) => {
   }
 });
 
+observer.observe(document.body, { childList: true, subtree: true });
+
+let playbackRateMessageBanner = document.createElement('div');
+playbackRateMessageBanner.setAttribute('id', 'js-playbackRateMessageBanner');
+playbackRateMessageBanner.className = 'PlaybackRateMessageBanner';
+document.body.prepend(playbackRateMessageBanner);
+
 const init = async () => {
   const data: any = await getDataFromSyncStoragePromise();
 
-  let playbackRateMessageBanner = document.createElement('div');
-  playbackRateMessageBanner.setAttribute('id', 'js-playbackRateMessageBanner');
-  playbackRateMessageBanner.className = 'PlaybackRateMessageBanner';
-  document.body.prepend(playbackRateMessageBanner);
-
   setVideoPlaybackRate(data.playbackRate);
-
-  observer.observe(document.body, { childList: true, subtree: true });
 };
-
-init();
 
 // chrome.storage.sync.get(['playbackRate'], (res) => {
 //   if (res['playbackRate']) {

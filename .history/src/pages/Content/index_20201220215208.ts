@@ -1,7 +1,6 @@
 import { setVideoPlaybackRate } from './modules/setVideoPlaybackRate';
 import { MessageType } from '../../types';
 import { SET_PLAYBACK_RATE } from '../../constants';
-import { getDataFromSyncStoragePromise } from '../../helpers';
 
 console.log('Video Playback Extension content script loaded');
 
@@ -38,26 +37,18 @@ const observer = new MutationObserver((mutations) => {
   }
 });
 
-const init = async () => {
-  const data: any = await getDataFromSyncStoragePromise();
+observer.observe(document.body, { childList: true, subtree: true });
 
-  let playbackRateMessageBanner = document.createElement('div');
-  playbackRateMessageBanner.setAttribute('id', 'js-playbackRateMessageBanner');
-  playbackRateMessageBanner.className = 'PlaybackRateMessageBanner';
-  document.body.prepend(playbackRateMessageBanner);
+let playbackRateMessageBanner = document.createElement('div');
+playbackRateMessageBanner.setAttribute('id', 'js-playbackRateMessageBanner');
+playbackRateMessageBanner.className = 'PlaybackRateMessageBanner';
+document.body.prepend(playbackRateMessageBanner);
 
-  setVideoPlaybackRate(data.playbackRate);
-
-  observer.observe(document.body, { childList: true, subtree: true });
-};
-
-init();
-
-// chrome.storage.sync.get(['playbackRate'], (res) => {
-//   if (res['playbackRate']) {
-//     setVideoPlaybackRate(res['playbackRate']);
-//   }
-// });
+chrome.storage.sync.get(['playbackRate'], (res) => {
+  if (res['playbackRate']) {
+    setVideoPlaybackRate(res['playbackRate']);
+  }
+});
 
 chrome.runtime.onMessage.addListener(
   (message: MessageType, sender, sendResponse) => {

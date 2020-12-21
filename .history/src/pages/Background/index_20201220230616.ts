@@ -8,7 +8,8 @@ import {
 } from '../../constants';
 import { getDataFromSyncStoragePromise } from '../../helpers';
 
-console.log('This is the background pages.');
+console.log('This is the background pagess.');
+console.log('Put the background scripts here.');
 
 const sendit = (request: number) => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {

@@ -1,0 +1,1 @@
+export { getDataFromSyncStoragePromise } from './getDataFromSyncStoragePromise';

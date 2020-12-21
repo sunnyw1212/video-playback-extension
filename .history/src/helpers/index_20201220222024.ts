@@ -1,0 +1,1 @@
+export { getAllDataFromStorage } from './getAllDataFromStorage';

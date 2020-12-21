@@ -3,7 +3,7 @@ import { getDataFromSyncStoragePromise } from '../../../helpers';
 export const setVideoPlaybackRate = async (
   playbackRate?: number,
   targetVideo?: HTMLVideoElement
-): Promise<any> => {
+) => {
   // for videos that are loading in asynchronously
   // we need to grab playbackRate from sync storage
   // and recursively call `setVideoPlaybackRate`

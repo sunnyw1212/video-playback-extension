@@ -8,7 +8,8 @@ import {
 } from '../../constants';
 import { getDataFromSyncStoragePromise } from '../../helpers';
 
-console.log('This is the background pages.');
+console.log('This is the background pagess.');
+console.log('Put the background scripts here.');
 
 const sendit = (request: number) => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -41,7 +42,6 @@ chrome.commands.onCommand.addListener(async (command) => {
   switch (command) {
     case DECREASE_PLAYBACK_RATE:
       const decreasedPlaybackRate = parseFloat(playbackRate) - 0.25;
-      chrome.storage.sync.set({ playbackRate: decreasedPlaybackRate });
 
       chrome.tabs.query(targetTab, (tabs) => {
         if (!tabs.length) return true;
@@ -66,7 +66,6 @@ chrome.commands.onCommand.addListener(async (command) => {
       break;
     case INCREASE_PLAYBACK_RATE:
       const increasedPlaybackRate = parseFloat(playbackRate) + 0.25;
-      chrome.storage.sync.set({ playbackRate: increasedPlaybackRate });
 
       chrome.tabs.query(targetTab, (tabs) => {
         if (!tabs.length) return true;
@@ -90,9 +89,6 @@ chrome.commands.onCommand.addListener(async (command) => {
       });
       break;
     case RESET_PLAYBACK_RATE:
-      const resettedPlaybackRate = 1;
-      chrome.storage.sync.set({ playbackRate: resettedPlaybackRate });
-
       chrome.tabs.query(targetTab, (tabs) => {
         if (!tabs.length) return true;
         // send to current tab
@@ -100,7 +96,7 @@ chrome.commands.onCommand.addListener(async (command) => {
           console.log('send message to content from background');
           chrome.tabs.sendMessage(tabs[0].id, {
             type: SET_PLAYBACK_RATE,
-            payload: { targetRate: resettedPlaybackRate },
+            payload: { targetRate: 1 },
           });
         }
       });

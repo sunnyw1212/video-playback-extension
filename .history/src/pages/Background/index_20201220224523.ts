@@ -8,7 +8,8 @@ import {
 } from '../../constants';
 import { getDataFromSyncStoragePromise } from '../../helpers';
 
-console.log('This is the background pages.');
+console.log('This is the background pagess.');
+console.log('Put the background scripts here.');
 
 const sendit = (request: number) => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -32,17 +33,14 @@ chrome.runtime.onMessage.addListener((request) => {
 
 chrome.commands.onCommand.addListener(async (command) => {
   console.log('Command:', command);
-  const { applyTo, playbackRate }: any = await getDataFromSyncStoragePromise();
-  const isApplyingToAllTabs = applyTo === 'all';
+  const data: any = await getDataFromSyncStoragePromise();
+  const isApplyingToAllTabs = data.applyTo === 'all';
 
   const targetTab = isApplyingToAllTabs
     ? {}
     : { active: true, currentWindow: true };
   switch (command) {
     case DECREASE_PLAYBACK_RATE:
-      const decreasedPlaybackRate = parseFloat(playbackRate) - 0.25;
-      chrome.storage.sync.set({ playbackRate: decreasedPlaybackRate });
-
       chrome.tabs.query(targetTab, (tabs) => {
         if (!tabs.length) return true;
         // send to all tabs
@@ -50,7 +48,7 @@ chrome.commands.onCommand.addListener(async (command) => {
           for (let i = 0; i < tabs.length; i++) {
             chrome.tabs.sendMessage(tabs[i].id as number, {
               type: SET_PLAYBACK_RATE,
-              payload: { targetRate: decreasedPlaybackRate },
+              payload: { targetRate: (data.targetRate - 0.25).toFixed(2) },
             });
           }
         } else {
@@ -58,16 +56,13 @@ chrome.commands.onCommand.addListener(async (command) => {
           if (tabs[0].id) {
             chrome.tabs.sendMessage(tabs[0].id, {
               type: SET_PLAYBACK_RATE,
-              payload: { targetRate: decreasedPlaybackRate },
+              payload: { targetRate: (data.targetRate - 0.25).toFixed(2) },
             });
           }
         }
       });
       break;
     case INCREASE_PLAYBACK_RATE:
-      const increasedPlaybackRate = parseFloat(playbackRate) + 0.25;
-      chrome.storage.sync.set({ playbackRate: increasedPlaybackRate });
-
       chrome.tabs.query(targetTab, (tabs) => {
         if (!tabs.length) return true;
         // send to all tabs
@@ -75,7 +70,7 @@ chrome.commands.onCommand.addListener(async (command) => {
           for (let i = 0; i < tabs.length; i++) {
             chrome.tabs.sendMessage(tabs[i].id as number, {
               type: SET_PLAYBACK_RATE,
-              payload: { targetRate: increasedPlaybackRate },
+              payload: { targetRate: (data.targetRate - 0.25).toFixed(2) },
             });
           }
         } else {
@@ -83,16 +78,13 @@ chrome.commands.onCommand.addListener(async (command) => {
           if (tabs[0].id) {
             chrome.tabs.sendMessage(tabs[0].id, {
               type: SET_PLAYBACK_RATE,
-              payload: { targetRate: increasedPlaybackRate },
+              payload: { targetRate: (data.targetRate - 0.25).toFixed(2) },
             });
           }
         }
       });
       break;
     case RESET_PLAYBACK_RATE:
-      const resettedPlaybackRate = 1;
-      chrome.storage.sync.set({ playbackRate: resettedPlaybackRate });
-
       chrome.tabs.query(targetTab, (tabs) => {
         if (!tabs.length) return true;
         // send to current tab
@@ -100,7 +92,7 @@ chrome.commands.onCommand.addListener(async (command) => {
           console.log('send message to content from background');
           chrome.tabs.sendMessage(tabs[0].id, {
             type: SET_PLAYBACK_RATE,
-            payload: { targetRate: resettedPlaybackRate },
+            payload: { targetRate: 1 },
           });
         }
       });

@@ -79,31 +79,27 @@ const Popup: React.FC = () => {
     applyToSelectRef?.current?.focus();
   }, []);
 
-  useEffect(() => {
+  useEffect(async () => {
     // get playbackRate from synced storage on load
-    async function setStateFromStorage() {
-      const {
-        applyTo,
-        playbackRate,
-      }: any = await getDataFromSyncStoragePromise();
+    const {
+      applyTo,
+      playbackRate,
+    }: any = await getDataFromSyncStoragePromise();
 
-      if (applyTo) {
-        setApplyTo(applyTo);
-      }
-      if (playbackRate) {
-        const isCustomPlaybackRate = !playbackRateOptions.includes(
-          parseFloat(playbackRate)
-        );
+    if (applyTo) {
+      setApplyTo(applyTo);
+    }
+    if (playbackRate) {
+      const isCustomPlaybackRate = !playbackRateOptions.includes(
+        parseFloat(playbackRate)
+      );
 
-        setPlaybackRate(isCustomPlaybackRate ? 'custom' : playbackRate);
+      setPlaybackRate(isCustomPlaybackRate ? 'custom' : playbackRate);
 
-        if (isCustomPlaybackRate) {
-          setCustomPlaybackRate(playbackRate);
-        }
+      if (isCustomPlaybackRate) {
+        setCustomPlaybackRate(playbackRate);
       }
     }
-
-    setStateFromStorage();
   }, []);
 
   const handleApplyToChange = (e: SyntheticEvent) => {
