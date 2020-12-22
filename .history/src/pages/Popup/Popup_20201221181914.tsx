@@ -6,11 +6,7 @@ import React, {
   useState,
 } from 'react';
 import { SET_PLAYBACK_RATE } from '../../constants';
-import {
-  getDataFromSyncStoragePromise,
-  getTabsPromise,
-  sendMessageToTab,
-} from '../../helpers';
+import { getDataFromSyncStoragePromise, getTabsPromise } from '../../helpers';
 
 import logo from '../../assets/img/logo.svg';
 import './Popup.css';
@@ -62,7 +58,7 @@ const Popup: React.FC = () => {
     // send to all tabs
     if (isApplyingToAllTabs) {
       for (let i = 0; i < tabs.length; i++) {
-        sendMessageToTab(tabs[i].id, {
+        chrome.tabs.sendMessage(tabs[i].id as number, {
           type: SET_PLAYBACK_RATE,
           payload: { targetRate },
         });
@@ -70,7 +66,7 @@ const Popup: React.FC = () => {
     } else {
       // send to current tab
       if (tabs[0].id) {
-        sendMessageToTab(tabs[0].id, {
+        chrome.tabs.sendMessage(tabs[0].id, {
           type: SET_PLAYBACK_RATE,
           payload: { targetRate },
         });
