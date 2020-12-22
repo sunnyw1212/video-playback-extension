@@ -51,6 +51,7 @@ const Popup: React.FC = () => {
     chrome.storage.sync.set({ applyTo, playbackRate: targetRate });
 
     const isApplyingToAllTabs = applyTo === 'all';
+
     const tabs: any = await getTabsPromise(applyTo as any);
 
     // send message to content script in active tab
