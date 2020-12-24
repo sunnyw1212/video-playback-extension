@@ -1,0 +1,1 @@
+export { setVideoPlaybackRate } from './setVideoPlaybackRate';

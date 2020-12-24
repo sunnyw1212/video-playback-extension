@@ -1,0 +1,80 @@
+.App {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  text-align: center;
+  height: 320px;
+  padding: 10px;
+  background-color: #282c34;
+}
+
+.App-logo {
+  height: 20vmin;
+  pointer-events: none;
+  margin-right: 10px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 60s linear;
+  }
+}
+
+.App-header {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-title {
+  margin-top: 0;
+  font-size: calc(10px + 3vmin);
+}
+
+.App-container {
+  color: white;
+  font-size: calc(10px + 2vmin);
+}
+
+.App-player-controls {
+  position: fixed;
+  bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  width: 280px;
+  align-items: center;
+}
+
+.u-flex {
+  display: flex;
+}
+
+.u-space-between {
+  justify-content: space-between;
+}
+
+.u-padding-5 {
+  padding: 5px;
+}
+
+.u-margin-top-15 {
+  margin-top: 15px;
+}
+
+.u-text-align-left {
+  text-align: left;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
