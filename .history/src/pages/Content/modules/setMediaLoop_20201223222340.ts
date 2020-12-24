@@ -60,6 +60,15 @@ export const setMediaLoop = async (
   }
 };
 
+const _setMediaLoop = (shouldLoop: boolean, media: HTMLMediaElement) => {
+  console.log('_setMediaLoop', media.loop, shouldLoop);
+
+  if (media.loop !== shouldLoop) {
+    media.loop = shouldLoop;
+    updateShouldLoopMessageBanner(media.loop);
+  }
+};
+
 let shouldLoopMessageBannerTimerID: number | null = null;
 
 const updateShouldLoopMessageBanner = (shouldLoop: boolean) => {
@@ -73,15 +82,6 @@ const updateShouldLoopMessageBanner = (shouldLoop: boolean) => {
   shouldLoopMessageBanner!.innerText = `Media looping set to ${shouldLoop}`;
 
   shouldLoopMessageBannerTimerID = window.setTimeout(() => {
-    shouldLoopMessageBanner!.innerText = '';
+    // shouldLoopMessageBanner!.innerText = '';
   }, 3000);
-};
-
-const _setMediaLoop = (shouldLoop: boolean, media: HTMLMediaElement) => {
-  console.log('_setMediaLoop', media.loop, shouldLoop);
-
-  if (media.loop !== shouldLoop) {
-    media.loop = shouldLoop;
-    updateShouldLoopMessageBanner(media.loop);
-  }
 };

@@ -161,7 +161,7 @@ const Popup: React.FC = () => {
         <h1 className="App-title">Video Playback</h1>
       </header>
       <div className="App-container">
-        <div className="u-flex u-jc-space-between u-ai-center u-margin-top-15">
+        <div className="u-flex u-jc-space-between u-margin-top-15">
           <label className="u-padding-5" htmlFor="applyTo">
             Apply To Videos In
           </label>
@@ -177,7 +177,7 @@ const Popup: React.FC = () => {
           </select>
         </div>
 
-        <div className="u-flex u-jc-space-between u-ai-center">
+        <div className="u-flex u-jc-space-between">
           <label className="u-padding-5" htmlFor="playbackRate">
             Playback Speed
           </label>
@@ -196,7 +196,7 @@ const Popup: React.FC = () => {
         </div>
         {playbackRate === 'custom' && (
           <>
-            <div className="u-flex u-jc-space-between u-ai-center">
+            <div className="u-flex u-jc-space-between">
               <label className="u-padding-5" htmlFor="customPlaybackRate">
                 Custom Playback Speed
               </label>
