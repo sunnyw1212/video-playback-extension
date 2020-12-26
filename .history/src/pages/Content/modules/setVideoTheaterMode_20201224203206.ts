@@ -1,0 +1,79 @@
+import { getDataFromSyncStoragePromise } from '../../../helpers';
+
+export const setVideoTheaterMode = async (
+  isInTheaterMode?: boolean,
+  targetVideo?: HTMLVideoElement
+): Promise<any> => {
+  console.log('setVideoTheaterMode', isInTheaterMode);
+  // for media that are loading in asynchronously
+  // we need to grab isInTheaterMode from sync storage
+  // and recursively call `setVideoTheaterMode`
+  if (isInTheaterMode === undefined) {
+    const data: any = await getDataFromSyncStoragePromise();
+
+    return setVideoTheaterMode(data.isInTheaterMode, targetVideo);
+  } else {
+    if (targetVideo) {
+      return _setVideoTheaterMode(isInTheaterMode, targetVideo);
+    }
+    const videos = Array.from(document.getElementsByTagName('video'));
+
+    const iframes = document.getElementsByTagName('iframe');
+
+    for (let i = 0; i < videos.length; i++) {
+      const video = videos[i];
+      _setVideoTheaterMode(isInTheaterMode, video);
+    }
+
+    // try to account for videos nested within iframes
+    for (let i = 0; i < iframes.length; i++) {
+      const iframe = iframes[i];
+
+      try {
+        const iframeVideos = iframe?.contentWindow?.document.getElementsByTagName(
+          'video'
+        );
+
+        if (!iframeVideos) {
+          return false;
+        }
+
+        for (let j = 0; j < iframeVideos.length; j++) {
+          const video = iframeVideos[j];
+          _setVideoTheaterMode(isInTheaterMode, video);
+        }
+      } catch (error) {
+        console.error('Error trying to access iframe video: ', error);
+      }
+    }
+  }
+};
+
+let isInTheaterModeMessageBannerTimerID: number | null = null;
+
+const updateisInTheaterModeMessageBanner = (isInTheaterMode: boolean) => {
+  if (isInTheaterModeMessageBannerTimerID) {
+    clearTimeout(isInTheaterModeMessageBannerTimerID);
+  }
+  const isInTheaterModeMessageBanner = document.getElementById(
+    'js-isInTheaterModeMessageBanner'
+  );
+
+  isInTheaterModeMessageBanner!.innerText = `Media looping set to ${isInTheaterMode}`;
+
+  isInTheaterModeMessageBannerTimerID = window.setTimeout(() => {
+    isInTheaterModeMessageBanner!.innerText = '';
+  }, 3000);
+};
+
+const _setVideoTheaterMode = (
+  isInTheaterMode: boolean,
+  media: HTMLMediaElement
+) => {
+  console.log('_setVideoTheaterMode', media.loop, isInTheaterMode);
+
+  if (media.loop !== isInTheaterMode) {
+    media.loop = isInTheaterMode;
+    updateisInTheaterModeMessageBanner(media.loop);
+  }
+};

@@ -1,0 +1,31 @@
+.PlaybackRateMessageBanner {
+  z-index: 99999;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: #080808;
+  opacity: 0.75;
+  color: #f0f0f0;
+  font-size: 18px;
+  height: 20px;
+}
+
+.ShouldLoopMessageBanner {
+  z-index: 99999;
+  position: fixed;
+  top: 20px;
+  right: 0;
+  background-color: #080808;
+  opacity: 0.75;
+  color: #f0f0f0;
+  font-size: 18px;
+  height: 20px;
+}
+
+.TheaterMode {
+  position: fixed !important;
+  top: 0;
+  right: 0;
+  width: 100vh;
+  height: 100vw;
+}

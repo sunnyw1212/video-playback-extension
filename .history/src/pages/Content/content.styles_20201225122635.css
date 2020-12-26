@@ -1,0 +1,51 @@
+.PlaybackRateMessageBanner {
+  z-index: 99999;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: #080808;
+  opacity: 0.75;
+  color: #f0f0f0;
+  font-size: 18px;
+  height: 20px;
+}
+
+.ShouldLoopMessageBanner {
+  z-index: 99999;
+  position: fixed;
+  top: 20px;
+  right: 0;
+  background-color: #080808;
+  opacity: 0.75;
+  color: #f0f0f0;
+  font-size: 18px;
+  height: 20px;
+}
+
+.IsInTheaterModeMessageBanner {
+  z-index: 99999;
+  position: fixed;
+  top: 40px;
+  right: 0;
+  background-color: #080808;
+  opacity: 0.75;
+  color: #f0f0f0;
+  font-size: 18px;
+  height: 20px;
+}
+
+.TheaterMode {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%) !important;
+  z-index: 9999 !important;
+  visibility: visible !important;
+  width: 95% !important;
+  height: 95% !important;
+}
+
+.u-visibility-hidden {
+  visibility: hidden;
+}

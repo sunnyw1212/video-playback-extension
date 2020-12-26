@@ -1,8 +1,6 @@
-import { getDataFromSyncStoragePromise } from '../../../helpers';
-
-export const setMediaLoop = async (
-  shouldLoop?: boolean,
-  targetMedia?: HTMLMediaElement
+export const setVideoTheaterMode = async (
+  isInTheaterMode?: boolean,
+  targetVideo?: HTMLVideoElement
 ): Promise<any> => {
   console.log('setMediaLoop', shouldLoop);
   // for media that are loading in asynchronously

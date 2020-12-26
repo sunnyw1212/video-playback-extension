@@ -1,20 +1,20 @@
 import { getDataFromSyncStoragePromise } from '../../../helpers';
 
-export const setMediaLoop = async (
-  shouldLoop?: boolean,
-  targetMedia?: HTMLMediaElement
+export const setVideoTheaterMode = async (
+  isInTheaterMode?: boolean,
+  targetVideo?: HTMLVideoElement
 ): Promise<any> => {
-  console.log('setMediaLoop', shouldLoop);
+  console.log('setMediaLoop', isInTheaterMode);
   // for media that are loading in asynchronously
-  // we need to grab shouldLoop from sync storage
+  // we need to grab isInTheaterMode from sync storage
   // and recursively call `setMediaLoop`
-  if (shouldLoop === undefined) {
+  if (isInTheaterMode === undefined) {
     const data: any = await getDataFromSyncStoragePromise();
 
-    return setMediaLoop(data.shouldLoop, targetMedia);
+    return setMediaLoop(data.isInTheaterMode, targetVideo);
   } else {
-    if (targetMedia) {
-      return _setMediaLoop(shouldLoop, targetMedia);
+    if (targetVideo) {
+      return _setMediaLoop(isInTheaterMode, targetVideo);
     }
     const videos = Array.from(document.getElementsByTagName('video'));
     const audios = Array.from(document.getElementsByTagName('audio'));
@@ -23,7 +23,7 @@ export const setMediaLoop = async (
 
     for (let i = 0; i < medias.length; i++) {
       const media = medias[i];
-      _setMediaLoop(shouldLoop, media);
+      _setMediaLoop(isInTheaterMode, media);
     }
 
     // try to account for media nested within iframes
@@ -49,7 +49,7 @@ export const setMediaLoop = async (
 
         for (let j = 0; j < iframeMedias.length; j++) {
           const media = iframeMedias[j];
-          _setMediaLoop(shouldLoop, media);
+          _setMediaLoop(isInTheaterMode, media);
         }
       } catch (error) {
         console.error('Error trying to access iframe media: ', error);
@@ -58,28 +58,28 @@ export const setMediaLoop = async (
   }
 };
 
-let shouldLoopMessageBannerTimerID: number | null = null;
+let isInTheaterModeMessageBannerTimerID: number | null = null;
 
-const updateShouldLoopMessageBanner = (shouldLoop: boolean) => {
-  if (shouldLoopMessageBannerTimerID) {
-    clearTimeout(shouldLoopMessageBannerTimerID);
+const updateisInTheaterModeMessageBanner = (isInTheaterMode: boolean) => {
+  if (isInTheaterModeMessageBannerTimerID) {
+    clearTimeout(isInTheaterModeMessageBannerTimerID);
   }
-  const shouldLoopMessageBanner = document.getElementById(
-    'js-shouldLoopMessageBanner'
+  const isInTheaterModeMessageBanner = document.getElementById(
+    'js-isInTheaterModeMessageBanner'
   );
 
-  shouldLoopMessageBanner!.innerText = `Media looping set to ${shouldLoop}`;
+  isInTheaterModeMessageBanner!.innerText = `Media looping set to ${isInTheaterMode}`;
 
-  shouldLoopMessageBannerTimerID = window.setTimeout(() => {
-    shouldLoopMessageBanner!.innerText = '';
+  isInTheaterModeMessageBannerTimerID = window.setTimeout(() => {
+    isInTheaterModeMessageBanner!.innerText = '';
   }, 3000);
 };
 
-const _setMediaLoop = (shouldLoop: boolean, media: HTMLMediaElement) => {
-  console.log('_setMediaLoop', media.loop, shouldLoop);
+const _setMediaLoop = (isInTheaterMode: boolean, media: HTMLMediaElement) => {
+  console.log('_setMediaLoop', media.loop, isInTheaterMode);
 
-  if (media.loop !== shouldLoop) {
-    media.loop = shouldLoop;
-    updateShouldLoopMessageBanner(media.loop);
+  if (media.loop !== isInTheaterMode) {
+    media.loop = isInTheaterMode;
+    updateisInTheaterModeMessageBanner(media.loop);
   }
 };

@@ -62,12 +62,12 @@ const init = async () => {
   const playbackRateMessageBanner = document.createElement('li');
   playbackRateMessageBanner.setAttribute('id', 'js-playbackRateMessageBanner');
   playbackRateMessageBanner.className =
-    'PlaybackRateMessageBanner MessageBanner';
+    'PlaybackRateMessageBanner MessageBannerLI';
   messageBannerContainer.append(playbackRateMessageBanner);
 
   const shouldLoopMessageBanner = document.createElement('li');
   shouldLoopMessageBanner.setAttribute('id', 'js-shouldLoopMessageBanner');
-  shouldLoopMessageBanner.className = 'ShouldLoopMessageBanner MessageBanner';
+  shouldLoopMessageBanner.className = 'ShouldLoopMessageBanner MessageBannerLI';
   messageBannerContainer.append(shouldLoopMessageBanner);
 
   const isInTheaterModeMessageBanner = document.createElement('li');
@@ -76,7 +76,7 @@ const init = async () => {
     'js-isInTheaterModeMessageBanner'
   );
   isInTheaterModeMessageBanner.className =
-    'IsInTheaterModeMessageBanner MessageBanner';
+    'IsInTheaterModeMessageBanner MessageBannerLI';
   messageBannerContainer.append(isInTheaterModeMessageBanner);
 
   setMediaPlaybackRate(data.playbackRate);

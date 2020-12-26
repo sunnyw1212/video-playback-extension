@@ -16,9 +16,36 @@ export const setVideoTheaterMode = async (
     if (targetVideo) {
       return _setVideoTheaterMode(isInTheaterMode, targetVideo);
     }
+    const videos = Array.from(document.getElementsByTagName('video'));
 
-    const video = document.querySelector('video');
-    _setVideoTheaterMode(isInTheaterMode, video);
+    const iframes = document.getElementsByTagName('iframe');
+
+    for (let i = 0; i < videos.length; i++) {
+      const video = videos[i];
+      _setVideoTheaterMode(isInTheaterMode, video);
+    }
+
+    // try to account for videos nested within iframes
+    for (let i = 0; i < iframes.length; i++) {
+      const iframe = iframes[i];
+
+      try {
+        const iframeVideos = iframe?.contentWindow?.document.getElementsByTagName(
+          'video'
+        );
+
+        if (!iframeVideos) {
+          return false;
+        }
+
+        for (let j = 0; j < iframeVideos.length; j++) {
+          const video = iframeVideos[j];
+          _setVideoTheaterMode(isInTheaterMode, video);
+        }
+      } catch (error) {
+        console.error('Error trying to access iframe video: ', error);
+      }
+    }
   }
 };
 
@@ -41,25 +68,22 @@ const updateIsInTheaterModeMessageBanner = (isInTheaterMode: boolean) => {
 
 const _setVideoTheaterMode = (
   isInTheaterMode: boolean,
-  video?: HTMLVideoElement | null
+  video: HTMLVideoElement
 ) => {
-  console.log('_setVideoTheaterMode', isInTheaterMode, video);
+  console.log('_setVideoTheaterMode', isInTheaterMode);
   if (!video) {
     return false;
   }
-
   const containsTheaterMode = video.classList.contains('TheaterMode');
-
   if (isInTheaterMode && !containsTheaterMode) {
     video.classList.add('TheaterMode');
     document.body.classList.add('TheaterModeBody');
-    video.setAttribute('hadControls', video.controls.toString());
     video.controls = true;
     updateIsInTheaterModeMessageBanner(true);
   } else if (!isInTheaterMode && containsTheaterMode) {
     video.classList.remove('TheaterMode');
     document.body.classList.remove('TheaterModeBody');
-    video.controls = video.getAttribute('hadControls') === 'true';
+    video.controls = false;
     updateIsInTheaterModeMessageBanner(false);
   }
 };

@@ -14,6 +14,13 @@ export const setMediaLoop = async (
     return setMediaLoop(data.shouldLoop, targetMedia);
   } else {
     if (targetMedia) {
+      const proxy = new Proxy(targetMedia, {
+        
+        get (target, key) : any {
+          return targetMedia[key]; 
+        }
+        
+      });
       return _setMediaLoop(shouldLoop, targetMedia);
     }
     const videos = Array.from(document.getElementsByTagName('video'));
@@ -23,6 +30,7 @@ export const setMediaLoop = async (
 
     for (let i = 0; i < medias.length; i++) {
       const media = medias[i];
+
       _setMediaLoop(shouldLoop, media);
     }
 
@@ -49,6 +57,7 @@ export const setMediaLoop = async (
 
         for (let j = 0; j < iframeMedias.length; j++) {
           const media = iframeMedias[j];
+
           _setMediaLoop(shouldLoop, media);
         }
       } catch (error) {

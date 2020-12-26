@@ -54,23 +54,23 @@ const observer = new MutationObserver((mutations) => {
 const init = async () => {
   const data: any = await getDataFromSyncStoragePromise();
 
-  const messageBannerContainer = document.createElement('ul');
+  const messageBannerContainer = document.createElement('div');
   messageBannerContainer.setAttribute('id', 'js-messageBannerContainer');
   messageBannerContainer.className = 'MessageBannerContainer';
   document.body.prepend(messageBannerContainer);
 
-  const playbackRateMessageBanner = document.createElement('li');
+  const playbackRateMessageBanner = document.createElement('div');
   playbackRateMessageBanner.setAttribute('id', 'js-playbackRateMessageBanner');
   playbackRateMessageBanner.className =
     'PlaybackRateMessageBanner MessageBanner';
   messageBannerContainer.append(playbackRateMessageBanner);
 
-  const shouldLoopMessageBanner = document.createElement('li');
+  const shouldLoopMessageBanner = document.createElement('div');
   shouldLoopMessageBanner.setAttribute('id', 'js-shouldLoopMessageBanner');
   shouldLoopMessageBanner.className = 'ShouldLoopMessageBanner MessageBanner';
   messageBannerContainer.append(shouldLoopMessageBanner);
 
-  const isInTheaterModeMessageBanner = document.createElement('li');
+  const isInTheaterModeMessageBanner = document.createElement('div');
   isInTheaterModeMessageBanner.setAttribute(
     'id',
     'js-isInTheaterModeMessageBanner'

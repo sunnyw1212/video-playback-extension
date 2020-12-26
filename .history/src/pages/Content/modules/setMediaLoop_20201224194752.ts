@@ -23,6 +23,7 @@ export const setMediaLoop = async (
 
     for (let i = 0; i < medias.length; i++) {
       const media = medias[i];
+
       _setMediaLoop(shouldLoop, media);
     }
 

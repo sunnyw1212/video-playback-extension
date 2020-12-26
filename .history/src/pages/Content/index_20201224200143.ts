@@ -16,9 +16,8 @@ const observer = new MutationObserver((mutations) => {
       const addedNode = mutation?.addedNodes[j];
 
       if (addedNode.nodeName === 'VIDEO' || addedNode.nodeName === 'AUDIO') {
-        console.log('is a video or audio');
-        setMediaPlaybackRate(undefined, addedNode as HTMLMediaElement);
-        setMediaLoop(undefined, addedNode as HTMLMediaElement);
+        console.log('is a video');
+        setMediaPlaybackRate(undefined, addedNode as HTMLVideoElement);
       }
 
       // handle nested media
@@ -44,7 +43,6 @@ const observer = new MutationObserver((mutations) => {
         for (let k = 0; k < nestedMedias.length; k++) {
           const nestedMedia = nestedMedias[k];
           setMediaPlaybackRate(undefined, nestedMedia);
-          setMediaLoop(undefined, nestedMedia);
         }
       }
     }
@@ -54,34 +52,33 @@ const observer = new MutationObserver((mutations) => {
 const init = async () => {
   const data: any = await getDataFromSyncStoragePromise();
 
-  const messageBannerContainer = document.createElement('ul');
-  messageBannerContainer.setAttribute('id', 'js-messageBannerContainer');
-  messageBannerContainer.className = 'MessageBannerContainer';
-  document.body.prepend(messageBannerContainer);
-
-  const playbackRateMessageBanner = document.createElement('li');
+  const playbackRateMessageBanner = document.createElement('div');
   playbackRateMessageBanner.setAttribute('id', 'js-playbackRateMessageBanner');
-  playbackRateMessageBanner.className =
-    'PlaybackRateMessageBanner MessageBanner';
-  messageBannerContainer.append(playbackRateMessageBanner);
+  playbackRateMessageBanner.className = 'PlaybackRateMessageBanner';
+  document.body.prepend(playbackRateMessageBanner);
 
-  const shouldLoopMessageBanner = document.createElement('li');
+  const shouldLoopMessageBanner = document.createElement('div');
   shouldLoopMessageBanner.setAttribute('id', 'js-shouldLoopMessageBanner');
-  shouldLoopMessageBanner.className = 'ShouldLoopMessageBanner MessageBanner';
-  messageBannerContainer.append(shouldLoopMessageBanner);
+  shouldLoopMessageBanner.className = 'ShouldLoopMessageBanner';
+  document.body.prepend(shouldLoopMessageBanner);
+  const vid = document.querySelector('video');
+  Object.defineProperty(vid, 'loop', {
+    // Create a new getter for the property
+    get: function () {
+      console.log('access gettter');
+      // @ts-ignore
+      return vid.get.call(this);
+    },
+    // Create a new setter for the property
+    set: function (val) {
+      // @ts-ignore
 
-  const isInTheaterModeMessageBanner = document.createElement('li');
-  isInTheaterModeMessageBanner.setAttribute(
-    'id',
-    'js-isInTheaterModeMessageBanner'
-  );
-  isInTheaterModeMessageBanner.className =
-    'IsInTheaterModeMessageBanner MessageBanner';
-  messageBannerContainer.append(isInTheaterModeMessageBanner);
+      return vid.set.call(this, val);
+    },
+  });
 
   setMediaPlaybackRate(data.playbackRate);
   setMediaLoop(data.shouldLoop);
-  setVideoTheaterMode(data.isInTheaterMode);
 
   observer.observe(document.body, { childList: true, subtree: true });
 };
@@ -99,7 +96,7 @@ chrome.runtime.onMessage.addListener(
         console.log('SET_MEDIA_ATTRIBUTES', message);
         setMediaPlaybackRate(message.payload.targetRate);
         setMediaLoop(message.payload.shouldLoop);
-        setVideoTheaterMode(message.payload.isInTheaterMode);
+        // setVideoTheaterMode(message.payload.isInTheaterMode);
         break;
       default:
         break;

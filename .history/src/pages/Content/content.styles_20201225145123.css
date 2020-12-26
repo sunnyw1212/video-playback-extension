@@ -3,17 +3,30 @@
   position: fixed;
   right: 0;
   top: 0;
-  list-style: none;
-  visibility: visible !important;
 }
 
-.MessageBanner {
+.MessageBannerLI {
+  /* z-index: 99999;
+  position: fixed;
+  right: 0; */
   background-color: #080808;
   opacity: 0.75;
   color: #f0f0f0;
   font-size: 18px;
-  visibility: visible !important;
+  list-style: none;
+  /* height: 20px; */
 }
+/* .PlaybackRateMessageBanner {
+  top: 0;
+}
+
+.ShouldLoopMessageBanner {
+  top: 20px;
+}
+
+.IsInTheaterModeMessageBanner {
+  top: 40px;
+} */
 
 .TheaterMode {
   position: fixed !important;
@@ -26,6 +39,6 @@
   height: 95% !important;
 }
 
-.TheaterModeBody {
+.u-visibility-hidden {
   visibility: hidden;
 }

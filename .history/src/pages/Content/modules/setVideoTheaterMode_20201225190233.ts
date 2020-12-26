@@ -18,7 +18,33 @@ export const setVideoTheaterMode = async (
     }
 
     const video = document.querySelector('video');
-    _setVideoTheaterMode(isInTheaterMode, video);
+    _setVideoTheaterMode(isInTheaterMode, video as undefined);
+
+    const iframes = document.getElementsByTagName('iframe');
+
+    // try to account for videos nested within iframes
+    for (let i = 0; i < iframes.length; i++) {
+      const iframe = iframes[i];
+
+      try {
+        const iframeVideos = iframe?.contentWindow?.document.getElementsByTagName(
+          'video'
+        );
+
+        if (iframeVideos?.length) {
+          if (iframeVideos?.length > 1) {
+            alert(
+              'Multiple videos detected on page. Only the first video will be in Theater Mode and the rest will be hidden.'
+            );
+          }
+
+          const video = iframeVideos[0];
+          _setVideoTheaterMode(isInTheaterMode, video);
+        }
+      } catch (error) {
+        console.error('Error trying to access iframe video: ', error);
+      }
+    }
   }
 };
 
@@ -41,7 +67,7 @@ const updateIsInTheaterModeMessageBanner = (isInTheaterMode: boolean) => {
 
 const _setVideoTheaterMode = (
   isInTheaterMode: boolean,
-  video?: HTMLVideoElement | null
+  video?: HTMLVideoElement
 ) => {
   console.log('_setVideoTheaterMode', isInTheaterMode, video);
   if (!video) {

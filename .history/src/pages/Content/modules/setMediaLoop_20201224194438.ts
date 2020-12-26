@@ -14,6 +14,15 @@ export const setMediaLoop = async (
     return setMediaLoop(data.shouldLoop, targetMedia);
   } else {
     if (targetMedia) {
+      // const proxy = new Proxy(targetMedia, {
+      //   get(target, key: any): any {
+      //     // @ts-ignore
+      //     const value = targetMedia[key];
+      //     console.log('getting video prop', key, value);
+
+      //     return value;
+      //   },
+      // });
       return _setMediaLoop(shouldLoop, targetMedia);
     }
     const videos = Array.from(document.getElementsByTagName('video'));
@@ -23,6 +32,20 @@ export const setMediaLoop = async (
 
     for (let i = 0; i < medias.length; i++) {
       const media = medias[i];
+      //@ts-ignore
+      media._loop = media.loop;
+      //@ts-ignore
+      media.loop = handleLoop;
+      // const proxy = new Proxy(media, {
+      //   get(target, key: any): any {
+      //     // @ts-ignore
+      //     const value = media[key];
+      //     console.log('getting video prop', key, value);
+
+      //     return value;
+      //   },
+      // });
+      // console.log('fuck', proxy.loop);
       _setMediaLoop(shouldLoop, media);
     }
 
@@ -49,6 +72,15 @@ export const setMediaLoop = async (
 
         for (let j = 0; j < iframeMedias.length; j++) {
           const media = iframeMedias[j];
+          // const proxy = new Proxy(media, {
+          //   get(target, key: any): any {
+          //     // @ts-ignore
+          //     const value = media[key];
+          //     console.log('getting video prop', key, value);
+
+          //     return value;
+          //   },
+          // });
           _setMediaLoop(shouldLoop, media);
         }
       } catch (error) {
@@ -82,4 +114,10 @@ const _setMediaLoop = (shouldLoop: boolean, media: HTMLMediaElement) => {
     media.loop = shouldLoop;
     updateShouldLoopMessageBanner(media.loop);
   }
+};
+
+const handleLoop = function handleLoop() {
+  console.log('yo youre in handle loop');
+  // @ts-ignore
+  this._loop.apply(this, arguments);
 };

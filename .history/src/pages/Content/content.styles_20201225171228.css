@@ -26,6 +26,6 @@
   height: 95% !important;
 }
 
-.TheaterModeBody {
-  visibility: hidden;
+.TheaterModeBody:not(.MessageBannerContainer, .MessageBanner) {
+  visibility: hidden !important;
 }
