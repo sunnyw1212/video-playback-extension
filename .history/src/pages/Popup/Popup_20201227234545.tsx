@@ -129,9 +129,7 @@ const Popup: React.FC = () => {
       }
       setShouldLoop(shouldLoop);
       setIsInTheaterMode(isInTheaterMode);
-      if (skipInterval) {
-        setSkipInterval(skipInterval);
-      }
+      setSkipInterval(skipInterval || 30);
     }
 
     setStateFromStorage();

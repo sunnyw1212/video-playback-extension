@@ -2,15 +2,9 @@ import {
   setMediaPlaybackRate,
   setMediaLoop,
   setVideoTheaterMode,
-  setCurrentTime,
 } from './modules';
 import { Message } from '../../types';
-import {
-  SET_PLAYBACK_RATE,
-  SET_MEDIA_ATTRIBUTES,
-  SKIP_BACKWARD,
-  SKIP_FORWARD,
-} from '../../constants';
+import { SET_PLAYBACK_RATE, SET_MEDIA_ATTRIBUTES } from '../../constants';
 import { getDataFromSyncStoragePromise } from '../../helpers';
 
 console.log('Video Playback Extension content script loaded');
@@ -77,10 +71,26 @@ const init = async () => {
     'js-isInTheaterModeMessageBanner',
     messageBannerContainer
   );
-  appendBannerListItemToContainer(
-    'js-skipIntervalMessageBanner',
-    messageBannerContainer
+
+  const playbackRateMessageBanner = document.createElement('li');
+  playbackRateMessageBanner.setAttribute('id', 'js-playbackRateMessageBanner');
+  playbackRateMessageBanner.className =
+    'PlaybackRateMessageBanner MessageBanner';
+  messageBannerContainer.append(playbackRateMessageBanner);
+
+  const shouldLoopMessageBanner = document.createElement('li');
+  shouldLoopMessageBanner.setAttribute('id', 'js-shouldLoopMessageBanner');
+  shouldLoopMessageBanner.className = 'ShouldLoopMessageBanner MessageBanner';
+  messageBannerContainer.append(shouldLoopMessageBanner);
+
+  const isInTheaterModeMessageBanner = document.createElement('li');
+  isInTheaterModeMessageBanner.setAttribute(
+    'id',
+    'js-isInTheaterModeMessageBanner'
   );
+  isInTheaterModeMessageBanner.className =
+    'IsInTheaterModeMessageBanner MessageBanner';
+  messageBannerContainer.append(isInTheaterModeMessageBanner);
 
   setMediaPlaybackRate(data.playbackRate);
   setMediaLoop(data.shouldLoop);
@@ -107,12 +117,6 @@ chrome.runtime.onMessage.addListener(
     switch (message.type) {
       case SET_PLAYBACK_RATE:
         setMediaPlaybackRate(message.payload.targetRate);
-        break;
-      case SKIP_FORWARD:
-        setCurrentTime(parseFloat(message.payload.skipInterval));
-        break;
-      case SKIP_BACKWARD:
-        setCurrentTime(parseFloat(message.payload.skipInterval) * -1);
         break;
       case SET_MEDIA_ATTRIBUTES:
         console.log('SET_MEDIA_ATTRIBUTES', message);

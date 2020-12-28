@@ -9,6 +9,7 @@ import {
 import {
   getDataFromSyncStoragePromise,
   getTabsPromise,
+  sendMessageToTab,
   sendMessageToTabs,
 } from '../../helpers';
 

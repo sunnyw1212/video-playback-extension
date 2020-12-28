@@ -5,8 +5,7 @@ export const SKIP_FORWARD = 'SKIP_FORWARD';
 export const SKIP_BACKWARD = 'SKIP_BACKWARD';
 
 // shortcut commands
-export const SHORTCUT_DECREASE_PLAYBACK_RATE = 'decrease-playback-rate';
+export const SHORTCUT_DECREASE_PLAYBACK_RATE =
+  'shortcut-decrease-playback-rate';
 export const SHORTCUT_INCREASE_PLAYBACK_RATE = 'increase-playback-rate';
-export const SHORTCUT_RESET_PLAYBACK_RATE = 'reset-playback-rate';
-export const SHORTCUT_SKIP_FORWARD = 'skip-forward';
-export const SHORTCUT_SKIP_BACKWARD = 'skip-backward';
+export const RESET_PLAYBACK_RATE = 'reset-playback-rate';

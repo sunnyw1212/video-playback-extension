@@ -2,15 +2,9 @@ import {
   setMediaPlaybackRate,
   setMediaLoop,
   setVideoTheaterMode,
-  setCurrentTime,
 } from './modules';
 import { Message } from '../../types';
-import {
-  SET_PLAYBACK_RATE,
-  SET_MEDIA_ATTRIBUTES,
-  SKIP_BACKWARD,
-  SKIP_FORWARD,
-} from '../../constants';
+import { SET_PLAYBACK_RATE, SET_MEDIA_ATTRIBUTES } from '../../constants';
 import { getDataFromSyncStoragePromise } from '../../helpers';
 
 console.log('Video Playback Extension content script loaded');
@@ -65,38 +59,42 @@ const init = async () => {
   messageBannerContainer.className = 'MessageBannerContainer';
   document.body.prepend(messageBannerContainer);
 
-  appendBannerListItemToContainer(
-    'js-playbackRateMessageBanner',
-    messageBannerContainer
+  const playbackRateMessageBanner = document.createElement('li');
+  playbackRateMessageBanner.setAttribute('id', 'js-playbackRateMessageBanner');
+  playbackRateMessageBanner.className =
+    'PlaybackRateMessageBanner MessageBanner';
+  messageBannerContainer.append(playbackRateMessageBanner);
+
+  const shouldLoopMessageBanner = document.createElement('li');
+  shouldLoopMessageBanner.setAttribute('id', 'js-shouldLoopMessageBanner');
+  shouldLoopMessageBanner.className = 'ShouldLoopMessageBanner MessageBanner';
+  messageBannerContainer.append(shouldLoopMessageBanner);
+
+  const isInTheaterModeMessageBanner = document.createElement('li');
+  isInTheaterModeMessageBanner.setAttribute(
+    'id',
+    'js-isInTheaterModeMessageBanner'
   );
-  appendBannerListItemToContainer(
-    'js-shouldLoopMessageBanner',
-    messageBannerContainer
-  );
-  appendBannerListItemToContainer(
-    'js-isInTheaterModeMessageBanner',
-    messageBannerContainer
-  );
-  appendBannerListItemToContainer(
-    'js-skipIntervalMessageBanner',
-    messageBannerContainer
-  );
+  isInTheaterModeMessageBanner.className =
+    'IsInTheaterModeMessageBanner MessageBanner';
+  messageBannerContainer.append(isInTheaterModeMessageBanner);
+
+  Object.defineProperty(HTMLMediaElement.prototype, 'loop', {
+    get: function () {
+      this.loop;
+    },
+    set: function (shouldLoop) {
+      console.log('YO LOOP MOFO', shouldLoop);
+      this.loop = shouldLoop;
+      /* some logic to set it up */
+    },
+  });
 
   setMediaPlaybackRate(data.playbackRate);
   setMediaLoop(data.shouldLoop);
   setVideoTheaterMode(data.isInTheaterMode);
 
   observer.observe(document.body, { childList: true, subtree: true });
-};
-
-const appendBannerListItemToContainer = (
-  bannerListItemID: string,
-  container: HTMLUListElement
-) => {
-  const banner = document.createElement('li');
-  banner.setAttribute('id', bannerListItemID);
-  banner.className = 'MessageBanner';
-  container.append(banner);
 };
 
 init();
@@ -107,12 +105,6 @@ chrome.runtime.onMessage.addListener(
     switch (message.type) {
       case SET_PLAYBACK_RATE:
         setMediaPlaybackRate(message.payload.targetRate);
-        break;
-      case SKIP_FORWARD:
-        setCurrentTime(parseFloat(message.payload.skipInterval));
-        break;
-      case SKIP_BACKWARD:
-        setCurrentTime(parseFloat(message.payload.skipInterval) * -1);
         break;
       case SET_MEDIA_ATTRIBUTES:
         console.log('SET_MEDIA_ATTRIBUTES', message);

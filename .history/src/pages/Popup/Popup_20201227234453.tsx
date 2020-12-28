@@ -110,7 +110,6 @@ const Popup: React.FC = () => {
         playbackRate,
         shouldLoop,
         isInTheaterMode,
-        skipInterval,
       }: any = await getDataFromSyncStoragePromise();
 
       if (applyTo) {
@@ -129,9 +128,6 @@ const Popup: React.FC = () => {
       }
       setShouldLoop(shouldLoop);
       setIsInTheaterMode(isInTheaterMode);
-      if (skipInterval) {
-        setSkipInterval(skipInterval);
-      }
     }
 
     setStateFromStorage();

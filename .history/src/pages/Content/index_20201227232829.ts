@@ -2,7 +2,6 @@ import {
   setMediaPlaybackRate,
   setMediaLoop,
   setVideoTheaterMode,
-  setCurrentTime,
 } from './modules';
 import { Message } from '../../types';
 import {
@@ -77,10 +76,6 @@ const init = async () => {
     'js-isInTheaterModeMessageBanner',
     messageBannerContainer
   );
-  appendBannerListItemToContainer(
-    'js-skipIntervalMessageBanner',
-    messageBannerContainer
-  );
 
   setMediaPlaybackRate(data.playbackRate);
   setMediaLoop(data.shouldLoop);
@@ -109,10 +104,8 @@ chrome.runtime.onMessage.addListener(
         setMediaPlaybackRate(message.payload.targetRate);
         break;
       case SKIP_FORWARD:
-        setCurrentTime(parseFloat(message.payload.skipInterval));
         break;
       case SKIP_BACKWARD:
-        setCurrentTime(parseFloat(message.payload.skipInterval) * -1);
         break;
       case SET_MEDIA_ATTRIBUTES:
         console.log('SET_MEDIA_ATTRIBUTES', message);

@@ -67,30 +67,37 @@ const Popup: React.FC = () => {
     const isApplyingToAllTabs = applyTo === 'all';
     const tabs: any = await getTabsPromise(applyTo as Tabs);
 
-    const message = {
-      type: SET_MEDIA_ATTRIBUTES,
-      payload: { targetRate, shouldLoop, isInTheaterMode },
-    };
-
-    sendMessageToTabs(tabs, message, isApplyingToAllTabs);
-
+    // send message to content script in active tab
+    if (!tabs.length) return true;
+    // send to all tabs
+    if (isApplyingToAllTabs) {
+      for (let i = 0; i < tabs.length; i++) {
+        sendMessageToTab(tabs[i].id, {
+          type: SET_MEDIA_ATTRIBUTES,
+          payload: { targetRate, shouldLoop, isInTheaterMode },
+        });
+      }
+    } else {
+      // send to current tab
+      if (tabs[0].id) {
+        sendMessageToTab(tabs[0].id, {
+          type: SET_MEDIA_ATTRIBUTES,
+          payload: { targetRate, shouldLoop, isInTheaterMode },
+        });
+      }
+    }
     window.close();
   }, [applyTo, playbackRate, customPlaybackRate, shouldLoop, isInTheaterMode]);
 
   const sendSkipIntervalData = useCallback(
     async (direction: SkipDirection) => {
-      chrome.storage.sync.set({
-        skipInterval,
-      });
       const isApplyingToAllTabs = applyTo === 'all';
       const tabs: any = await getTabsPromise(applyTo as Tabs);
 
       const message = {
         type:
           direction === SkipDirection.Forward ? SKIP_FORWARD : SKIP_BACKWARD,
-        payload: {
-          skipInterval,
-        },
+        payload: {},
       };
 
       sendMessageToTabs(tabs, message, isApplyingToAllTabs);
@@ -110,7 +117,6 @@ const Popup: React.FC = () => {
         playbackRate,
         shouldLoop,
         isInTheaterMode,
-        skipInterval,
       }: any = await getDataFromSyncStoragePromise();
 
       if (applyTo) {
@@ -129,9 +135,6 @@ const Popup: React.FC = () => {
       }
       setShouldLoop(shouldLoop);
       setIsInTheaterMode(isInTheaterMode);
-      if (skipInterval) {
-        setSkipInterval(skipInterval);
-      }
     }
 
     setStateFromStorage();

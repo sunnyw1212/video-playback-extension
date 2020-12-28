@@ -112,7 +112,7 @@ chrome.runtime.onMessage.addListener(
         setCurrentTime(parseFloat(message.payload.skipInterval));
         break;
       case SKIP_BACKWARD:
-        setCurrentTime(parseFloat(message.payload.skipInterval) * -1);
+        setCurrentTime(message.payload.skipInterval * -1);
         break;
       case SET_MEDIA_ATTRIBUTES:
         console.log('SET_MEDIA_ATTRIBUTES', message);

@@ -5,17 +5,12 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { SkipDirection, Tabs } from '../../types';
-import {
-  SET_MEDIA_ATTRIBUTES,
-  SKIP_BACKWARD,
-  SKIP_FORWARD,
-} from '../../constants';
+import { Tabs } from '../../types';
+import { SET_MEDIA_ATTRIBUTES } from '../../constants';
 import {
   getDataFromSyncStoragePromise,
   getTabsPromise,
   sendMessageToTab,
-  sendMessageToTabs,
 } from '../../helpers';
 
 import logo from '../../assets/img/logo.svg';
@@ -67,36 +62,28 @@ const Popup: React.FC = () => {
     const isApplyingToAllTabs = applyTo === 'all';
     const tabs: any = await getTabsPromise(applyTo as Tabs);
 
-    const message = {
-      type: SET_MEDIA_ATTRIBUTES,
-      payload: { targetRate, shouldLoop, isInTheaterMode },
-    };
+    // send message to content script in active tab
 
-    sendMessageToTabs(tabs, message, isApplyingToAllTabs);
-
+    if (!tabs.length) return true;
+    // send to all tabs
+    if (isApplyingToAllTabs) {
+      for (let i = 0; i < tabs.length; i++) {
+        sendMessageToTab(tabs[i].id, {
+          type: SET_MEDIA_ATTRIBUTES,
+          payload: { targetRate, shouldLoop, isInTheaterMode },
+        });
+      }
+    } else {
+      // send to current tab
+      if (tabs[0].id) {
+        sendMessageToTab(tabs[0].id, {
+          type: SET_MEDIA_ATTRIBUTES,
+          payload: { targetRate, shouldLoop, isInTheaterMode },
+        });
+      }
+    }
     window.close();
   }, [applyTo, playbackRate, customPlaybackRate, shouldLoop, isInTheaterMode]);
-
-  const sendSkipIntervalData = useCallback(
-    async (direction: SkipDirection) => {
-      chrome.storage.sync.set({
-        skipInterval,
-      });
-      const isApplyingToAllTabs = applyTo === 'all';
-      const tabs: any = await getTabsPromise(applyTo as Tabs);
-
-      const message = {
-        type:
-          direction === SkipDirection.Forward ? SKIP_FORWARD : SKIP_BACKWARD,
-        payload: {
-          skipInterval,
-        },
-      };
-
-      sendMessageToTabs(tabs, message, isApplyingToAllTabs);
-    },
-    [applyTo, skipInterval]
-  );
 
   useEffect(() => {
     applyToSelectRef?.current?.focus();
@@ -110,7 +97,6 @@ const Popup: React.FC = () => {
         playbackRate,
         shouldLoop,
         isInTheaterMode,
-        skipInterval,
       }: any = await getDataFromSyncStoragePromise();
 
       if (applyTo) {
@@ -129,9 +115,6 @@ const Popup: React.FC = () => {
       }
       setShouldLoop(shouldLoop);
       setIsInTheaterMode(isInTheaterMode);
-      if (skipInterval) {
-        setSkipInterval(skipInterval);
-      }
     }
 
     setStateFromStorage();
@@ -155,14 +138,6 @@ const Popup: React.FC = () => {
   const handleSkipIntervalChange = (e: SyntheticEvent) => {
     const element = e.target as HTMLInputElement;
     setSkipInterval((element.value as unknown) as number);
-  };
-
-  const handleSkipBackwardButtonClick = (e: SyntheticEvent) => {
-    sendSkipIntervalData(SkipDirection.Backward);
-  };
-
-  const handleSkipForwardButtonClick = (e: SyntheticEvent) => {
-    sendSkipIntervalData(SkipDirection.Forward);
   };
 
   const handleShouldLoopClick = (e: SyntheticEvent) => {
@@ -283,7 +258,7 @@ const Popup: React.FC = () => {
           </div>
 
           <div className="u-flex u-jc-space-between">
-            <button type="button" onClick={handleSkipBackwardButtonClick}>
+            <button type="button" onClick={handleSkipBackButtonClick}>
               ⏪
             </button>
             <input

@@ -1,0 +1,10 @@
+// messages
+export const SET_PLAYBACK_RATE = 'SET_PLAYBACK_RATE';
+export const SET_MEDIA_ATTRIBUTES = 'SET_MEDIA_ATTRIBUTES';
+export const SKIP_FORWARD = 'SKIP_FORWARD';
+export const SKIP_BACKWARD = 'SKIP_BACKWARD';
+
+// shortcut commands
+export const SHORTCUT_DECREASE_PLAYBACK_RATE = 'sc-decrease-playback-rate';
+export const SHORTCUT_INCREASE_PLAYBACK_RATE = 'sc-increase-playback-rate';
+export const SHORTCUT_RESET_PLAYBACK_RATE = 'sc-reset-playback-rate';
