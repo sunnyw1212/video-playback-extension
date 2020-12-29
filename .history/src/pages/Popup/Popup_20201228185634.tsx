@@ -151,12 +151,10 @@ const Popup: React.FC = () => {
 
   const handleSkipIntervalChange = (e: SyntheticEvent) => {
     const element = e.target as HTMLInputElement;
-
+    setSkipInterval((element.value as unknown) as number);
     chrome.storage.sync.set({
       skipInterval: element.value,
     });
-
-    setSkipInterval((element.value as unknown) as number);
   };
 
   const handleSkipBackwardButtonClick = (e: SyntheticEvent) => {

@@ -6,9 +6,6 @@ import {
   SHORTCUT_RESET_PLAYBACK_RATE,
   SET_PLAYBACK_RATE,
   SHORTCUT_SKIP_FORWARD,
-  SHORTCUT_SKIP_BACKWARD,
-  SKIP_FORWARD,
-  SKIP_BACKWARD,
 } from '../../constants';
 import {
   getDataFromSyncStoragePromise,
@@ -20,11 +17,7 @@ console.log('This is the background pages.');
 
 chrome.commands.onCommand.addListener(async (command) => {
   console.log('Command:', command);
-  const {
-    applyTo,
-    playbackRate,
-    skipInterval,
-  }: any = await getDataFromSyncStoragePromise();
+  const { applyTo, playbackRate }: any = await getDataFromSyncStoragePromise();
   const tabs: any = await getTabsPromise(applyTo);
 
   const isApplyingToAllTabs = applyTo === 'all';
@@ -61,19 +54,20 @@ chrome.commands.onCommand.addListener(async (command) => {
       );
 
       break;
-    case SHORTCUT_SKIP_FORWARD:
-      const skipForwardMessage = {
-        type: SKIP_FORWARD,
-        payload: { skipInterval },
+    case SHORTCUT_RESET_PLAYBACK_RATE:
+      const resettedPlaybackRate = 1;
+      chrome.storage.sync.set({ playbackRate: resettedPlaybackRate });
+
+      const resettedPlaybackRateMessage = {
+        type: SET_PLAYBACK_RATE,
+        payload: { targetRate: resettedPlaybackRate },
       };
-      sendMessageToTabs(tabs, skipForwardMessage, isApplyingToAllTabs);
+
+      sendMessageToTabs(tabs, resettedPlaybackRateMessage, isApplyingToAllTabs);
+      break;
+    case SHORTCUT_SKIP_FORWARD:
       break;
     case SHORTCUT_SKIP_BACKWARD:
-      const skipBackwardMessage = {
-        type: SKIP_BACKWARD,
-        payload: { skipInterval },
-      };
-      sendMessageToTabs(tabs, skipBackwardMessage, isApplyingToAllTabs);
       break;
     default:
       break;

@@ -61,6 +61,17 @@ chrome.commands.onCommand.addListener(async (command) => {
       );
 
       break;
+    case SHORTCUT_RESET_PLAYBACK_RATE:
+      const resettedPlaybackRate = 1;
+      chrome.storage.sync.set({ playbackRate: resettedPlaybackRate });
+
+      const resettedPlaybackRateMessage = {
+        type: SET_PLAYBACK_RATE,
+        payload: { targetRate: resettedPlaybackRate },
+      };
+
+      sendMessageToTabs(tabs, resettedPlaybackRateMessage, isApplyingToAllTabs);
+      break;
     case SHORTCUT_SKIP_FORWARD:
       const skipForwardMessage = {
         type: SKIP_FORWARD,

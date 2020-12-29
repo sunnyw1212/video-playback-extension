@@ -51,6 +51,7 @@ export const setMediaPlaybackRate = async (
 
         for (let j = 0; j < iframeMedias.length; j++) {
           const media = iframeMedias[j];
+          media.addEventListener('ratechange', handleRateChange);
           _setMediaPlaybackRate(playbackRate, media);
         }
       } catch (error) {
@@ -58,6 +59,29 @@ export const setMediaPlaybackRate = async (
       }
     }
   }
+};
+
+let playbackRateMessageBannerTimerID: number | null = null;
+
+const handleRateChange = (e: Event) => {
+  console.log(
+    'ratechange event happened',
+    (e.target as HTMLMediaElement).playbackRate
+  );
+  if (playbackRateMessageBannerTimerID) {
+    clearTimeout(playbackRateMessageBannerTimerID);
+  }
+  const playbackRateMessageBanner = document.getElementById(
+    'js-playbackRateMessageBanner'
+  );
+
+  playbackRateMessageBanner!.innerText = `Playback rate changed to ${
+    (e.target as HTMLMediaElement).playbackRate
+  }`;
+
+  playbackRateMessageBannerTimerID = window.setTimeout(() => {
+    playbackRateMessageBanner!.innerText = '';
+  }, 3000);
 };
 
 const _setMediaPlaybackRate = (

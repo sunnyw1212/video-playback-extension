@@ -1,22 +1,21 @@
 import { getDataFromSyncStoragePromise } from '../../../helpers';
 
-export const setMediaPlaybackRate = async (
-  playbackRate?: number,
+export const setMediaLoop = async (
+  shouldLoop?: boolean,
   targetMedia?: HTMLMediaElement
 ): Promise<any> => {
+  console.log('setMediaLoop', shouldLoop);
   // for media that are loading in asynchronously
-  // we need to grab playbackRate from sync storage
-  // and recursively call `setMediaPlaybackRate`
-  if (!playbackRate) {
+  // we need to grab shouldLoop from sync storage
+  // and recursively call `setMediaLoop`
+  if (shouldLoop === undefined) {
     const data: any = await getDataFromSyncStoragePromise();
 
-    return setMediaPlaybackRate(data.playbackRate || 1, targetMedia);
+    return setMediaLoop(data.shouldLoop, targetMedia);
   } else {
     if (targetMedia) {
-      console.log('targetMedia', targetMedia);
-      return _setMediaPlaybackRate(playbackRate, targetMedia);
+      return _setMediaLoop(shouldLoop, targetMedia);
     }
-
     const videos = Array.from(document.getElementsByTagName('video'));
     const audios = Array.from(document.getElementsByTagName('audio'));
     const medias = [...videos, ...audios];
@@ -24,7 +23,7 @@ export const setMediaPlaybackRate = async (
 
     for (let i = 0; i < medias.length; i++) {
       const media = medias[i];
-      _setMediaPlaybackRate(playbackRate, media);
+      _setMediaLoop(shouldLoop, media);
     }
 
     // try to account for media nested within iframes
@@ -47,11 +46,10 @@ export const setMediaPlaybackRate = async (
           ...Array.from(iframeVideos),
           ...Array.from(iframeAudios),
         ];
-        console.log('iframeMedias', iframeMedias);
 
         for (let j = 0; j < iframeMedias.length; j++) {
           const media = iframeMedias[j];
-          _setMediaPlaybackRate(playbackRate, media);
+          _setMediaLoop(shouldLoop, media);
         }
       } catch (error) {
         console.error('Error trying to access iframe media: ', error);
@@ -60,13 +58,28 @@ export const setMediaPlaybackRate = async (
   }
 };
 
-const _setMediaPlaybackRate = (
-  playbackRate: number,
-  media: HTMLMediaElement
-) => {
-  console.log('_setMediaPlaybackRate', media.playbackRate, playbackRate);
+let shouldLoopMessageBannerTimerID: number | null = null;
 
-  if (media.playbackRate !== playbackRate) {
-    media.playbackRate = playbackRate as number;
+const updateShouldLoopMessageBanner = (shouldLoop: boolean) => {
+  if (shouldLoopMessageBannerTimerID) {
+    clearTimeout(shouldLoopMessageBannerTimerID);
+  }
+  const shouldLoopMessageBanner = document.getElementById(
+    'js-shouldLoopMessageBanner'
+  );
+
+  shouldLoopMessageBanner!.innerText = `Media looping set to ${shouldLoop}`;
+
+  shouldLoopMessageBannerTimerID = window.setTimeout(() => {
+    shouldLoopMessageBanner!.innerText = '';
+  }, 3000);
+};
+
+const _setMediaLoop = (shouldLoop: boolean, media: HTMLMediaElement) => {
+  console.log('_setMediaLoop', media.loop, shouldLoop);
+
+  if (media.loop !== shouldLoop) {
+    media.loop = shouldLoop;
+    updateShouldLoopMessageBanner(media.loop);
   }
 };

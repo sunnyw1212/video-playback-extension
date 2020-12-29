@@ -8,7 +8,6 @@ import {
   SHORTCUT_SKIP_FORWARD,
   SHORTCUT_SKIP_BACKWARD,
   SKIP_FORWARD,
-  SKIP_BACKWARD,
 } from '../../constants';
 import {
   getDataFromSyncStoragePromise,
@@ -60,6 +59,17 @@ chrome.commands.onCommand.addListener(async (command) => {
         isApplyingToAllTabs
       );
 
+      break;
+    case SHORTCUT_RESET_PLAYBACK_RATE:
+      const resettedPlaybackRate = 1;
+      chrome.storage.sync.set({ playbackRate: resettedPlaybackRate });
+
+      const resettedPlaybackRateMessage = {
+        type: SET_PLAYBACK_RATE,
+        payload: { targetRate: resettedPlaybackRate },
+      };
+
+      sendMessageToTabs(tabs, resettedPlaybackRateMessage, isApplyingToAllTabs);
       break;
     case SHORTCUT_SKIP_FORWARD:
       const skipForwardMessage = {

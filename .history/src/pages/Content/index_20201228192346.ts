@@ -86,8 +86,6 @@ const init = async () => {
   setMediaLoop(data.shouldLoop);
   setVideoTheaterMode(data.isInTheaterMode);
 
-  document.addEventListener('ratechange', handleRateChange, true);
-
   observer.observe(document.body, { childList: true, subtree: true });
 };
 
@@ -124,6 +122,8 @@ const handleRateChange = (e: Event) => {
     playbackRateMessageBanner!.innerText = '';
   }, 3000);
 };
+
+document.addEventListener('ratechange', handleRateChange, true);
 
 init();
 

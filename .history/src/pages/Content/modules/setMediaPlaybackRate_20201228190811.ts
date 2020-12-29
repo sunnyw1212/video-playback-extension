@@ -60,6 +60,29 @@ export const setMediaPlaybackRate = async (
   }
 };
 
+let playbackRateMessageBannerTimerID: number | null = null;
+
+const handleRateChange = (e: Event) => {
+  console.log(
+    'ratechange event happened',
+    (e.target as HTMLMediaElement).playbackRate
+  );
+  if (playbackRateMessageBannerTimerID) {
+    clearTimeout(playbackRateMessageBannerTimerID);
+  }
+  const playbackRateMessageBanner = document.getElementById(
+    'js-playbackRateMessageBanner'
+  );
+
+  playbackRateMessageBanner!.innerText = `Playback rate changed to ${
+    (e.target as HTMLMediaElement).playbackRate
+  }`;
+
+  playbackRateMessageBannerTimerID = window.setTimeout(() => {
+    playbackRateMessageBanner!.innerText = '';
+  }, 3000);
+};
+
 const _setMediaPlaybackRate = (
   playbackRate: number,
   media: HTMLMediaElement

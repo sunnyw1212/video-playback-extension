@@ -36,13 +36,13 @@
       "suggested_key": {
         "default": "Ctrl+Shift+Right"
       },
-      "description": "Skip Forward By Set Skip Interval"
+      "description": "Skip Forward"
     },
     "skip-backward": {
       "suggested_key": {
         "default": "Ctrl+Shift+Left"
       },
-      "description": "Skip Backward By Set Skip Interval"
+      "description": "Skip Backward"
     }
   }
 }

@@ -86,7 +86,7 @@ const init = async () => {
   setMediaLoop(data.shouldLoop);
   setVideoTheaterMode(data.isInTheaterMode);
 
-  document.addEventListener('ratechange', handleRateChange, true);
+  document.addEventListener('ratechange', handleRateChange);
 
   observer.observe(document.body, { childList: true, subtree: true });
 };
@@ -106,8 +106,7 @@ let playbackRateMessageBannerTimerID: number | null = null;
 const handleRateChange = (e: Event) => {
   console.log(
     'ratechange event happened',
-    (e.target as HTMLMediaElement).playbackRate,
-    e
+    (e.target as HTMLMediaElement).playbackRate
   );
   if (playbackRateMessageBannerTimerID) {
     clearTimeout(playbackRateMessageBannerTimerID);

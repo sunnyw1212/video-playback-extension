@@ -32,17 +32,29 @@
       },
       "description": "Increase Playback Rate By .25"
     },
+    "reset-playback-rate": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+0"
+      },
+      "description": "Reset Playback Rate To 1x"
+    },
     "skip-forward": {
       "suggested_key": {
         "default": "Ctrl+Shift+Right"
       },
-      "description": "Skip Forward By Set Skip Interval"
+      "description": "Skip Forward"
     },
     "skip-backward": {
       "suggested_key": {
         "default": "Ctrl+Shift+Left"
       },
-      "description": "Skip Backward By Set Skip Interval"
+      "description": "Skip Backward"
+    },
+    "_execute_page_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+U"
+
+      }
     }
   }
 }
