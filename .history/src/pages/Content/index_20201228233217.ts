@@ -88,7 +88,7 @@ const init = async () => {
 
   document.addEventListener('ratechange', handleRateChange, true);
   document.addEventListener('play', handlePlayOrSeek, true);
-  document.addEventListener('seeked', handlePlayOrSeek, true);
+  document.addEventListener('seeking', handlePlayOrSeek, true);
 
   observer.observe(document.body, { childList: true, subtree: true });
 };

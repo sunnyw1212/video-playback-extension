@@ -132,6 +132,7 @@ const handleRateChange = (e: Event) => {
 
 const handlePlayOrSeek = async (e: Event) => {
   const data: any = await getDataFromSyncStoragePromise();
+  console.log('fuck', (e.target as HTMLMediaElement).playbackRate);
   (e.target as HTMLMediaElement).playbackRate = data.playbackRate;
 };
 

@@ -135,10 +135,7 @@ const Popup: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (isRestoringDefaults) {
-      sendMediaAttributeData();
-      setIsRestoringDefaults(false);
-    }
+    sendMediaAttributeData();
   }, [isRestoringDefaults]);
 
   const handleApplyToChange = (e: SyntheticEvent) => {

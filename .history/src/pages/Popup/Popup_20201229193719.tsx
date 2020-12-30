@@ -14,6 +14,7 @@ import {
 import {
   getDataFromSyncStoragePromise,
   getTabsPromise,
+  sendMessageToTab,
   sendMessageToTabs,
 } from '../../helpers';
 
@@ -21,7 +22,6 @@ import logo from '../../assets/img/logo.svg';
 import './Popup.css';
 
 const Popup: React.FC = () => {
-  const [isRestoringDefaults, setIsRestoringDefaults] = useState(false);
   const [applyTo, setApplyTo] = useState('current');
   const [playbackRate, setPlaybackRate] = useState<number | string>(1);
   const [customPlaybackRate, setCustomPlaybackRate] = useState(1);
@@ -134,13 +134,6 @@ const Popup: React.FC = () => {
     setStateFromStorage();
   }, []);
 
-  useEffect(() => {
-    if (isRestoringDefaults) {
-      sendMediaAttributeData();
-      setIsRestoringDefaults(false);
-    }
-  }, [isRestoringDefaults]);
-
   const handleApplyToChange = (e: SyntheticEvent) => {
     const element = e.target as HTMLInputElement;
     setApplyTo(element.value);
@@ -182,16 +175,6 @@ const Popup: React.FC = () => {
   const handleIsInTheaterModeClick = (e: SyntheticEvent) => {
     const element = e.target as HTMLInputElement;
     setIsInTheaterMode(element.checked);
-  };
-
-  const handleRestoreDefaultsButtonClick = () => {
-    setApplyTo('current');
-    setPlaybackRate(1);
-    setCustomPlaybackRate(1);
-    setShouldLoop(false);
-    setIsInTheaterMode(false);
-    setSkipInterval(30);
-    setIsRestoringDefaults(true);
   };
 
   const handleApplyToMediaButtonClick = () => {

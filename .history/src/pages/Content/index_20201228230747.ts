@@ -87,8 +87,7 @@ const init = async () => {
   setVideoTheaterMode(data.isInTheaterMode);
 
   document.addEventListener('ratechange', handleRateChange, true);
-  document.addEventListener('play', handlePlayOrSeek, true);
-  document.addEventListener('seeked', handlePlayOrSeek, true);
+  document.addEventListener('play', handlePlay, true);
 
   observer.observe(document.body, { childList: true, subtree: true });
 };
@@ -111,9 +110,6 @@ const handleRateChange = (e: Event) => {
     (e.target as HTMLMediaElement).playbackRate,
     e
   );
-  chrome.storage.sync.set({
-    playbackRate: (e.target as HTMLMediaElement).playbackRate,
-  });
   if (playbackRateMessageBannerTimerID) {
     clearTimeout(playbackRateMessageBannerTimerID);
   }
@@ -130,7 +126,8 @@ const handleRateChange = (e: Event) => {
   }, 3000);
 };
 
-const handlePlayOrSeek = async (e: Event) => {
+const handlePlay = async (e: Event) => {
+  console.log('FCKING PLAY', (e.target as HTMLMediaElement).playbackRate);
   const data: any = await getDataFromSyncStoragePromise();
   (e.target as HTMLMediaElement).playbackRate = data.playbackRate;
 };

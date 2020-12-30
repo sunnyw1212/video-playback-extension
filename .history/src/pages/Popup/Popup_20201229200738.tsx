@@ -21,7 +21,6 @@ import logo from '../../assets/img/logo.svg';
 import './Popup.css';
 
 const Popup: React.FC = () => {
-  const [isRestoringDefaults, setIsRestoringDefaults] = useState(false);
   const [applyTo, setApplyTo] = useState('current');
   const [playbackRate, setPlaybackRate] = useState<number | string>(1);
   const [customPlaybackRate, setCustomPlaybackRate] = useState(1);
@@ -63,6 +62,7 @@ const Popup: React.FC = () => {
       isInTheaterMode,
       playbackRate: targetRate,
     });
+    debugger;
 
     const isApplyingToAllTabs = applyTo === 'all';
     const tabs: any = await getTabsPromise(applyTo as Tabs);
@@ -134,13 +134,6 @@ const Popup: React.FC = () => {
     setStateFromStorage();
   }, []);
 
-  useEffect(() => {
-    if (isRestoringDefaults) {
-      sendMediaAttributeData();
-      setIsRestoringDefaults(false);
-    }
-  }, [isRestoringDefaults]);
-
   const handleApplyToChange = (e: SyntheticEvent) => {
     const element = e.target as HTMLInputElement;
     setApplyTo(element.value);
@@ -191,7 +184,15 @@ const Popup: React.FC = () => {
     setShouldLoop(false);
     setIsInTheaterMode(false);
     setSkipInterval(30);
-    setIsRestoringDefaults(true);
+    console.log(
+      'FCK',
+      applyTo,
+      playbackRate,
+      customPlaybackRate,
+      shouldLoop,
+      isInTheaterMode,
+      skipInterval
+    );
   };
 
   const handleApplyToMediaButtonClick = () => {
