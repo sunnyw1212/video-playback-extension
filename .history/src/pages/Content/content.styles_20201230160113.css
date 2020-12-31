@@ -24,9 +24,8 @@
   visibility: visible !important;
   width: 95% !important;
   height: 95% !important;
-  opacity: 1 !important;
 }
 
-.TheaterModeBodyElement {
+.TheaterModeBody {
   visibility: hidden;
 }

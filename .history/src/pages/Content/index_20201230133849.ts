@@ -111,7 +111,9 @@ const handleRateChange = (e: Event) => {
     (e.target as HTMLMediaElement).playbackRate,
     e
   );
-
+  // chrome.storage.sync.set({
+  //   playbackRate: (e.target as HTMLMediaElement).playbackRate,
+  // });
   if (playbackRateMessageBannerTimerID) {
     clearTimeout(playbackRateMessageBannerTimerID);
   }

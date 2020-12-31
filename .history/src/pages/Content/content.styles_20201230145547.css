@@ -15,18 +15,18 @@
   visibility: visible !important;
 }
 
-.TheaterModeVideo {
+.TheaterMode {
   position: fixed !important;
   top: 50% !important;
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
   z-index: 9999 !important;
-  visibility: visible !important;
+  /* visibility: visible !important; */
   width: 95% !important;
   height: 95% !important;
-  opacity: 1 !important;
 }
 
-.TheaterModeBodyElement {
-  visibility: hidden;
+.TheaterModeBody {
+  /* visibility: hidden; */
+  background-color: #191919;
 }

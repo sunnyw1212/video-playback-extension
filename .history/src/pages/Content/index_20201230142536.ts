@@ -137,7 +137,7 @@ init();
 
 chrome.runtime.onMessage.addListener(
   (message: Message, sender, sendResponse) => {
-    console.log('content received a message: ', message);
+    console.log('content received a messadge: ', message);
     switch (message.type) {
       case SET_PLAYBACK_RATE:
         setMediaPlaybackRate(message.payload.targetRate);

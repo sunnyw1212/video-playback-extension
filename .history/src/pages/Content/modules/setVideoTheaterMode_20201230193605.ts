@@ -19,6 +19,37 @@ export const setVideoTheaterMode = async (
 
     const video = document.querySelector('video');
     _setVideoTheaterMode(isInTheaterMode, video);
+
+    const iframes = document.getElementsByTagName('iframe');
+    let doesIframeHaveVideo = false;
+    // try to account for media nested within iframes
+    for (let i = 0; i < iframes.length; i++) {
+      const iframe = iframes[i];
+
+      try {
+        const iframeVideos = iframe?.contentWindow?.document.getElementsByTagName(
+          'video'
+        );
+
+        if (iframeVideos) {
+          doesIframeHaveVideo = true;
+        }
+
+        // console.log('iframeVideos', iframeVideos);
+
+        // for (let j = 0; j < iframeVideos.length; j++) {
+        //   const iframeVideo = iframeVideos[j];
+        //   _setVideoTheaterMode(isInTheaterMode, iframeVideo);
+        // }
+      } catch (error) {
+        console.error('Error trying to access iframe iframeVideo: ', error);
+      }
+    }
+
+    // if theres an iframe video, set theater mode on outer body
+    if (doesIframeHaveVideo) {
+      _setVideoTheaterMode(isInTheaterMode, null, true);
+    }
   }
 };
 
@@ -41,16 +72,17 @@ const updateIsInTheaterModeMessageBanner = (isInTheaterMode: boolean) => {
 
 const _setVideoTheaterMode = (
   isInTheaterMode: boolean,
-  video?: HTMLVideoElement | null
+  video?: HTMLVideoElement | null,
+  force: boolean = false
 ) => {
   console.log('_setVideoTheaterMode', isInTheaterMode, video);
-  if (!video) {
+  if (!video && !force) {
     return false;
   }
 
-  const containsTheaterMode = video.classList.contains('TheaterModeVideo');
+  const containsTheaterMode = video?.classList.contains('TheaterModeVideo');
 
-  if (isInTheaterMode && !containsTheaterMode) {
+  if (isInTheaterMode && (!containsTheaterMode || force)) {
     const allElements = document.querySelectorAll(
       `body > :not(video):not(.MessageBannerContainer)`
     );
@@ -58,12 +90,13 @@ const _setVideoTheaterMode = (
       const element = allElements[i];
       (element as HTMLElement).classList.add('TheaterModeBodyElement');
     }
-
-    video.classList.add('TheaterModeVideo');
-    video.setAttribute('data-had-controls', video.controls.toString());
-    video.controls = true;
+    if (video) {
+      video.classList.add('TheaterModeVideo');
+      video.setAttribute('data-had-controls', video.controls.toString());
+      video.controls = true;
+    }
     updateIsInTheaterModeMessageBanner(true);
-  } else if (!isInTheaterMode && containsTheaterMode) {
+  } else if (!isInTheaterMode && (containsTheaterMode || force)) {
     const allElements = document.querySelectorAll(
       'body > :not(video):not(.MessageBannerContainer)'
     );
@@ -72,8 +105,10 @@ const _setVideoTheaterMode = (
       (element as HTMLElement).classList.remove('TheaterModeBodyElement');
     }
 
-    video.classList.remove('TheaterModeVideo');
-    video.controls = video.getAttribute('data-had-controls') === 'true';
+    if (video) {
+      video.classList.remove('TheaterModeVideo');
+      video.controls = video.getAttribute('data-had-controls') === 'true';
+    }
     updateIsInTheaterModeMessageBanner(false);
   }
 };

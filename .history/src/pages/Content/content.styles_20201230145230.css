@@ -1,0 +1,38 @@
+.MessageBannerContainer {
+  z-index: 99999;
+  position: fixed;
+  right: 0;
+  top: 0;
+  list-style: none;
+  visibility: visible !important;
+}
+
+.MessageBanner {
+  background-color: #080808;
+  opacity: 0.75;
+  color: #f0f0f0;
+  font-size: 18px;
+  visibility: visible !important;
+}
+
+.TheaterMode {
+  position: fixed !important;
+  transform: scale(1.5, 1.5) !important;
+  position: fixed !important;
+  left: 400px !important;
+  top: 100px !important;
+  border-right: 100% solid black !important;
+  border-left: 100% solid black !important;
+  margin: auto !important;
+  /* top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important; */
+  /* z-index: 9999 !important; */
+  /* visibility: visible !important;
+  width: 95% !important;
+  height: 95% !important; */
+}
+
+.TheaterModeBody {
+  /* visibility: hidden; */
+}

@@ -19,6 +19,32 @@ export const setVideoTheaterMode = async (
 
     const video = document.querySelector('video');
     _setVideoTheaterMode(isInTheaterMode, video);
+
+    const iframes = document.getElementsByTagName('iframe');
+    let doesIframeHaveVideo = false;
+    // try to account for media nested within iframes
+    for (let i = 0; i < iframes.length; i++) {
+      const iframe = iframes[i];
+
+      try {
+        const iframeVideos = iframe?.contentWindow?.document.getElementsByTagName(
+          'video'
+        );
+
+        if (iframeVideos) {
+          doesIframeHaveVideo = true;
+        }
+
+        // console.log('iframeVideos', iframeVideos);
+
+        // for (let j = 0; j < iframeVideos.length; j++) {
+        //   const iframeVideo = iframeVideos[j];
+        //   _setVideoTheaterMode(isInTheaterMode, iframeVideo);
+        // }
+      } catch (error) {
+        console.error('Error trying to access iframe iframeVideo: ', error);
+      }
+    }
   }
 };
 

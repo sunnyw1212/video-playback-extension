@@ -19,6 +19,31 @@ export const setVideoTheaterMode = async (
 
     const video = document.querySelector('video');
     _setVideoTheaterMode(isInTheaterMode, video);
+
+    const iframes = document.getElementsByTagName('iframe');
+    // try to account for media nested within iframes
+    for (let i = 0; i < iframes.length; i++) {
+      const iframe = iframes[i];
+
+      try {
+        const iframeVideos = iframe?.contentWindow?.document.getElementsByTagName(
+          'video'
+        );
+
+        if (!iframeVideos) {
+          return false;
+        }
+
+        console.log('iframeVideos', iframeVideos);
+
+        for (let j = 0; j < iframeVideos.length; j++) {
+          const iframeVideo = iframeVideos[j];
+          _setVideoTheaterMode(isInTheaterMode, iframeVideo);
+        }
+      } catch (error) {
+        console.error('Error trying to access iframe iframeVideo: ', error);
+      }
+    }
   }
 };
 
@@ -58,7 +83,7 @@ const _setVideoTheaterMode = (
       const element = allElements[i];
       (element as HTMLElement).classList.add('TheaterModeBodyElement');
     }
-
+    video.play();
     video.classList.add('TheaterModeVideo');
     video.setAttribute('data-had-controls', video.controls.toString());
     video.controls = true;

@@ -15,7 +15,7 @@
   visibility: visible !important;
 }
 
-.TheaterModeVideo {
+.TheaterMode {
   position: fixed !important;
   top: 50% !important;
   left: 50% !important;
@@ -24,9 +24,16 @@
   visibility: visible !important;
   width: 95% !important;
   height: 95% !important;
-  opacity: 1 !important;
 }
 
-.TheaterModeBodyElement {
-  visibility: hidden;
+.TheaterModeBody {
+  /* visibility: hidden; */
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  position: fixed;
+  background-color: #000;
+  opacity: 0.8;
+  z-index: 20;
 }
