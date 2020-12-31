@@ -3,6 +3,7 @@ import '../../assets/img/icon128.png';
 import {
   SHORTCUT_DECREASE_PLAYBACK_RATE,
   SHORTCUT_INCREASE_PLAYBACK_RATE,
+  SHORTCUT_RESET_PLAYBACK_RATE,
   SET_PLAYBACK_RATE,
   SHORTCUT_SKIP_FORWARD,
   SHORTCUT_SKIP_BACKWARD,
@@ -16,6 +17,14 @@ import {
 } from '../../helpers';
 
 console.log('This is the background pages.');
+
+chrome.tabs.onActivated.addListener((activeInfo) => {
+  console.log('yoyoy1o', document.querySelector('video'));
+});
+
+chrome.tabs.onActiveChanged.addListener((tabId: number, selectInfo: object) => {
+  console.log('yoyoyo2', document.querySelector('video'));
+});
 
 chrome.commands.onCommand.addListener(async (command) => {
   console.log('Command:', command);

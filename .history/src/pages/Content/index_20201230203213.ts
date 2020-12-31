@@ -3,7 +3,6 @@ import {
   setMediaLoop,
   setVideoTheaterMode,
   setCurrentTime,
-  setStorageFromDOMState,
 } from './modules';
 import { Message } from '../../types';
 import {
@@ -136,7 +135,11 @@ const handlePlayOrSeek = async (e: Event) => {
 };
 
 const handleWindowFocus = () => {
-  setStorageFromDOMState();
+  chrome.storage.sync.set({
+    playbackRate: document.querySelector('video')!.playbackRate,
+    shouldLoop: document.querySelector('video')!.loop,
+    isInTheaterMode: document.querySelector('.TheaterModeVideo'),
+  });
 };
 
 init();

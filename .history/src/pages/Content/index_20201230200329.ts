@@ -3,7 +3,6 @@ import {
   setMediaLoop,
   setVideoTheaterMode,
   setCurrentTime,
-  setStorageFromDOMState,
 } from './modules';
 import { Message } from '../../types';
 import {
@@ -90,7 +89,6 @@ const init = async () => {
   document.addEventListener('ratechange', handleRateChange, true);
   document.addEventListener('play', handlePlayOrSeek, true);
   document.addEventListener('seeked', handlePlayOrSeek, true);
-  window.addEventListener('focus', handleWindowFocus, true);
 
   observer.observe(document.body, { childList: true, subtree: true });
 };
@@ -133,10 +131,6 @@ const handleRateChange = (e: Event) => {
 const handlePlayOrSeek = async (e: Event) => {
   const data: any = await getDataFromSyncStoragePromise();
   (e.target as HTMLMediaElement).playbackRate = data.playbackRate;
-};
-
-const handleWindowFocus = () => {
-  setStorageFromDOMState();
 };
 
 init();

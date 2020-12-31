@@ -3,15 +3,18 @@ import '../../assets/img/icon128.png';
 import {
   SHORTCUT_DECREASE_PLAYBACK_RATE,
   SHORTCUT_INCREASE_PLAYBACK_RATE,
+  SHORTCUT_RESET_PLAYBACK_RATE,
   SET_PLAYBACK_RATE,
   SHORTCUT_SKIP_FORWARD,
   SHORTCUT_SKIP_BACKWARD,
   SKIP_FORWARD,
   SKIP_BACKWARD,
+  ACTIVATED_TAB,
 } from '../../constants';
 import {
   getDataFromSyncStoragePromise,
   getTabsPromise,
+  sendMessageToTab,
   sendMessageToTabs,
 } from '../../helpers';
 

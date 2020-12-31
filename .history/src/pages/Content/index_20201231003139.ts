@@ -3,7 +3,6 @@ import {
   setMediaLoop,
   setVideoTheaterMode,
   setCurrentTime,
-  setStorageFromDOMState,
 } from './modules';
 import { Message } from '../../types';
 import {
@@ -136,7 +135,7 @@ const handlePlayOrSeek = async (e: Event) => {
 };
 
 const handleWindowFocus = () => {
-  setStorageFromDOMState();
+  setStorageFromDOMState;
 };
 
 init();

@@ -3,7 +3,6 @@ import {
   setMediaLoop,
   setVideoTheaterMode,
   setCurrentTime,
-  setStorageFromDOMState,
 } from './modules';
 import { Message } from '../../types';
 import {
@@ -136,7 +135,11 @@ const handlePlayOrSeek = async (e: Event) => {
 };
 
 const handleWindowFocus = () => {
-  setStorageFromDOMState();
+  chrome.storage.sync.set({
+    playbackRate: document.querySelector('video')!.playbackRate,
+    shouldLoop: document.querySelector('video')!.loop,
+    isInTheaterMode: document.querySelector('.TheaterModeVideo'),
+  });
 };
 
 init();
@@ -145,6 +148,12 @@ chrome.runtime.onMessage.addListener(
   (message: Message, sender, sendResponse) => {
     console.log('content received a message: ', message);
     switch (message.type) {
+      case ACTIVATED_TAB:
+        console.log('new activated tab so update sync storage here');
+        // chrome.storage.sync.set({
+        //   playbackRate: document.querySelector('video')!.playbackRate,
+        // });
+        break;
       case SET_PLAYBACK_RATE:
         setMediaPlaybackRate(message.payload.targetRate);
         break;

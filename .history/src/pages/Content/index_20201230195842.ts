@@ -3,7 +3,6 @@ import {
   setMediaLoop,
   setVideoTheaterMode,
   setCurrentTime,
-  setStorageFromDOMState,
 } from './modules';
 import { Message } from '../../types';
 import {
@@ -90,7 +89,6 @@ const init = async () => {
   document.addEventListener('ratechange', handleRateChange, true);
   document.addEventListener('play', handlePlayOrSeek, true);
   document.addEventListener('seeked', handlePlayOrSeek, true);
-  window.addEventListener('focus', handleWindowFocus, true);
 
   observer.observe(document.body, { childList: true, subtree: true });
 };
@@ -135,11 +133,15 @@ const handlePlayOrSeek = async (e: Event) => {
   (e.target as HTMLMediaElement).playbackRate = data.playbackRate;
 };
 
-const handleWindowFocus = () => {
-  setStorageFromDOMState();
-};
-
 init();
+
+chrome.tabs.onActivated.addListener((activeInfo: chrome.tabs.TabActiveInfo) => {
+  console.log('yoyoy1o', document.querySelector('video'));
+});
+
+chrome.tabs.onActiveChanged.addListener((tabId: number, selectInfo: object) => {
+  console.log('yoyoyo2', document.querySelector('video'));
+});
 
 chrome.runtime.onMessage.addListener(
   (message: Message, sender, sendResponse) => {

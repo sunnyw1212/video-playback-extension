@@ -3,7 +3,6 @@ import {
   setMediaLoop,
   setVideoTheaterMode,
   setCurrentTime,
-  setStorageFromDOMState,
 } from './modules';
 import { Message } from '../../types';
 import {
@@ -11,6 +10,7 @@ import {
   SET_MEDIA_ATTRIBUTES,
   SKIP_BACKWARD,
   SKIP_FORWARD,
+  ACTIVATED_TAB,
 } from '../../constants';
 import { getDataFromSyncStoragePromise } from '../../helpers';
 
@@ -90,7 +90,7 @@ const init = async () => {
   document.addEventListener('ratechange', handleRateChange, true);
   document.addEventListener('play', handlePlayOrSeek, true);
   document.addEventListener('seeked', handlePlayOrSeek, true);
-  window.addEventListener('focus', handleWindowFocus, true);
+  document.addEventListener('visibilitychange', handleVisibilityChange, false);
 
   observer.observe(document.body, { childList: true, subtree: true });
 };
@@ -135,8 +135,12 @@ const handlePlayOrSeek = async (e: Event) => {
   (e.target as HTMLMediaElement).playbackRate = data.playbackRate;
 };
 
-const handleWindowFocus = () => {
-  setStorageFromDOMState();
+const handleVisibilityChange = () => {
+  if (!document.hidden) {
+    chrome.storage.sync.set({
+      playbackRate: document.querySelector('video')!.playbackRate,
+    });
+  }
 };
 
 init();
@@ -145,6 +149,12 @@ chrome.runtime.onMessage.addListener(
   (message: Message, sender, sendResponse) => {
     console.log('content received a message: ', message);
     switch (message.type) {
+      case ACTIVATED_TAB:
+        console.log('new activated tab so update sync storage here');
+        // chrome.storage.sync.set({
+        //   playbackRate: document.querySelector('video')!.playbackRate,
+        // });
+        break;
       case SET_PLAYBACK_RATE:
         setMediaPlaybackRate(message.payload.targetRate);
         break;
