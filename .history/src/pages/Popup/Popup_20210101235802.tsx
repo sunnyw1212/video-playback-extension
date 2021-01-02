@@ -134,8 +134,8 @@ const Popup: React.FC = () => {
       }: any = await getDataFromSyncStoragePromise();
 
       if (isEnabled === false) {
-        chrome.browserAction.setIcon({ path: 'icon34-inactive.png' });
         setIsEnabled(isEnabled);
+        chrome.browserAction.setIcon({ path: 'icon34-inactive.png' });
       }
       if (applyTo) {
         setApplyTo(applyTo);
@@ -356,7 +356,7 @@ const Popup: React.FC = () => {
                 id="shouldLoop"
                 name="shouldLoop"
                 checked={shouldLoop}
-                onChange={handleShouldLoopClick}
+                onClick={handleShouldLoopClick}
               />
             </div>
 
@@ -370,7 +370,7 @@ const Popup: React.FC = () => {
                 id="isInTheaterMode"
                 name="isInTheaterMode"
                 checked={isInTheaterMode}
-                onChange={handleIsInTheaterModeClick}
+                onClick={handleIsInTheaterModeClick}
               />
             </div>
 

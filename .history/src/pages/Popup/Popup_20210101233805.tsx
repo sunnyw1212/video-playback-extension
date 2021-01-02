@@ -21,8 +21,6 @@ import {
 } from '../../helpers';
 
 import logo from '../../assets/img/logo.svg';
-import '../../assets/img/icon34.png';
-import '../../assets/img/icon34-inactive.png';
 import './Popup.css';
 
 const Popup: React.FC = () => {
@@ -134,7 +132,6 @@ const Popup: React.FC = () => {
       }: any = await getDataFromSyncStoragePromise();
 
       if (isEnabled === false) {
-        chrome.browserAction.setIcon({ path: 'icon34-inactive.png' });
         setIsEnabled(isEnabled);
       }
       if (applyTo) {
@@ -169,24 +166,24 @@ const Popup: React.FC = () => {
   }, [isRestoringDefaults]);
 
   const handleEnabledButtonClick = () => {
-    // toggle to false (disabled)
     chrome.storage.sync.set({
       isEnabled: false,
     });
     chrome.browserAction.setIcon({
-      path: 'icon34-inactive.png',
+      path: '../../assets/img/icon34-inactive.png',
     });
     setHasExtensionStateBeenChanged(true);
+    // toggle to false (disabled)
     setIsEnabled(false);
   };
 
   const handleDisabledButtonClick = () => {
-    // toggle to true (enabled)
     chrome.storage.sync.set({
       isEnabled: true,
     });
-    chrome.browserAction.setIcon({ path: 'icon34.png' });
+    chrome.browserAction.setIcon({ path: '../../assets/img/icon34.png' });
     setHasExtensionStateBeenChanged(true);
+    // toggle to true (enabled)
     setIsEnabled(true);
   };
 
@@ -356,7 +353,7 @@ const Popup: React.FC = () => {
                 id="shouldLoop"
                 name="shouldLoop"
                 checked={shouldLoop}
-                onChange={handleShouldLoopClick}
+                onClick={handleShouldLoopClick}
               />
             </div>
 
@@ -370,7 +367,7 @@ const Popup: React.FC = () => {
                 id="isInTheaterMode"
                 name="isInTheaterMode"
                 checked={isInTheaterMode}
-                onChange={handleIsInTheaterModeClick}
+                onClick={handleIsInTheaterModeClick}
               />
             </div>
 

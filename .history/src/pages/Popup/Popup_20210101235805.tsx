@@ -356,7 +356,7 @@ const Popup: React.FC = () => {
                 id="shouldLoop"
                 name="shouldLoop"
                 checked={shouldLoop}
-                onChange={handleShouldLoopClick}
+                onClick={handleShouldLoopClick}
               />
             </div>
 
@@ -370,7 +370,7 @@ const Popup: React.FC = () => {
                 id="isInTheaterMode"
                 name="isInTheaterMode"
                 checked={isInTheaterMode}
-                onChange={handleIsInTheaterModeClick}
+                onClick={handleIsInTheaterModeClick}
               />
             </div>
 

@@ -22,7 +22,7 @@ import {
 
 import logo from '../../assets/img/logo.svg';
 import '../../assets/img/icon34.png';
-import '../../assets/img/icon34-inactive.png';
+import '../../assets/img/icon128.png';
 import './Popup.css';
 
 const Popup: React.FC = () => {
@@ -134,7 +134,6 @@ const Popup: React.FC = () => {
       }: any = await getDataFromSyncStoragePromise();
 
       if (isEnabled === false) {
-        chrome.browserAction.setIcon({ path: 'icon34-inactive.png' });
         setIsEnabled(isEnabled);
       }
       if (applyTo) {
@@ -356,7 +355,7 @@ const Popup: React.FC = () => {
                 id="shouldLoop"
                 name="shouldLoop"
                 checked={shouldLoop}
-                onChange={handleShouldLoopClick}
+                onClick={handleShouldLoopClick}
               />
             </div>
 
@@ -370,7 +369,7 @@ const Popup: React.FC = () => {
                 id="isInTheaterMode"
                 name="isInTheaterMode"
                 checked={isInTheaterMode}
-                onChange={handleIsInTheaterModeClick}
+                onClick={handleIsInTheaterModeClick}
               />
             </div>
 
