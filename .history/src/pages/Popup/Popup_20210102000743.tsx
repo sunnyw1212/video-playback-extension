@@ -279,8 +279,8 @@ const Popup: React.FC = () => {
         ) : (
           <button
             type="button"
-            aria-label="Extension is currently disabled. Click to enable extension."
-            title="Extension is currently disabled. Click to enable extension."
+            aria-label="Disabled"
+            title="Disabled"
             onClick={handleDisabledButtonClick}
           >
             ❌
