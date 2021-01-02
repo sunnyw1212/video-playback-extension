@@ -131,7 +131,7 @@ const Popup: React.FC = () => {
         skipInterval,
       }: any = await getDataFromSyncStoragePromise();
 
-      if (isEnabled === false) {
+      if (isEnabled) {
         setIsEnabled(isEnabled);
       }
       if (applyTo) {
@@ -450,9 +450,8 @@ const Popup: React.FC = () => {
             </div>
           </>
         ) : (
-          <div className="u-margin-top-15">
-            Extension has been {isEnabled ? 'enabled' : 'disabled'}.
-            {hasExtensionStateBeenChanged && 'Reload page to see changes.'}
+          <div>
+            Extension state has been changed. Reload page to see changes.
           </div>
         )}
       </div>

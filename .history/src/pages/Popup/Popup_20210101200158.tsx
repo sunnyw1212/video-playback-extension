@@ -26,10 +26,6 @@ import './Popup.css';
 const Popup: React.FC = () => {
   const [isRestoringDefaults, setIsRestoringDefaults] = useState(false);
   const [isEnabled, setIsEnabled] = useState(true);
-  const [
-    hasExtensionStateBeenChanged,
-    setHasExtensionStateBeenChanged,
-  ] = useState(false);
   const [applyTo, setApplyTo] = useState('current');
   const [playbackRate, setPlaybackRate] = useState<number | string>(1);
   const [customPlaybackRate, setCustomPlaybackRate] = useState(1);
@@ -131,7 +127,7 @@ const Popup: React.FC = () => {
         skipInterval,
       }: any = await getDataFromSyncStoragePromise();
 
-      if (isEnabled === false) {
+      if (isEnabled) {
         setIsEnabled(isEnabled);
       }
       if (applyTo) {
@@ -169,7 +165,6 @@ const Popup: React.FC = () => {
     chrome.storage.sync.set({
       isEnabled: false,
     });
-    setHasExtensionStateBeenChanged(true);
     // toggle to false (disabled)
     setIsEnabled(false);
   };
@@ -178,7 +173,6 @@ const Popup: React.FC = () => {
     chrome.storage.sync.set({
       isEnabled: true,
     });
-    setHasExtensionStateBeenChanged(true);
     // toggle to true (enabled)
     setIsEnabled(true);
   };
@@ -281,180 +275,7 @@ const Popup: React.FC = () => {
         )}
       </header>
       <div className="App-container">
-        {isEnabled && !hasExtensionStateBeenChanged ? (
-          <>
-            <div className="u-flex u-jc-space-between u-ai-center u-margin-top-15">
-              <label className="u-padding-5" htmlFor="applyTo">
-                Apply To Media In
-              </label>
-              <select
-                className="u-padding-5"
-                id="applyTo"
-                value={applyTo}
-                onChange={handleApplyToChange}
-                ref={applyToSelectRef}
-              >
-                <option value="current">Current Tab</option>
-                <option value="all">All Tabs</option>
-              </select>
-            </div>
-
-            <div className="u-flex u-jc-space-between u-ai-center">
-              <label className="u-padding-5" htmlFor="playbackRate">
-                Playback Speed
-              </label>
-              <select
-                className="u-padding-5"
-                id="playbackRate"
-                value={playbackRate}
-                onChange={handlePlaybackRateChange}
-              >
-                {playbackRateOptions.map((playbackRateOption, i) => (
-                  <option
-                    key={`playbackRateOption${i}`}
-                    value={playbackRateOption}
-                  >
-                    {playbackRateOption}
-                  </option>
-                ))}
-              </select>
-            </div>
-            {playbackRate === 'custom' && (
-              <>
-                <div className="u-flex u-jc-space-between u-ai-center">
-                  <label className="u-padding-5" htmlFor="customPlaybackRate">
-                    Custom Playback Speed
-                  </label>
-                  <input
-                    className="u-padding-5"
-                    id="customPlaybackRate"
-                    type="number"
-                    step={0.25}
-                    min={0}
-                    max={10}
-                    value={customPlaybackRate}
-                    onChange={handleCustomPlaybackRateChange}
-                  />
-                </div>
-              </>
-            )}
-
-            <div className="u-flex u-jc-space-between u-ai-center">
-              <label className="u-padding-5" htmlFor="shouldLoop">
-                Loop
-              </label>
-              <input
-                type="checkbox"
-                className="u-padding-5"
-                id="shouldLoop"
-                name="shouldLoop"
-                checked={shouldLoop}
-                onClick={handleShouldLoopClick}
-              />
-            </div>
-
-            <div className="u-flex u-jc-space-between u-ai-center">
-              <label className="u-padding-5" htmlFor="isInTheaterMode">
-                Theater Mode (Video Only)
-              </label>
-              <input
-                type="checkbox"
-                className="u-padding-5"
-                id="isInTheaterMode"
-                name="isInTheaterMode"
-                checked={isInTheaterMode}
-                onClick={handleIsInTheaterModeClick}
-              />
-            </div>
-
-            <div className="u-flex u-jc-space-evenly">
-              <button
-                className="u-padding-5 u-margin-top-15"
-                type="button"
-                onClick={handleRestoreDefaultsButtonClick}
-              >
-                Restore Defaults
-              </button>
-
-              <button
-                className="u-padding-5 u-margin-top-15"
-                type="button"
-                onClick={handleApplyToMediaButtonClick}
-              >
-                Apply To Media
-              </button>
-            </div>
-
-            <div className="App-player-controls">
-              <div>
-                <label className="u-padding-5" htmlFor="skipInterval">
-                  Skip Interval (in seconds)
-                </label>
-              </div>
-
-              <div className="u-flex">
-                <button
-                  type="button"
-                  aria-label="Skip Backward"
-                  title="Skip Backward"
-                  onClick={handleSkipBackwardButtonClick}
-                >
-                  ⏪
-                </button>
-                <input
-                  className="u-padding-5"
-                  id="skipInterval"
-                  type="number"
-                  step={1}
-                  min={0}
-                  max={10000}
-                  value={skipInterval}
-                  onChange={handleSkipIntervalChange}
-                />
-                <button
-                  type="button"
-                  aria-label="Skip Forward"
-                  title="Skip Forward"
-                  onClick={handleSkipForwardButtonClick}
-                >
-                  ⏩
-                </button>
-              </div>
-
-              <div className="u-flex u-margin-top-15">
-                <button
-                  type="button"
-                  aria-label="Restart Media"
-                  title="Restart Media"
-                  onClick={handleRestartButtonClick}
-                >
-                  🔄
-                </button>
-                <button
-                  type="button"
-                  aria-label="Play Media"
-                  title="Play Media"
-                  onClick={handlePlayButtonClick}
-                >
-                  ▶️
-                </button>
-                <button
-                  type="button"
-                  title="Pause Media"
-                  aria-label="Pause Media"
-                  onClick={handlePauseButtonClick}
-                >
-                  ⏸️
-                </button>
-              </div>
-            </div>
-          </>
-        ) : (
-          <div className="u-margin-top-15">
-            Extension has been {isEnabled ? 'enabled' : 'disabled'}.
-            {hasExtensionStateBeenChanged && 'Reload page to see changes.'}
-          </div>
-        )}
+        {isEnabled ? <div>as</div> : <div>e</div>}
       </div>
     </div>
   );

@@ -29,7 +29,6 @@ chrome.commands.onCommand.addListener(async (command) => {
 
   const isApplyingToAllTabs = applyTo === 'all';
 
-  // early exit if disabled
   if (isEnabled === false) {
     return false;
   }

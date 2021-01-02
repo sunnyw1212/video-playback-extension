@@ -70,8 +70,6 @@ const init = async () => {
     return false;
   }
 
-  addRuntimeMessageListener();
-
   const messageBannerContainer = document.createElement('ul');
   messageBannerContainer.setAttribute('id', 'js-messageBannerContainer');
   messageBannerContainer.className = 'MessageBannerContainer';
@@ -154,42 +152,40 @@ const handleWindowFocus = () => {
   setStorageFromDOMState();
 };
 
-const addRuntimeMessageListener = () => {
-  chrome.runtime.onMessage.addListener(
-    (message: Message, sender, sendResponse) => {
-      console.log('content received a message: ', message);
-      switch (message.type) {
-        case SET_PLAYBACK_RATE:
-          setMediaPlaybackRate(message.payload.targetRate);
-          break;
-        case SKIP_FORWARD:
-          setCurrentTime(parseFloat(message.payload.skipInterval));
-          break;
-        case SKIP_BACKWARD:
-          setCurrentTime(parseFloat(message.payload.skipInterval) * -1);
-          break;
-        case SET_MEDIA_ATTRIBUTES:
-          console.log('SET_MEDIA_ATTRIBUTES', message);
-          setMediaPlaybackRate(message.payload.targetRate);
-          setMediaLoop(message.payload.shouldLoop);
-          setVideoTheaterMode(message.payload.isInTheaterMode);
-          break;
-        case PLAY_PLAYER_ACTION:
-          playPauseMedia(PlayerState.Play);
-          break;
-        case PAUSE_PLAYER_ACTION:
-          playPauseMedia(PlayerState.Pause);
-          break;
-        case RESTART_PLAYER_ACTION:
-          setCurrentTime(0);
-          break;
-        default:
-          break;
-      }
-
-      return true;
-    }
-  );
-};
-
 init();
+
+chrome.runtime.onMessage.addListener(
+  (message: Message, sender, sendResponse) => {
+    console.log('content received a message: ', message);
+    switch (message.type) {
+      case SET_PLAYBACK_RATE:
+        setMediaPlaybackRate(message.payload.targetRate);
+        break;
+      case SKIP_FORWARD:
+        setCurrentTime(parseFloat(message.payload.skipInterval));
+        break;
+      case SKIP_BACKWARD:
+        setCurrentTime(parseFloat(message.payload.skipInterval) * -1);
+        break;
+      case SET_MEDIA_ATTRIBUTES:
+        console.log('SET_MEDIA_ATTRIBUTES', message);
+        setMediaPlaybackRate(message.payload.targetRate);
+        setMediaLoop(message.payload.shouldLoop);
+        setVideoTheaterMode(message.payload.isInTheaterMode);
+        break;
+      case PLAY_PLAYER_ACTION:
+        playPauseMedia(PlayerState.Play);
+        break;
+      case PAUSE_PLAYER_ACTION:
+        playPauseMedia(PlayerState.Pause);
+        break;
+      case RESTART_PLAYER_ACTION:
+        setCurrentTime(0);
+        break;
+      default:
+        break;
+    }
+
+    return true;
+  }
+);

@@ -26,10 +26,6 @@ import './Popup.css';
 const Popup: React.FC = () => {
   const [isRestoringDefaults, setIsRestoringDefaults] = useState(false);
   const [isEnabled, setIsEnabled] = useState(true);
-  const [
-    hasExtensionStateBeenChanged,
-    setHasExtensionStateBeenChanged,
-  ] = useState(false);
   const [applyTo, setApplyTo] = useState('current');
   const [playbackRate, setPlaybackRate] = useState<number | string>(1);
   const [customPlaybackRate, setCustomPlaybackRate] = useState(1);
@@ -131,7 +127,7 @@ const Popup: React.FC = () => {
         skipInterval,
       }: any = await getDataFromSyncStoragePromise();
 
-      if (isEnabled === false) {
+      if (isEnabled) {
         setIsEnabled(isEnabled);
       }
       if (applyTo) {
@@ -169,7 +165,6 @@ const Popup: React.FC = () => {
     chrome.storage.sync.set({
       isEnabled: false,
     });
-    setHasExtensionStateBeenChanged(true);
     // toggle to false (disabled)
     setIsEnabled(false);
   };
@@ -178,7 +173,6 @@ const Popup: React.FC = () => {
     chrome.storage.sync.set({
       isEnabled: true,
     });
-    setHasExtensionStateBeenChanged(true);
     // toggle to true (enabled)
     setIsEnabled(true);
   };
@@ -281,7 +275,7 @@ const Popup: React.FC = () => {
         )}
       </header>
       <div className="App-container">
-        {isEnabled && !hasExtensionStateBeenChanged ? (
+        {isEnabled ? (
           <>
             <div className="u-flex u-jc-space-between u-ai-center u-margin-top-15">
               <label className="u-padding-5" htmlFor="applyTo">
@@ -450,10 +444,7 @@ const Popup: React.FC = () => {
             </div>
           </>
         ) : (
-          <div className="u-margin-top-15">
-            Extension has been {isEnabled ? 'enabled' : 'disabled'}.
-            {hasExtensionStateBeenChanged && 'Reload page to see changes.'}
-          </div>
+          <div>e</div>
         )}
       </div>
     </div>
