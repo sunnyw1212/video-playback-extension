@@ -8,7 +8,6 @@ import React, {
 import { SkipDirection, Tabs } from '../../types';
 import {
   DISABLE_EXTENSION,
-  ENABLE_EXTENSION,
   PAUSE_PLAYER_ACTION,
   PLAY_PLAYER_ACTION,
   RESTART_PLAYER_ACTION,
@@ -180,7 +179,7 @@ const Popup: React.FC = () => {
     });
     setHasExtensionStateBeenChanged(true);
     setIsEnabled(false);
-    // disable ALWAYS applies to ALL tabs
+    // enable ALWAYS applies to ALL tabs
     const isApplyingToAllTabs = true;
     const tabs: any = await getTabsPromise(Tabs.All);
 
@@ -192,7 +191,7 @@ const Popup: React.FC = () => {
     sendMessageToTabs(tabs, message, isApplyingToAllTabs);
   };
 
-  const handleDisabledButtonClick = async () => {
+  const handleDisabledButtonClick = () => {
     // toggle to true (enabled)
     chrome.storage.sync.set({
       isEnabled: true,
@@ -200,16 +199,6 @@ const Popup: React.FC = () => {
     chrome.browserAction.setIcon({ path: 'icon34.png' });
     setHasExtensionStateBeenChanged(true);
     setIsEnabled(true);
-    // enable ALWAYS applies to ALL tabs
-    const isApplyingToAllTabs = true;
-    const tabs: any = await getTabsPromise(Tabs.All);
-
-    const message = {
-      type: ENABLE_EXTENSION,
-      payload: null,
-    };
-
-    sendMessageToTabs(tabs, message, isApplyingToAllTabs);
   };
 
   const handleApplyToChange = (e: SyntheticEvent) => {

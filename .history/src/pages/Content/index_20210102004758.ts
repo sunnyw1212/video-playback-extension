@@ -162,12 +162,14 @@ const handleMessage = async (
   sendResponse: any
 ) => {
   console.log('content received a message: ', message);
+  const data: any = await getDataFromSyncStoragePromise();
 
   switch (message.type) {
     case ENABLE_EXTENSION:
       break;
     case DISABLE_EXTENSION:
       // clean up listeners for perf
+      console.log('removing ALL LISTERNSER');
       document.removeEventListener('ratechange', handleRateChange, true);
       document.removeEventListener('play', handlePlayOrSeek, true);
       document.removeEventListener('seeked', handlePlayOrSeek, true);

@@ -29,6 +29,8 @@ const handleCommand = async (command: string) => {
 
   // early exit if disabled
   if (isEnabled === false) {
+    chrome.commands.onCommand.removeListener(handleCommand);
+
     return false;
   }
 

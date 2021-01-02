@@ -168,6 +168,7 @@ const handleMessage = async (
       break;
     case DISABLE_EXTENSION:
       // clean up listeners for perf
+      console.log('removing ALL LISTERNSER');
       document.removeEventListener('ratechange', handleRateChange, true);
       document.removeEventListener('play', handlePlayOrSeek, true);
       document.removeEventListener('seeked', handlePlayOrSeek, true);

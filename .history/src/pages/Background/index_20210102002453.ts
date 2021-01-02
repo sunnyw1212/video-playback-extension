@@ -15,7 +15,7 @@ import {
 
 console.log('This is the background pages.');
 
-const handleCommand = async (command: string) => {
+const handleCommand = async (command) => {
   console.log('Command:', command);
   const {
     isEnabled,

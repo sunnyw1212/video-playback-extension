@@ -14,8 +14,6 @@ import {
   PLAY_PLAYER_ACTION,
   PAUSE_PLAYER_ACTION,
   RESTART_PLAYER_ACTION,
-  DISABLE_EXTENSION,
-  ENABLE_EXTENSION,
 } from '../../constants';
 import { getDataFromSyncStoragePromise } from '../../helpers';
 import { playPauseMedia } from './modules/playPauseMedia';
@@ -69,6 +67,15 @@ const init = async () => {
 
   // early exit if disabled
   if (data.isEnabled === false) {
+    // clean up listeners for perf
+    chrome.runtime.onMessage.removeListener(handleMessage);
+    document.removeEventListener('ratechange', handleRateChange, true);
+    document.removeEventListener('play', handlePlayOrSeek, true);
+
+    document.removeEventListener('seeked', handlePlayOrSeek, true);
+
+    document.removeEventListener('focus', handleWindowFocus, true);
+    observer.disconnect();
     return false;
   }
 
@@ -156,25 +163,9 @@ const handleWindowFocus = () => {
   setStorageFromDOMState();
 };
 
-const handleMessage = async (
-  message: Message,
-  sender: any,
-  sendResponse: any
-) => {
+const handleMessage = (message: Message, sender: any, sendResponse: any) => {
   console.log('content received a message: ', message);
-
   switch (message.type) {
-    case ENABLE_EXTENSION:
-      break;
-    case DISABLE_EXTENSION:
-      // clean up listeners for perf
-      document.removeEventListener('ratechange', handleRateChange, true);
-      document.removeEventListener('play', handlePlayOrSeek, true);
-      document.removeEventListener('seeked', handlePlayOrSeek, true);
-      document.removeEventListener('focus', handleWindowFocus, true);
-      observer.disconnect();
-      chrome.runtime.onMessage.removeListener(handleMessage);
-      break;
     case SET_PLAYBACK_RATE:
       setMediaPlaybackRate(message.payload.targetRate);
       break;
