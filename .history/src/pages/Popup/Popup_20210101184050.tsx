@@ -201,15 +201,12 @@ const Popup: React.FC = () => {
 
   const handlePlayButtonClick = () => {
     sendPlayerAction(PLAY_PLAYER_ACTION);
-    window.close();
   };
   const handlePauseButtonClick = () => {
     sendPlayerAction(PAUSE_PLAYER_ACTION);
-    window.close();
   };
   const handleRestartButtonClick = () => {
     sendPlayerAction(RESTART_PLAYER_ACTION);
-    window.close();
   };
 
   const handleRestoreDefaultsButtonClick = () => {

@@ -86,10 +86,6 @@ const init = async () => {
     'js-skipIntervalMessageBanner',
     messageBannerContainer
   );
-  appendBannerListItemToContainer(
-    'js-playPausePlayerActionMessageBanner',
-    messageBannerContainer
-  );
 
   setMediaPlaybackRate(data.playbackRate);
   setMediaLoop(data.shouldLoop);

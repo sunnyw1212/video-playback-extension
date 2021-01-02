@@ -58,6 +58,11 @@ const updateSkipIntervalMessageBanner = (skipInterval: number) => {
       skipInterval > 0 ? 'forward' : 'backward'
     } by ${Math.abs(skipInterval)} seconds`;
   }
+  if (skipInterval > 0) {
+    message = `Media skipped forward by ${Math.abs(skipInterval)} seconds`;
+  } else if (skipInterval < 0) {
+    message = `Media skipped backward by ${Math.abs(skipInterval)} seconds`;
+  }
 
   skipIntervalMessageBanner!.innerText = message;
 

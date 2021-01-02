@@ -201,15 +201,12 @@ const Popup: React.FC = () => {
 
   const handlePlayButtonClick = () => {
     sendPlayerAction(PLAY_PLAYER_ACTION);
-    window.close();
   };
   const handlePauseButtonClick = () => {
     sendPlayerAction(PAUSE_PLAYER_ACTION);
-    window.close();
   };
   const handleRestartButtonClick = () => {
     sendPlayerAction(RESTART_PLAYER_ACTION);
-    window.close();
   };
 
   const handleRestoreDefaultsButtonClick = () => {
@@ -373,7 +370,7 @@ const Popup: React.FC = () => {
               type="button"
               aria-label="Restart Media"
               title="Restart Media"
-              onClick={handleRestartButtonClick}
+              onClick={handleSkipBackwardButtonClick}
             >
               🔄
             </button>
@@ -381,7 +378,7 @@ const Popup: React.FC = () => {
               type="button"
               aria-label="Play Media"
               title="Play Media"
-              onClick={handlePlayButtonClick}
+              onClick={handleSkipBackwardButtonClick}
             >
               ▶️
             </button>
@@ -389,7 +386,7 @@ const Popup: React.FC = () => {
               type="button"
               title="Pause Media"
               aria-label="Pause Media"
-              onClick={handlePauseButtonClick}
+              onClick={handleSkipBackwardButtonClick}
             >
               ⏸️
             </button>

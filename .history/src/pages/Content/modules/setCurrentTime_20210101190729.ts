@@ -50,13 +50,11 @@ const updateSkipIntervalMessageBanner = (skipInterval: number) => {
     'js-skipIntervalMessageBanner'
   );
 
-  let message;
-  if (skipInterval === 0) {
-    message = 'Media set to restart';
-  } else {
-    message = `Media skipped ${
-      skipInterval > 0 ? 'forward' : 'backward'
-    } by ${Math.abs(skipInterval)} seconds`;
+  let message = 'Media set to restart';
+  if (skipInterval > 0) {
+    message = `Media skipped forward by ${Math.abs(skipInterval)} seconds`;
+  } else if (skipInterval < 0) {
+    message = `Media skipped backward by ${Math.abs(skipInterval)} seconds`;
   }
 
   skipIntervalMessageBanner!.innerText = message;

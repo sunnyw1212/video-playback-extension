@@ -5,7 +5,7 @@ import {
   setCurrentTime,
   setStorageFromDOMState,
 } from './modules';
-import { Message, PlayerState } from '../../types';
+import { Message } from '../../types';
 import {
   SET_PLAYBACK_RATE,
   SET_MEDIA_ATTRIBUTES,
@@ -16,7 +16,6 @@ import {
   RESTART_PLAYER_ACTION,
 } from '../../constants';
 import { getDataFromSyncStoragePromise } from '../../helpers';
-import { playPauseMedia } from './modules/playPauseMedia';
 
 console.log('Video Playback Extension content script loaded');
 
@@ -84,10 +83,6 @@ const init = async () => {
   );
   appendBannerListItemToContainer(
     'js-skipIntervalMessageBanner',
-    messageBannerContainer
-  );
-  appendBannerListItemToContainer(
-    'js-playPausePlayerActionMessageBanner',
     messageBannerContainer
   );
 
@@ -169,13 +164,10 @@ chrome.runtime.onMessage.addListener(
         setVideoTheaterMode(message.payload.isInTheaterMode);
         break;
       case PLAY_PLAYER_ACTION:
-        playPauseMedia(PlayerState.Play);
         break;
       case PAUSE_PLAYER_ACTION:
-        playPauseMedia(PlayerState.Pause);
         break;
       case RESTART_PLAYER_ACTION:
-        setCurrentTime(0);
         break;
       default:
         break;

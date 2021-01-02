@@ -7,9 +7,6 @@ import React, {
 } from 'react';
 import { SkipDirection, Tabs } from '../../types';
 import {
-  PAUSE_PLAYER_ACTION,
-  PLAY_PLAYER_ACTION,
-  RESTART_PLAYER_ACTION,
   SET_MEDIA_ATTRIBUTES,
   SKIP_BACKWARD,
   SKIP_FORWARD,
@@ -97,18 +94,6 @@ const Popup: React.FC = () => {
     },
     [applyTo, skipInterval]
   );
-
-  const sendPlayerAction = useCallback(async (type: string) => {
-    const isApplyingToAllTabs = applyTo === 'all';
-    const tabs: any = await getTabsPromise(applyTo as Tabs);
-
-    const message = {
-      type,
-      payload: null,
-    };
-
-    sendMessageToTabs(tabs, message, isApplyingToAllTabs);
-  }, []);
 
   useEffect(() => {
     applyToSelectRef?.current?.focus();
@@ -199,18 +184,9 @@ const Popup: React.FC = () => {
     sendSkipIntervalData(SkipDirection.Forward);
   };
 
-  const handlePlayButtonClick = () => {
-    sendPlayerAction(PLAY_PLAYER_ACTION);
-    window.close();
-  };
-  const handlePauseButtonClick = () => {
-    sendPlayerAction(PAUSE_PLAYER_ACTION);
-    window.close();
-  };
-  const handleRestartButtonClick = () => {
-    sendPlayerAction(RESTART_PLAYER_ACTION);
-    window.close();
-  };
+  const handlePlayButtonClick = () => {};
+  const handlePauseButtonClick = () => {};
+  const handleRestartButtonClick = () => {};
 
   const handleRestoreDefaultsButtonClick = () => {
     setApplyTo('current');
@@ -373,7 +349,7 @@ const Popup: React.FC = () => {
               type="button"
               aria-label="Restart Media"
               title="Restart Media"
-              onClick={handleRestartButtonClick}
+              onClick={handleSkipBackwardButtonClick}
             >
               🔄
             </button>
@@ -381,7 +357,7 @@ const Popup: React.FC = () => {
               type="button"
               aria-label="Play Media"
               title="Play Media"
-              onClick={handlePlayButtonClick}
+              onClick={handleSkipBackwardButtonClick}
             >
               ▶️
             </button>
@@ -389,7 +365,7 @@ const Popup: React.FC = () => {
               type="button"
               title="Pause Media"
               aria-label="Pause Media"
-              onClick={handlePauseButtonClick}
+              onClick={handleSkipBackwardButtonClick}
             >
               ⏸️
             </button>

@@ -7,9 +7,6 @@ import React, {
 } from 'react';
 import { SkipDirection, Tabs } from '../../types';
 import {
-  PAUSE_PLAYER_ACTION,
-  PLAY_PLAYER_ACTION,
-  RESTART_PLAYER_ACTION,
   SET_MEDIA_ATTRIBUTES,
   SKIP_BACKWARD,
   SKIP_FORWARD,
@@ -200,16 +197,13 @@ const Popup: React.FC = () => {
   };
 
   const handlePlayButtonClick = () => {
-    sendPlayerAction(PLAY_PLAYER_ACTION);
-    window.close();
+    sendPlayerAction();
   };
   const handlePauseButtonClick = () => {
-    sendPlayerAction(PAUSE_PLAYER_ACTION);
-    window.close();
+    sendPlayerAction();
   };
   const handleRestartButtonClick = () => {
-    sendPlayerAction(RESTART_PLAYER_ACTION);
-    window.close();
+    sendPlayerAction();
   };
 
   const handleRestoreDefaultsButtonClick = () => {
@@ -373,7 +367,7 @@ const Popup: React.FC = () => {
               type="button"
               aria-label="Restart Media"
               title="Restart Media"
-              onClick={handleRestartButtonClick}
+              onClick={handleSkipBackwardButtonClick}
             >
               🔄
             </button>
@@ -381,7 +375,7 @@ const Popup: React.FC = () => {
               type="button"
               aria-label="Play Media"
               title="Play Media"
-              onClick={handlePlayButtonClick}
+              onClick={handleSkipBackwardButtonClick}
             >
               ▶️
             </button>
@@ -389,7 +383,7 @@ const Popup: React.FC = () => {
               type="button"
               title="Pause Media"
               aria-label="Pause Media"
-              onClick={handlePauseButtonClick}
+              onClick={handleSkipBackwardButtonClick}
             >
               ⏸️
             </button>

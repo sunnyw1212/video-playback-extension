@@ -86,10 +86,6 @@ const init = async () => {
     'js-skipIntervalMessageBanner',
     messageBannerContainer
   );
-  appendBannerListItemToContainer(
-    'js-playPausePlayerActionMessageBanner',
-    messageBannerContainer
-  );
 
   setMediaPlaybackRate(data.playbackRate);
   setMediaLoop(data.shouldLoop);
@@ -175,7 +171,6 @@ chrome.runtime.onMessage.addListener(
         playPauseMedia(PlayerState.Pause);
         break;
       case RESTART_PLAYER_ACTION:
-        setCurrentTime(0);
         break;
       default:
         break;
