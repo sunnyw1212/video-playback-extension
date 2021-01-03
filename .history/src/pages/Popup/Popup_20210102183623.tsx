@@ -296,7 +296,7 @@ const Popup: React.FC = () => {
             >
               <img
                 className="App-donate-image"
-                src="https://cdn.buymeacoffee.com/buttons/v2/default-red.png"
+                src="https://cdn.buymeacoffee.com/buttons/v2/default-green.png"
                 alt="Buy Me A Beer"
               />
             </a>

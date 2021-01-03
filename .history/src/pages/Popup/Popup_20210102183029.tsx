@@ -294,11 +294,7 @@ const Popup: React.FC = () => {
               target="_blank"
               rel="noreferrer noopener"
             >
-              <img
-                className="App-donate-image"
-                src="https://cdn.buymeacoffee.com/buttons/v2/default-red.png"
-                alt="Buy Me A Beer"
-              />
+              Support the dev!
             </a>
           </div>
         </div>

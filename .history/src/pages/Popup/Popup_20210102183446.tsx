@@ -290,14 +290,14 @@ const Popup: React.FC = () => {
           <div className="u-flex u-flex-direction-column">
             <h1 className="App-title">Video Playback</h1>
             <a
+              className="App-donate-button"
               href="https://www.buymeacoffee.com/sunwhy"
               target="_blank"
               rel="noreferrer noopener"
             >
               <img
-                className="App-donate-image"
-                src="https://cdn.buymeacoffee.com/buttons/v2/default-red.png"
-                alt="Buy Me A Beer"
+                src="https://cdn.buymeacoffee.com/buttons/v2/default-green.png"
+                alt="Buy Me A Coffee"
               />
             </a>
           </div>

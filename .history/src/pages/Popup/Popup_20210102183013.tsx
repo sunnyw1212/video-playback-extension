@@ -287,18 +287,14 @@ const Popup: React.FC = () => {
       <header className="App-header">
         <div className="u-flex u-ai-center">
           <img src={logo} className="App-logo" alt="logo" />
-          <div className="u-flex u-flex-direction-column">
+          <div className="u-flex">
             <h1 className="App-title">Video Playback</h1>
             <a
               href="https://www.buymeacoffee.com/sunwhy"
               target="_blank"
               rel="noreferrer noopener"
             >
-              <img
-                className="App-donate-image"
-                src="https://cdn.buymeacoffee.com/buttons/v2/default-red.png"
-                alt="Buy Me A Beer"
-              />
+              Support the dev!
             </a>
           </div>
         </div>
