@@ -1,7 +1,7 @@
 {
   "name": "Video Playback Extension",
   "version": "1.0",
-  "description": "A full-featured video and audio player extension. Control playback speed, skipping, rewinding and more.",
+  "description": "A full-featured video and audio player extension. Control playback speed, skipping, rewinding and more in an elegant interface.",
   "browser_action": {
     "default_popup": "popup.html",
     "default_icon": "icon34.png"
