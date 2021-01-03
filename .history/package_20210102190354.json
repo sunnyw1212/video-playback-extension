@@ -1,7 +1,7 @@
 {
   "name": "video-playback-extension",
   "version": "3.2.0",
-  "description": "A full-featured video and audio player extension. Control playback speed, skipping, rewinding, pausing, and more using a simple and elegant interface.",
+  "description": "A full-featured video and audio player extension. Control playback speed, skipping, rewinding, pausing, and more.",
   "license": "MIT",
   "scripts": {
     "build": "node utils/build.js",
