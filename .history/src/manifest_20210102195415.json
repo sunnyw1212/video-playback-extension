@@ -8,7 +8,7 @@
   },
   "icons": {
     "34": "icon34.png",
-    "128": "icon128.png"
+    "128": "/assets/img/icon128.png"
   },
   "content_scripts": [{
     "all_frames": true,
