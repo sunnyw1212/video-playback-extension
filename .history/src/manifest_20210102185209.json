@@ -1,14 +1,9 @@
 {
   "name": "Video Playback Extension",
-  "version": "1.0",
   "description": "A fully-featured video and audio player extension",
   "browser_action": {
     "default_popup": "popup.html",
     "default_icon": "icon34.png"
-  },
-  "icons": {
-    "34": "icon-34.png",
-    "128": "icon-128.png"
   },
   "content_scripts": [{
     "all_frames": true,
