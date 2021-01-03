@@ -123,6 +123,12 @@ const appendBannerListItemToContainer = (
 let playbackRateMessageBannerTimerID: number | null = null;
 
 const handleRateChange = (e: Event) => {
+  console.log(
+    'ratechange event happened',
+    (e.target as HTMLMediaElement).playbackRate,
+    e
+  );
+
   if (playbackRateMessageBannerTimerID) {
     clearTimeout(playbackRateMessageBannerTimerID);
   }
@@ -153,6 +159,8 @@ const handleMessage = async (
   sender: any,
   sendResponse: any
 ) => {
+  console.log('content received a message: ', message);
+
   switch (message.type) {
     case ENABLE_EXTENSION:
       break;
@@ -175,6 +183,7 @@ const handleMessage = async (
       setCurrentTime(parseFloat(message.payload.skipInterval) * -1);
       break;
     case SET_MEDIA_ATTRIBUTES:
+      console.log('SET_MEDIA_ATTRIBUTES', message);
       setMediaPlaybackRate(message.payload.targetRate);
       setMediaLoop(message.payload.shouldLoop);
       setVideoTheaterMode(message.payload.isInTheaterMode);

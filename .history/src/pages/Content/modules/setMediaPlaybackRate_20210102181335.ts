@@ -1,20 +1,21 @@
 import { getDataFromSyncStoragePromise } from '../../../helpers';
 
-export const setMediaLoop = async (
-  shouldLoop?: boolean,
+export const setMediaPlaybackRate = async (
+  playbackRate?: number,
   targetMedia?: HTMLMediaElement
 ): Promise<any> => {
   // for media that are loading in asynchronously
-  // we need to grab shouldLoop from sync storage
-  // and recursively call `setMediaLoop`
-  if (shouldLoop === undefined) {
+  // we need to grab playbackRate from sync storage
+  // and recursively call `setMediaPlaybackRate`
+  if (!playbackRate) {
     const data: any = await getDataFromSyncStoragePromise();
 
-    return setMediaLoop(data.shouldLoop, targetMedia);
+    return setMediaPlaybackRate(data.playbackRate || 1, targetMedia);
   } else {
     if (targetMedia) {
-      return _setMediaLoop(shouldLoop, targetMedia);
+      return _setMediaPlaybackRate(playbackRate, targetMedia);
     }
+
     const videos = Array.from(document.getElementsByTagName('video'));
     const audios = Array.from(document.getElementsByTagName('audio'));
     const medias = [...videos, ...audios];
@@ -22,7 +23,7 @@ export const setMediaLoop = async (
 
     for (let i = 0; i < medias.length; i++) {
       const media = medias[i];
-      _setMediaLoop(shouldLoop, media);
+      _setMediaPlaybackRate(playbackRate, media);
     }
 
     // try to account for media nested within iframes
@@ -45,10 +46,11 @@ export const setMediaLoop = async (
           ...Array.from(iframeVideos),
           ...Array.from(iframeAudios),
         ];
+        console.log('iframeMedias', iframeMedias);
 
         for (let j = 0; j < iframeMedias.length; j++) {
           const media = iframeMedias[j];
-          _setMediaLoop(shouldLoop, media);
+          _setMediaPlaybackRate(playbackRate, media);
         }
       } catch (error) {
         console.error('Error trying to access iframe media: ', error);
@@ -57,26 +59,13 @@ export const setMediaLoop = async (
   }
 };
 
-let shouldLoopMessageBannerTimerID: number | null = null;
+const _setMediaPlaybackRate = (
+  playbackRate: number,
+  media: HTMLMediaElement
+) => {
+  console.log('_setMediaPlaybackRate', media.playbackRate, playbackRate);
 
-const updateShouldLoopMessageBanner = (shouldLoop: boolean) => {
-  if (shouldLoopMessageBannerTimerID) {
-    clearTimeout(shouldLoopMessageBannerTimerID);
-  }
-  const shouldLoopMessageBanner = document.getElementById(
-    'js-shouldLoopMessageBanner'
-  );
-
-  shouldLoopMessageBanner!.innerText = `Media looping set to ${shouldLoop}`;
-
-  shouldLoopMessageBannerTimerID = window.setTimeout(() => {
-    shouldLoopMessageBanner!.innerText = '';
-  }, 3000);
-};
-
-const _setMediaLoop = (shouldLoop: boolean, media: HTMLMediaElement) => {
-  if (media.loop !== shouldLoop) {
-    media.loop = shouldLoop;
-    updateShouldLoopMessageBanner(media.loop);
+  if (media.playbackRate !== playbackRate) {
+    media.playbackRate = playbackRate as number;
   }
 };
