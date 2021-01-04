@@ -157,6 +157,7 @@ const handlePlayOrSeek = async (e: Event) => {
 
 const handleKeydown = async (e: KeyboardEvent) => {
   const keyCode = e.key;
+  console.log('handling keydown', keyCode);
 
   const shortcuts: any = {
     ArrowDown: SHORTCUT_DECREASE_PLAYBACK_RATE,
@@ -164,9 +165,9 @@ const handleKeydown = async (e: KeyboardEvent) => {
     '0': SHORTCUT_RESET_PLAYBACK_RATE,
     ArrowRight: SHORTCUT_SKIP_FORWARD,
     ArrowLeft: SHORTCUT_SKIP_BACKWARD,
-    r: SHORTCUT_RESTART_PLAYER,
     p: SHORTCUT_PLAY_PLAYER,
     o: SHORTCUT_PAUSE_PLAYER,
+    r: SHORTCUT_RESTART_PLAYER,
     l: SHORTCUT_LOOP,
     t: SHORTCUT_THEATER_MODE,
   };
@@ -197,10 +198,9 @@ const handleKeydown = async (e: KeyboardEvent) => {
   if (shortcuts[keyCode]) {
     const {
       isEnabled,
-      isInTheaterMode,
+      applyTo,
       playbackRate,
       skipInterval,
-      shouldLoop,
     }: any = await getDataFromSyncStoragePromise();
 
     // early exit if disabled
@@ -219,10 +219,6 @@ const handleKeydown = async (e: KeyboardEvent) => {
         chrome.storage.sync.set({ playbackRate: increasedPlaybackRate });
         setMediaPlaybackRate(increasedPlaybackRate);
         break;
-      case SHORTCUT_RESET_PLAYBACK_RATE:
-        chrome.storage.sync.set({ playbackRate: 1 });
-        setMediaPlaybackRate(1);
-        break;
       case SHORTCUT_SKIP_FORWARD:
         const skipForwardInterval = skipInterval || 30;
         setCurrentTime(parseFloat(skipForwardInterval));
@@ -230,25 +226,6 @@ const handleKeydown = async (e: KeyboardEvent) => {
       case SHORTCUT_SKIP_BACKWARD:
         const skipBackwardInterval = skipInterval || 30;
         setCurrentTime(parseFloat(skipBackwardInterval) * -1);
-        break;
-      case SHORTCUT_RESTART_PLAYER:
-        setCurrentTime(0);
-        break;
-      case SHORTCUT_PLAY_PLAYER:
-        playPauseMedia(PlayerState.Play);
-        break;
-      case SHORTCUT_PAUSE_PLAYER:
-        playPauseMedia(PlayerState.Pause);
-        break;
-      case SHORTCUT_LOOP:
-        const newShouldLoop = !shouldLoop;
-        chrome.storage.sync.set({ shouldLoop: newShouldLoop });
-        setMediaLoop(newShouldLoop);
-        break;
-      case SHORTCUT_THEATER_MODE:
-        const newTheaterMode = !isInTheaterMode;
-        chrome.storage.sync.set({ isInTheaterMode: newTheaterMode });
-        setVideoTheaterMode(newTheaterMode);
         break;
       default:
         break;

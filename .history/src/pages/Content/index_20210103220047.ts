@@ -20,12 +20,6 @@ import {
   SHORTCUT_INCREASE_PLAYBACK_RATE,
   SHORTCUT_SKIP_BACKWARD,
   SHORTCUT_SKIP_FORWARD,
-  SHORTCUT_PLAY_PLAYER,
-  SHORTCUT_PAUSE_PLAYER,
-  SHORTCUT_LOOP,
-  SHORTCUT_THEATER_MODE,
-  SHORTCUT_RESET_PLAYBACK_RATE,
-  SHORTCUT_RESTART_PLAYER,
 } from '../../constants';
 import { getDataFromSyncStoragePromise } from '../../helpers';
 import { playPauseMedia } from './modules/playPauseMedia';
@@ -155,21 +149,21 @@ const handlePlayOrSeek = async (e: Event) => {
   (e.target as HTMLMediaElement).playbackRate = data.playbackRate;
 };
 
-const handleKeydown = async (e: KeyboardEvent) => {
+const handleKeydown = (e: KeyboardEvent) => {
   const keyCode = e.key;
 
-  const shortcuts: any = {
+  const shortcuts = {
     ArrowDown: SHORTCUT_DECREASE_PLAYBACK_RATE,
     ArrowUp: SHORTCUT_INCREASE_PLAYBACK_RATE,
-    '0': SHORTCUT_RESET_PLAYBACK_RATE,
     ArrowRight: SHORTCUT_SKIP_FORWARD,
     ArrowLeft: SHORTCUT_SKIP_BACKWARD,
-    r: SHORTCUT_RESTART_PLAYER,
-    p: SHORTCUT_PLAY_PLAYER,
-    o: SHORTCUT_PAUSE_PLAYER,
-    l: SHORTCUT_LOOP,
-    t: SHORTCUT_THEATER_MODE,
-  };
+    p: '',
+    o: '',
+    r: '',
+    l: '',
+    t: '',
+    0: '',
+  }
 
   // Ignore if following modifier is active.
   if (
@@ -194,66 +188,7 @@ const handleKeydown = async (e: KeyboardEvent) => {
     return false;
   }
 
-  if (shortcuts[keyCode]) {
-    const {
-      isEnabled,
-      isInTheaterMode,
-      playbackRate,
-      skipInterval,
-      shouldLoop,
-    }: any = await getDataFromSyncStoragePromise();
-
-    // early exit if disabled
-    if (isEnabled === false) {
-      return false;
-    }
-
-    switch (shortcuts[keyCode]) {
-      case SHORTCUT_DECREASE_PLAYBACK_RATE:
-        const decreasedPlaybackRate = parseFloat(playbackRate) - 0.25;
-        chrome.storage.sync.set({ playbackRate: decreasedPlaybackRate });
-        setMediaPlaybackRate(decreasedPlaybackRate);
-        break;
-      case SHORTCUT_INCREASE_PLAYBACK_RATE:
-        const increasedPlaybackRate = parseFloat(playbackRate) + 0.25;
-        chrome.storage.sync.set({ playbackRate: increasedPlaybackRate });
-        setMediaPlaybackRate(increasedPlaybackRate);
-        break;
-      case SHORTCUT_RESET_PLAYBACK_RATE:
-        chrome.storage.sync.set({ playbackRate: 1 });
-        setMediaPlaybackRate(1);
-        break;
-      case SHORTCUT_SKIP_FORWARD:
-        const skipForwardInterval = skipInterval || 30;
-        setCurrentTime(parseFloat(skipForwardInterval));
-        break;
-      case SHORTCUT_SKIP_BACKWARD:
-        const skipBackwardInterval = skipInterval || 30;
-        setCurrentTime(parseFloat(skipBackwardInterval) * -1);
-        break;
-      case SHORTCUT_RESTART_PLAYER:
-        setCurrentTime(0);
-        break;
-      case SHORTCUT_PLAY_PLAYER:
-        playPauseMedia(PlayerState.Play);
-        break;
-      case SHORTCUT_PAUSE_PLAYER:
-        playPauseMedia(PlayerState.Pause);
-        break;
-      case SHORTCUT_LOOP:
-        const newShouldLoop = !shouldLoop;
-        chrome.storage.sync.set({ shouldLoop: newShouldLoop });
-        setMediaLoop(newShouldLoop);
-        break;
-      case SHORTCUT_THEATER_MODE:
-        const newTheaterMode = !isInTheaterMode;
-        chrome.storage.sync.set({ isInTheaterMode: newTheaterMode });
-        setVideoTheaterMode(newTheaterMode);
-        break;
-      default:
-        break;
-    }
-  }
+  if(){}
 
   return false;
 };

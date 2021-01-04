@@ -157,6 +157,7 @@ const handlePlayOrSeek = async (e: Event) => {
 
 const handleKeydown = async (e: KeyboardEvent) => {
   const keyCode = e.key;
+  console.log('handling keydown', keyCode);
 
   const shortcuts: any = {
     ArrowDown: SHORTCUT_DECREASE_PLAYBACK_RATE,
@@ -168,7 +169,7 @@ const handleKeydown = async (e: KeyboardEvent) => {
     p: SHORTCUT_PLAY_PLAYER,
     o: SHORTCUT_PAUSE_PLAYER,
     l: SHORTCUT_LOOP,
-    t: SHORTCUT_THEATER_MODE,
+    y: SHORTCUT_THEATER_MODE,
   };
 
   // Ignore if following modifier is active.
@@ -241,14 +242,12 @@ const handleKeydown = async (e: KeyboardEvent) => {
         playPauseMedia(PlayerState.Pause);
         break;
       case SHORTCUT_LOOP:
-        const newShouldLoop = !shouldLoop;
-        chrome.storage.sync.set({ shouldLoop: newShouldLoop });
-        setMediaLoop(newShouldLoop);
+        chrome.storage.sync.set({ shouldLoop: !shouldLoop });
+        setMediaLoop(!shouldLoop);
         break;
       case SHORTCUT_THEATER_MODE:
-        const newTheaterMode = !isInTheaterMode;
-        chrome.storage.sync.set({ isInTheaterMode: newTheaterMode });
-        setVideoTheaterMode(newTheaterMode);
+        chrome.storage.sync.set({ isInTheaterMode: !isInTheaterMode });
+        setVideoTheaterMode(!isInTheaterMode);
         break;
       default:
         break;
