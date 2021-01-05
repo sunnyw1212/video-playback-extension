@@ -21,7 +21,7 @@ export const SHORTCUT_RESTART_PLAYER = 'restart-player';
 export const SHORTCUT_LOOP = 'loop';
 export const SHORTCUT_THEATER_MODE = 'theater-mode';
 
-export const DEFAULT_SHORTCUT_KEYS = {
+export const DEFAULT_SHORTCUT_KEYS: Record<string, string> = {
   [SHORTCUT_DECREASE_PLAYBACK_RATE]: 's',
   [SHORTCUT_INCREASE_PLAYBACK_RATE]: 'w',
   [SHORTCUT_RESET_PLAYBACK_RATE]: 'e',
@@ -34,7 +34,7 @@ export const DEFAULT_SHORTCUT_KEYS = {
   [SHORTCUT_THEATER_MODE]: 't',
 };
 
-export const SHORTCUT_NAMES = {
+export const SHORTCUT_NAMES: Record<string, string> = {
   [SHORTCUT_DECREASE_PLAYBACK_RATE]: 'Decrease Playback Speed',
   [SHORTCUT_INCREASE_PLAYBACK_RATE]: 'Increase Playback Speed',
   [SHORTCUT_RESET_PLAYBACK_RATE]: 'Reset Playback Speed',

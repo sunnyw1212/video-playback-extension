@@ -451,14 +451,14 @@ const Popup: React.FC = () => {
                 {Object.keys(shortcuts).map((shortcut) => (
                   <div className="u-flex u-jc-space-between">
                     <label className="App-shortcut-label" htmlFor={shortcut}>
-                      {(SHORTCUT_NAMES as any)[shortcut]}
+                      {SHORTCUT_NAMES[shortcut]}
                     </label>
                     <input
                       className="App-shortcut-input"
                       id={shortcut}
                       type="text"
                       maxLength={1}
-                      value={(shortcuts as any)[shortcut]}
+                      value={shortcuts[shortcut]}
                       onChange={handleShortcutKeyChange}
                     />
                   </div>

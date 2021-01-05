@@ -202,10 +202,13 @@ const handleKeydown = async (e: KeyboardEvent) => {
   //    t: "theater-mode",
   // };
 
-  const shortcutMap = Object.keys(shortcuts).reduce((accumulator, curKey) => {
-    (accumulator as any)[shortcuts[curKey]] = curKey;
-    return accumulator;
-  }, {});
+  const shortcutMap = Object.keys(shortcuts).reduce(
+    (accumulator: Record<string, string>, curKey) => {
+      accumulator[shortcuts[curKey]] = curKey;
+      return accumulator;
+    },
+    {}
+  );
 
   // Ignore if following modifier is active.
   if (
@@ -230,13 +233,13 @@ const handleKeydown = async (e: KeyboardEvent) => {
     return false;
   }
 
-  if ((shortcutMap as any)[keyCode]) {
+  if (shortcutMap[keyCode]) {
     // early exit if disabled
     if (isEnabled === false) {
       return false;
     }
 
-    switch ((shortcutMap as any)[keyCode]) {
+    switch (shortcutMap[keyCode]) {
       case SHORTCUT_DECREASE_PLAYBACK_RATE:
         const decreasedPlaybackRate = parseFloat(playbackRate) - 0.25;
         chrome.storage.sync.set({ playbackRate: decreasedPlaybackRate });
