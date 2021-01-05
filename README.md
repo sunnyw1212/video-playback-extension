@@ -10,6 +10,7 @@ Speed up, slow down, advance and rewind HTML5 audio/video elements either with s
 
 Optimize your media experience by:
 
+- controlling media on just your current active or across all tabs in Chrome
 - customizing playback speed
 - skipping forward or backward by custom time intervals
 - looping
@@ -17,15 +18,22 @@ Optimize your media experience by:
 - playing
 - pausing
 - an experimental Theater Mode (for video only)
+- customizable one key shortcuts for all actions
 
 Once the extension is installed, navigate to any page with an HTML5 video or audio element and click on the extension to bring down the Player User Interface. Any changes made will affect all audio/video elements on the page and you can optionally control media across all tabs in Chrome using the Player UI.
 
-Current Shortcuts (more on the way):
+Default Shortcuts:
 
-- CMD (CTRL on windows) + SHIFT + 1 = Decrease playback speed by .25
-- CMD (CTRL on windows) + SHIFT + 2 = Increase playback speed by .25
-- CMD (CTRL on windows) + SHIFT + Left Arrow = Skip backward by the Skip Interval set in the Player UI
-- CMD (CTRL on windows) + SHIFT + Right Arrow = Skip forward by the Skip Interval set in the Player UI
+- `s` = Decrease playback speed by .25
+- `w` = Increase playback speed by .25
+- `l` = Loop
+- `o` = Pause
+- `p` = Play
+- `e` = Reset playback speed
+- `r` = Restart
+- `a`= Skip backward by the Skip Interval set in the Player UI
+- `d` = Skip forward by the Skip Interval set in the Player UI
+- `t` = Theater Mode
 
 ## Local Development
 
