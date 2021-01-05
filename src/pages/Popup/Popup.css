@@ -46,6 +46,22 @@
   font-size: calc(10px + 2vmin);
 }
 
+.App-shortcut-details {
+  max-height: 200px;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.App-shortcut-label {
+  font-size: 14px;
+  padding: 5px;
+}
+
+.App-shortcut-input {
+  width: 10px;
+  padding: 5px;
+}
+
 .App-player-controls {
   position: fixed;
   bottom: 5px;

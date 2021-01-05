@@ -7,12 +7,14 @@ import React, {
 } from 'react';
 import { SkipDirection, Tabs } from '../../types';
 import {
+  DEFAULT_SHORTCUT_KEYS,
   DISABLE_EXTENSION,
   ENABLE_EXTENSION,
   PAUSE_PLAYER_ACTION,
   PLAY_PLAYER_ACTION,
   RESTART_PLAYER_ACTION,
   SET_MEDIA_ATTRIBUTES,
+  SHORTCUT_NAMES,
   SKIP_BACKWARD,
   SKIP_FORWARD,
 } from '../../constants';
@@ -40,6 +42,7 @@ const Popup: React.FC = () => {
   const [skipInterval, setSkipInterval] = useState(30);
   const [shouldLoop, setShouldLoop] = useState(false);
   const [isInTheaterMode, setIsInTheaterMode] = useState(false);
+  const [shortcuts, setShortcuts] = useState(DEFAULT_SHORTCUT_KEYS);
 
   const applyToSelectRef = useRef<HTMLSelectElement>(null);
 
@@ -133,11 +136,15 @@ const Popup: React.FC = () => {
         shouldLoop,
         isInTheaterMode,
         skipInterval,
+        shortcuts,
       }: any = await getDataFromSyncStoragePromise();
 
       if (isEnabled === false) {
         chrome.browserAction.setIcon({ path: 'icon34-inactive.png' });
         setIsEnabled(isEnabled);
+      }
+      if (shortcuts) {
+        setShortcuts(shortcuts);
       }
       if (applyTo) {
         setApplyTo(applyTo);
@@ -266,6 +273,17 @@ const Popup: React.FC = () => {
   const handleRestartButtonClick = () => {
     sendPlayerAction(RESTART_PLAYER_ACTION);
     window.close();
+  };
+
+  const handleShortcutKeyChange = (e: SyntheticEvent) => {
+    const element = e.target as HTMLInputElement;
+    const elementID = element.id;
+    const newShortcuts = { ...shortcuts, [elementID]: element.value };
+
+    chrome.storage.sync.set({
+      shortcuts: newShortcuts,
+    });
+    setShortcuts(newShortcuts);
   };
 
   const handleRestoreDefaultsButtonClick = () => {
@@ -425,6 +443,27 @@ const Popup: React.FC = () => {
               >
                 Apply To Media
               </button>
+            </div>
+
+            <div className="u-flex u-margin-top-15">
+              <details className="App-shortcut-details">
+                <summary>Shortcuts</summary>
+                {Object.keys(shortcuts).map((shortcut) => (
+                  <div className="u-flex u-jc-space-between">
+                    <label className="App-shortcut-label" htmlFor={shortcut}>
+                      {(SHORTCUT_NAMES as any)[shortcut]}
+                    </label>
+                    <input
+                      className="App-shortcut-input"
+                      id={shortcut}
+                      type="text"
+                      maxLength={1}
+                      value={(shortcuts as any)[shortcut]}
+                      onChange={handleShortcutKeyChange}
+                    />
+                  </div>
+                ))}
+              </details>
             </div>
 
             <div className="App-player-controls">

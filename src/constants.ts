@@ -20,3 +20,29 @@ export const SHORTCUT_PAUSE_PLAYER = 'pause-player';
 export const SHORTCUT_RESTART_PLAYER = 'restart-player';
 export const SHORTCUT_LOOP = 'loop';
 export const SHORTCUT_THEATER_MODE = 'theater-mode';
+
+export const DEFAULT_SHORTCUT_KEYS = {
+  [SHORTCUT_DECREASE_PLAYBACK_RATE]: 's',
+  [SHORTCUT_INCREASE_PLAYBACK_RATE]: 'w',
+  [SHORTCUT_RESET_PLAYBACK_RATE]: 'e',
+  [SHORTCUT_SKIP_FORWARD]: 'd',
+  [SHORTCUT_SKIP_BACKWARD]: 'a',
+  [SHORTCUT_RESTART_PLAYER]: 'r',
+  [SHORTCUT_PLAY_PLAYER]: 'p',
+  [SHORTCUT_PAUSE_PLAYER]: 'o',
+  [SHORTCUT_LOOP]: 'l',
+  [SHORTCUT_THEATER_MODE]: 't',
+};
+
+export const SHORTCUT_NAMES = {
+  [SHORTCUT_DECREASE_PLAYBACK_RATE]: 'Decrease Playback Speed',
+  [SHORTCUT_INCREASE_PLAYBACK_RATE]: 'Increase Playback Speed',
+  [SHORTCUT_RESET_PLAYBACK_RATE]: 'Reset Playback Speed',
+  [SHORTCUT_SKIP_FORWARD]: 'Skip Forward',
+  [SHORTCUT_SKIP_BACKWARD]: 'Skip Backward',
+  [SHORTCUT_RESTART_PLAYER]: 'Restart',
+  [SHORTCUT_PLAY_PLAYER]: 'Play',
+  [SHORTCUT_PAUSE_PLAYER]: 'Pause',
+  [SHORTCUT_LOOP]: 'Loop',
+  [SHORTCUT_THEATER_MODE]: 'Theater Mode',
+};

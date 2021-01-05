@@ -158,18 +158,54 @@ const handlePlayOrSeek = async (e: Event) => {
 const handleKeydown = async (e: KeyboardEvent) => {
   const keyCode = e.key;
 
-  const shortcuts: any = {
-    ArrowDown: SHORTCUT_DECREASE_PLAYBACK_RATE,
-    ArrowUp: SHORTCUT_INCREASE_PLAYBACK_RATE,
-    '0': SHORTCUT_RESET_PLAYBACK_RATE,
-    ArrowRight: SHORTCUT_SKIP_FORWARD,
-    ArrowLeft: SHORTCUT_SKIP_BACKWARD,
-    r: SHORTCUT_RESTART_PLAYER,
-    p: SHORTCUT_PLAY_PLAYER,
-    o: SHORTCUT_PAUSE_PLAYER,
-    l: SHORTCUT_LOOP,
-    t: SHORTCUT_THEATER_MODE,
-  };
+  const {
+    isEnabled,
+    isInTheaterMode,
+    playbackRate,
+    skipInterval,
+    shouldLoop,
+    shortcuts,
+  }: any = await getDataFromSyncStoragePromise();
+
+  console.log('fuck', shortcuts);
+
+  if (!shortcuts) {
+    return false;
+  }
+
+  // swap key and value
+  // BEFORE:
+  // {
+  //    "decrease-playback-rate": s,
+  //    "increase-playback-rate": w,
+  //    "reset-playback-rate": e,
+  //    "skip-forward": d,
+  //    "skip-backward": a,
+  //    "restart-player": r,
+  //    "play-player": p,
+  //    "pause-player": o,
+  //    loop: l,
+  //    "theater-mode": t,
+  // };
+  //
+  // AFTER
+  // {
+  //    s: "decrease-playback-rate",
+  //    w: "increase-playback-rate",
+  //    e: "reset-playback-rate",
+  //    d: "skip-forward",
+  //    a: "skip-backward",
+  //    r: "restart-player",
+  //    p: "play-player",
+  //    o: "pause-player",
+  //    l: loop,
+  //    t: "theater-mode",
+  // };
+
+  const shortcutMap = Object.keys(shortcuts).reduce((accumulator, curKey) => {
+    (accumulator as any)[shortcuts[curKey]] = curKey;
+    return accumulator;
+  }, {});
 
   // Ignore if following modifier is active.
   if (
@@ -194,21 +230,13 @@ const handleKeydown = async (e: KeyboardEvent) => {
     return false;
   }
 
-  if (shortcuts[keyCode]) {
-    const {
-      isEnabled,
-      isInTheaterMode,
-      playbackRate,
-      skipInterval,
-      shouldLoop,
-    }: any = await getDataFromSyncStoragePromise();
-
+  if ((shortcutMap as any)[keyCode]) {
     // early exit if disabled
     if (isEnabled === false) {
       return false;
     }
 
-    switch (shortcuts[keyCode]) {
+    switch ((shortcutMap as any)[keyCode]) {
       case SHORTCUT_DECREASE_PLAYBACK_RATE:
         const decreasedPlaybackRate = parseFloat(playbackRate) - 0.25;
         chrome.storage.sync.set({ playbackRate: decreasedPlaybackRate });
