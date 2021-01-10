@@ -448,8 +448,11 @@ const Popup: React.FC = () => {
             <div className="u-flex u-margin-top-15">
               <details className="App-shortcut-details">
                 <summary>Shortcuts</summary>
-                {Object.keys(shortcuts).map((shortcut) => (
-                  <div className="u-flex u-jc-space-between">
+                {Object.keys(shortcuts).map((shortcut, i) => (
+                  <div
+                    className="u-flex u-jc-space-between"
+                    key={`${shortcut}-${i}`}
+                  >
                     <label className="App-shortcut-label" htmlFor={shortcut}>
                       {SHORTCUT_NAMES[shortcut]}
                     </label>

@@ -26,6 +26,7 @@ import {
   SHORTCUT_THEATER_MODE,
   SHORTCUT_RESET_PLAYBACK_RATE,
   SHORTCUT_RESTART_PLAYER,
+  DEFAULT_SHORTCUT_KEYS,
 } from '../../constants';
 import { getDataFromSyncStoragePromise } from '../../helpers';
 import { playPauseMedia } from './modules/playPauseMedia';
@@ -158,7 +159,7 @@ const handlePlayOrSeek = async (e: Event) => {
 const handleKeydown = async (e: KeyboardEvent) => {
   const keyCode = e.key;
 
-  const {
+  let {
     isEnabled,
     isInTheaterMode,
     playbackRate,
@@ -167,10 +168,9 @@ const handleKeydown = async (e: KeyboardEvent) => {
     shortcuts,
   }: any = await getDataFromSyncStoragePromise();
 
-  console.log('fuck', shortcuts);
-
+  // if cant find from storage, set to default shortcut keys
   if (!shortcuts) {
-    return false;
+    shortcuts = DEFAULT_SHORTCUT_KEYS;
   }
 
   // swap key and value
