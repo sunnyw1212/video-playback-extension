@@ -1,0 +1,1 @@
+export { getPlayer } from './getPlayer';

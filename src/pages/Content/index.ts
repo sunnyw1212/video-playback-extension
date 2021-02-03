@@ -27,6 +27,7 @@ import {
   SHORTCUT_RESET_PLAYBACK_RATE,
   SHORTCUT_RESTART_PLAYER,
   DEFAULT_SHORTCUT_KEYS,
+  VIDEO_PLAYBACK_EXTENSION,
 } from '../../constants';
 import { getDataFromSyncStoragePromise } from '../../helpers';
 import { playPauseMedia } from './modules/playPauseMedia';
@@ -156,6 +157,10 @@ const handlePlayOrSeek = async (e: Event) => {
   (e.target as HTMLMediaElement).playbackRate = data.playbackRate;
 };
 
+const isNetflix = () => {
+  return window.location.href.includes('netflix.com/watch/');
+};
+
 const handleKeydown = async (e: KeyboardEvent) => {
   const keyCode = e.key;
 
@@ -255,15 +260,48 @@ const handleKeydown = async (e: KeyboardEvent) => {
         setMediaPlaybackRate(1);
         break;
       case SHORTCUT_SKIP_FORWARD:
-        const skipForwardInterval = skipInterval || 30;
-        setCurrentTime(parseFloat(skipForwardInterval));
+        const skipForwardInterval = parseFloat(skipInterval || 30);
+        if (isNetflix()) {
+          window.postMessage(
+            {
+              source: VIDEO_PLAYBACK_EXTENSION,
+              type: SHORTCUT_SKIP_FORWARD,
+              skipInterval: skipForwardInterval,
+            },
+            '*'
+          );
+        } else {
+          setCurrentTime(skipForwardInterval);
+        }
         break;
       case SHORTCUT_SKIP_BACKWARD:
-        const skipBackwardInterval = skipInterval || 30;
-        setCurrentTime(parseFloat(skipBackwardInterval) * -1);
+        const skipBackwardInterval = parseFloat(skipInterval || 30) * -1;
+        if (isNetflix()) {
+          window.postMessage(
+            {
+              source: VIDEO_PLAYBACK_EXTENSION,
+              type: SHORTCUT_SKIP_BACKWARD,
+              skipInterval: skipBackwardInterval,
+            },
+            '*'
+          );
+        } else {
+          setCurrentTime(skipBackwardInterval);
+        }
         break;
       case SHORTCUT_RESTART_PLAYER:
-        setCurrentTime(0);
+        if (isNetflix()) {
+          window.postMessage(
+            {
+              source: VIDEO_PLAYBACK_EXTENSION,
+              type: SHORTCUT_RESTART_PLAYER,
+              skipInterval: 0,
+            },
+            '*'
+          );
+        } else {
+          setCurrentTime(0);
+        }
         break;
       case SHORTCUT_PLAY_PLAYER:
         playPauseMedia(PlayerState.Play);
@@ -314,10 +352,35 @@ const handleMessage = async (
       setMediaPlaybackRate(message.payload.targetRate);
       break;
     case SKIP_FORWARD:
-      setCurrentTime(parseFloat(message.payload.skipInterval));
+      const skipForwardInterval = parseFloat(message.payload.skipInterval);
+      if (isNetflix()) {
+        window.postMessage(
+          {
+            source: VIDEO_PLAYBACK_EXTENSION,
+            type: SKIP_FORWARD,
+            skipInterval: skipForwardInterval,
+          },
+          '*'
+        );
+      } else {
+        setCurrentTime(skipForwardInterval);
+      }
       break;
     case SKIP_BACKWARD:
-      setCurrentTime(parseFloat(message.payload.skipInterval) * -1);
+      const skipBackwardInterval =
+        parseFloat(message.payload.skipInterval) * -1;
+      if (isNetflix()) {
+        window.postMessage(
+          {
+            source: VIDEO_PLAYBACK_EXTENSION,
+            type: SKIP_BACKWARD,
+            skipInterval: skipBackwardInterval,
+          },
+          '*'
+        );
+      } else {
+        setCurrentTime(skipBackwardInterval);
+      }
       break;
     case SET_MEDIA_ATTRIBUTES:
       setMediaPlaybackRate(message.payload.targetRate);
@@ -331,7 +394,18 @@ const handleMessage = async (
       playPauseMedia(PlayerState.Pause);
       break;
     case RESTART_PLAYER_ACTION:
-      setCurrentTime(0);
+      if (isNetflix()) {
+        window.postMessage(
+          {
+            source: VIDEO_PLAYBACK_EXTENSION,
+            type: RESTART_PLAYER_ACTION,
+            skipInterval: 0,
+          },
+          '*'
+        );
+      } else {
+        setCurrentTime(0);
+      }
       break;
     default:
       break;
@@ -343,5 +417,15 @@ const handleMessage = async (
 const addRuntimeMessageListener = () => {
   chrome.runtime.onMessage.addListener(handleMessage);
 };
+
+// inject special script for netflix
+if (isNetflix()) {
+  const scriptElement = document.createElement('script');
+  scriptElement.src = chrome.extension.getURL('netflix.bundle.js');
+  (document.head || document.documentElement).appendChild(scriptElement);
+  scriptElement.onload = function () {
+    scriptElement?.parentNode?.removeChild(scriptElement);
+  };
+}
 
 init();
