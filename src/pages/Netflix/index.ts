@@ -10,7 +10,6 @@ import {
 import { setCurrentTime } from './modules';
 
 window.addEventListener('message', (event) => {
-  console.log('got a message event in netflix', event);
   if (event?.data?.source === VIDEO_PLAYBACK_EXTENSION) {
     switch (event.data.type) {
       case SHORTCUT_SKIP_FORWARD:

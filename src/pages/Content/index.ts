@@ -158,7 +158,7 @@ const handlePlayOrSeek = async (e: Event) => {
 };
 
 const isNetflix = () => {
-  return window.location.href.includes('netflix.com/watch/');
+  return window.location.href.includes('netflix.com');
 };
 
 const handleKeydown = async (e: KeyboardEvent) => {
