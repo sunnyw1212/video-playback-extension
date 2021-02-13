@@ -469,7 +469,7 @@ const Popup: React.FC = () => {
               </details>
             </div>
 
-            <div className="App-player-controls">
+            <div className="App-player-controls u-margin-top-15">
               <div>
                 <label className="u-padding-5" htmlFor="skipInterval">
                   Skip Interval (in seconds)
