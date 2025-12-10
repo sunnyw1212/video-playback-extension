@@ -2,7 +2,7 @@
   "name": "Video Playback Extension",
   "version": "1.0.3",
   "description": "A full-featured video and audio player extension. Control playback speed, skipping, rewinding and more.",
-  "browser_action": {
+  "action": {
     "default_popup": "popup.html",
     "default_icon": "icon34.png"
   },
@@ -10,22 +10,43 @@
     "34": "icon34.png",
     "128": "icon128.png"
   },
-  "content_scripts": [{
-    "all_frames": true,
-    "matches": ["http://*/*", "https://*/*", "<all_urls>"],
-    "run_at": "document_idle",
-    "js": ["contentScript.bundle.js"],
-    "css": ["content.styles.css"]
-  }],
+  "content_scripts": [
+    {
+      "all_frames": true,
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "run_at": "document_idle",
+      "js": [
+        "contentScript.bundle.js"
+      ],
+      "css": [
+        "content.styles.css"
+      ]
+    }
+  ],
   "background": {
-    "scripts": [
-      "background.bundle.js"
-    ]
+    "service_worker": "background.bundle.js"
   },
-  "web_accessible_resources": ["netflix.bundle.js"],
-  "manifest_version": 2,
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
-  "permissions": ["storage"],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "netflix.bundle.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "manifest_version": 3,
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
   "commands": {
     "decrease-playback-rate": {
       "suggested_key": {

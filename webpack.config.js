@@ -42,7 +42,7 @@ var options = {
     netflix: path.join(__dirname, 'src', 'pages', 'Netflix', 'index.ts')
   },
   chromeExtensionBoilerplate: {
-    notHotReload: ['contentScript', 'netflix'],
+    notHotReload: ['background', 'contentScript', 'netflix'],
   },
   output: {
     path: path.resolve(__dirname, 'build'),
@@ -147,18 +147,7 @@ var options = {
       chunks: ['popup'],
       cache: false,
     }),
-    new HtmlWebpackPlugin({
-      template: path.join(
-        __dirname,
-        'src',
-        'pages',
-        'Background',
-        'index.html'
-      ),
-      filename: 'background.html',
-      chunks: ['background'],
-      cache: false,
-    }),
+
   ],
   infrastructureLogging: {
     level: 'info',
