@@ -143,9 +143,8 @@ const handleRateChange = (e: Event) => {
     'js-playbackRateMessageBanner'
   );
 
-  playbackRateMessageBanner!.innerText = `Playback rate changed to ${
-    (e.target as HTMLMediaElement).playbackRate
-  }`;
+  playbackRateMessageBanner!.innerText = `Playback rate changed to ${(e.target as HTMLMediaElement).playbackRate
+    }`;
 
   playbackRateMessageBannerTimerID = window.setTimeout(() => {
     playbackRateMessageBanner!.innerText = '';
