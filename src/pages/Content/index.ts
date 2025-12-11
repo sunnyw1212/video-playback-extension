@@ -421,7 +421,7 @@ const addRuntimeMessageListener = () => {
 // inject special script for netflix
 if (isNetflix()) {
   const scriptElement = document.createElement('script');
-  scriptElement.src = chrome.extension.getURL('netflix.bundle.js');
+  scriptElement.src = chrome.runtime.getURL('netflix.bundle.js');
   (document.head || document.documentElement).appendChild(scriptElement);
   scriptElement.onload = function () {
     scriptElement?.parentNode?.removeChild(scriptElement);
